@@ -4,10 +4,9 @@
       <q-toolbar>
         <q-toolbar-title>
           <div v-if="isTopLevel">
-            <!-- <q-avatar>
+            <q-avatar rounded>
               <q-img src="~assets/logo.png" />
-            </q-avatar>-->
-            WeMarket
+            </q-avatar>หลาดชุมทางทุ่งสง
           </div>
           <div v-if="!isTopLevel">
             <q-btn flat icon="arrow_left" @click="back" size="lg" dense>
@@ -40,29 +39,35 @@
         no-caps
         active-color="white"
         indicator-color="transparent"
-        class="text-grey-9"
+        class="text-grey-10"
         v-model="tab"
         dense
       >
         <q-route-tab name="shop" :to="{name:'shop'}" icon="fas fa-store" label="ร้านค้า" />
-        <!-- <q-route-tab
-          name="donation"
-          :to="{name:'donation'}"
-          icon="fas fa-hand-holding-heart"
-          label="บริจาค"
-        />-->
         <q-route-tab
+          name="category"
+          :to="{name:'category'}"
+          icon="fas fa-list-alt"
+          label="หมวดหมู่"
+        />
+        <!-- <q-route-tab
           name="map"
           :to="{name:'map'}"
           icon="fas fa-map-marked-alt"
           label="ร้านใกล้ฉัน"
-        />
+        />-->
         <q-route-tab
           name="account"
           :to="{name: 'account'}"
           @click="toAccount"
           icon="fas fa-user-circle"
           label="ร้านของฉัน"
+        />
+        <q-route-tab
+          name="about"
+          :to="{name:'about'}"
+          icon="fas fa-question-circle"
+          label="ติดต่อ"
         />
       </q-tabs>
     </q-footer>

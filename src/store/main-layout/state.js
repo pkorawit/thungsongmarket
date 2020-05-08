@@ -3,6 +3,6 @@ export default function() {
     navTitle: "",
     backTo: [],
     isTopLevel: true,
-    baseRoutes: ["shop", "donation", "map", "chat", "account"]
+    baseRoutes: ["shop", "category", "account", "about"]
   };
 }

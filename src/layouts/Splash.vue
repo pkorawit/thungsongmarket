@@ -2,14 +2,14 @@
   <div>
     <div
       v-if="loading"
-      class="window-height window-width row justify-center items-center bg-primary"
+      class="window-height window-width row justify-center items-center bg-white"
     >
       <div class="column" style="height: 350px">
         <div class="col-8">
-          <q-img src="~assets/logo.png" style="width: 150px"></q-img>
+          <q-img src="~assets/logo.png" style="width: 250px"></q-img>
         </div>
         <div class="col-2 justify-center text-center">
-          <q-spinner-dots color="white" size="5em" />
+          <q-spinner-dots color="secondary" size="5em" />
           <q-tooltip :offset="[0, 8]">Loading</q-tooltip>
         </div>
       </div>

@@ -52,7 +52,7 @@ export default {
         const lat = pos.coords.latitude;
         const lng = pos.coords.longitude;
         this.shops = await getNearbyShop({ lat, lng });
-        if (this.$currentUser) {
+        if (this.$currentUser && this.shops) {
           for (let index = 0; index < this.shops.length; index++) {
             const shop = this.shops[index];
             if (shop.owner === this.$currentUser.uid) {

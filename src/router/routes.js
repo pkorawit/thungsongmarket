@@ -41,13 +41,9 @@ const routes = [
         component: () => import("pages/MyShop.vue"),
         meta: { authRequired: true }
       },
-      {
-        path: "donation",
-        name: "donation",
-        component: () => import("pages/Donation.vue")
-      },
       { path: "map", name: "map", component: () => import("pages/Map.vue") },
-      { path: "chat", name: "chat", component: () => import("pages/Chat.vue") },
+      { path: "about", name: "about", component: () => import("pages/About.vue") },
+      { path: "category", name: "category", component: () => import("pages/Category.vue") },
       {
         path: "account",
         name: "account",
