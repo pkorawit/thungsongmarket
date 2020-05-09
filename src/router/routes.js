@@ -29,6 +29,32 @@ const routes = [
     ]
   },
   {
+    // Auth Routes
+    path: "/admin",
+    name: "admin",
+    component: () => import("layouts/Admin.vue"),    
+    children: [
+      {
+        path: "",
+        name: "adminsignin",
+        component: () => import("pages/admin/SignIn.vue"),
+        meta: { authRequired: false }
+      },
+      {
+        path: "dashboard",
+        name: "dashboard",
+        component: () => import("pages/admin/Dashboard.vue"),
+        meta: { authRequired: true }
+      },
+      {
+        path: "shoplist",
+        name: "shoplist",
+        component: () => import("pages/admin/ShopList.vue"),
+        meta: { authRequired: true }
+      }
+    ]
+  },
+  {
     path: "/main",
     name: "main",
     component: () => import("layouts/MainLayout.vue"),
