@@ -44,13 +44,13 @@ const routes = [
         path: "dashboard",
         name: "dashboard",
         component: () => import("pages/admin/Dashboard.vue"),
-        meta: { authRequired: true }
+        meta: { authRequired: false }
       },
       {
         path: "shoplist",
         name: "shoplist",
         component: () => import("pages/admin/ShopList.vue"),
-        meta: { authRequired: true }
+        meta: { authRequired: false }
       }
     ]
   },
