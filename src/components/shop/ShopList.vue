@@ -1,10 +1,10 @@
 <template>
-  <div class="window-width shop-container shadow-3 q-my-md bg-white" @click="toShop">
+  <div class="shop-container shadow-3 q-my-md bg-white" @click="toShop">
     <div class="shop-avatar-box q-pa-sm">
-      <q-img :src="shop.photoURL[0]" class="shop-avatar fit" :ratio="16/9" />
+      <q-img :src="shop.photoURL[0]" class="shop-avatar fit" :ratio="16 / 9" />
     </div>
     <div class="description-box q-pa-sm" v-ripple>
-      <div class="description-header text-h5">{{shop.name}}</div>
+      <div class="description-header text-h5">{{ shop.name }}</div>
       <div class="flex text-grey-8">
         <q-icon
           name="fas fa-tag"
@@ -16,9 +16,14 @@
       </div>
       <div class="description-caption rating">
         <div class="q-mr-xs">
-          <q-icon name="money" color="green" size="15px" style="padding: 0px 0px 0px 0px;" />
+          <q-icon
+            name="money"
+            color="green"
+            size="15px"
+            style="padding: 0px 0px 0px 0px;"
+          />
         </div>
-        <div>{{shop.paymentType}}</div>
+        <div>{{ shop.paymentType }}</div>
       </div>
       <div class="description-caption service-type">
         <q-icon
@@ -27,7 +32,7 @@
           style="margin-top: 4px; margin-left: 2px; margin-right: 5px;"
           size="12px"
         />
-        <div>{{shop.serviceType}}</div>
+        <div>{{ shop.serviceType }}</div>
       </div>
     </div>
   </div>

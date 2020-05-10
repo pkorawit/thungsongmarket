@@ -1,6 +1,12 @@
 <template>
   <div>
-    <q-stepper v-model="step" ref="stepper" active-color="primary" animated flat>
+    <q-stepper
+      v-model="step"
+      ref="stepper"
+      active-color="primary"
+      animated
+      flat
+    >
       <q-step :name="1" title="ทั่วไป" icon="settings" :done="step > 1">
         <div class="row">
           <div class="col-12">
@@ -14,19 +20,42 @@
             ></q-input>
           </div>
           <div class="col-12">
-            <q-input filled bottom-slots v-model="model.category" label="ประเภทสินค้า"></q-input>
+            <q-input
+              filled
+              bottom-slots
+              v-model="model.category"
+              label="ประเภทสินค้า"
+            ></q-input>
           </div>
           <div class="col-12">
-            <q-input type="textarea" rows="14" filled v-model="model.description" label="ฝากร้านได้เลยค่ะ" />
+            <q-input
+              type="textarea"
+              rows="14"
+              filled
+              v-model="model.description"
+              label="ฝากร้านได้เลยค่ะ"
+            />
           </div>
           <div class="col-12">
-            <div class="text-subtitle2 text-weight-bolder q-mt-sm">รูปแบบบริการ</div>
+            <div class="text-subtitle2 text-weight-bolder q-mt-sm">
+              รูปแบบบริการ
+            </div>
           </div>
           <div class="col-12">
-            <q-input filled bottom-slots v-model="model.serviceType" label="ส่งแบบไหนบ้าง"></q-input>
+            <q-input
+              filled
+              bottom-slots
+              v-model="model.serviceType"
+              label="ส่งแบบไหนบ้าง"
+            ></q-input>
           </div>
           <div class="col-12">
-            <q-input filled bottom-slots v-model="model.paymentType" label="จ่ายเงินแบบไหนได้บ้าง"></q-input>
+            <q-input
+              filled
+              bottom-slots
+              v-model="model.paymentType"
+              label="จ่ายเงินแบบไหนได้บ้าง"
+            ></q-input>
           </div>
         </div>
       </q-step>
@@ -38,14 +67,14 @@
           </div>
           <div class="col-12 text-center">
             <div class="row q-col-gutter-xs">
-              <div class="col-12">
+              <div class="col-12 col-md">
                 <image-file-picker
                   :src="model.photoURL[0]"
                   :index="0"
                   @imageSelected="imageSelected"
                 />
               </div>
-              <div class="col-6" v-for="n in 4" :key="`xs-${n}`">
+              <div class="col-6 col-md" v-for="n in 4" :key="`xs-${n}`">
                 <div class="my-content">
                   <image-file-picker
                     :src="model.photoURL[n]"
@@ -62,9 +91,19 @@
             <div class="text-subtitle2 text-weight-bolder">รายการสินค้า</div>
           </div>
         </div>
-        <div class="row q-col-gutter-sm" v-for="(product, index) in model.products" :key="index">
+        <div
+          class="row q-col-gutter-sm"
+          v-for="(product, index) in model.products"
+          :key="index"
+        >
           <div class="col-6">
-            <q-input bottom-slots filled dense v-model="product.name" label="ชื่อสินค้า"></q-input>
+            <q-input
+              bottom-slots
+              filled
+              dense
+              v-model="product.name"
+              label="ชื่อสินค้า"
+            ></q-input>
           </div>
           <div class="col-4">
             <q-input
@@ -107,10 +146,19 @@
         </div>
         <div class="row">
           <div class="col-6">
-            <q-input bottom-slots v-model="model.address.province" readonly label="จังหวัด"></q-input>
+            <q-input
+              bottom-slots
+              v-model="model.address.province"
+              readonly
+              label="จังหวัด"
+            ></q-input>
           </div>
           <div class="col-6">
-            <q-select v-model="model.address.district" :options="districtOptions" label="อำเภอ" />
+            <q-select
+              v-model="model.address.district"
+              :options="districtOptions"
+              label="อำเภอ"
+            />
           </div>
         </div>
         <div class="row">
@@ -122,20 +170,34 @@
             />
           </div>
           <div class="col-6">
-            <q-input bottom-slots v-model="model.address.postalCode" label="รหัสไปรษณีย์"></q-input>
+            <q-input
+              bottom-slots
+              v-model="model.address.postalCode"
+              label="รหัสไปรษณีย์"
+            ></q-input>
           </div>
         </div>
         <div class="row">
           <div class="col-12">
-            <q-input v-model="model.address.detail" autogrow label="รายละเอียดที่อยู่" />
+            <q-input
+              v-model="model.address.detail"
+              autogrow
+              label="รายละเอียดที่อยู่"
+            />
           </div>
         </div>
         <div class="row q-mt-md">
           <div class="col-12">
-            <div class="text-subtitle2 text-weight-bolder">เลือกตำแหน่งร้านบนแผนที่</div>
+            <div class="text-subtitle2 text-weight-bolder">
+              เลือกตำแหน่งร้านบนแผนที่
+            </div>
           </div>
           <div class="col-12" style="height:300px">
-            <Map :lat="model.location.coordinates[1]" :lng="model.location.coordinates[0]" @center-updated="locationSeleted"></Map>
+            <Map
+              :lat="model.location.coordinates[1]"
+              :lng="model.location.coordinates[0]"
+              @center-updated="locationSeleted"
+            ></Map>
           </div>
         </div>
         <div class="row q-mt-md">
@@ -143,14 +205,24 @@
         </div>
         <div class="row">
           <div class="col-12">
-            <q-input type="textarea" filled v-model="model.contact" label="ช่องทางติดต่อต่างๆ" />
+            <q-input
+              type="textarea"
+              filled
+              v-model="model.contact"
+              label="ช่องทางติดต่อต่างๆ"
+            />
           </div>
         </div>
       </q-step>
 
       <template v-slot:navigation>
         <q-stepper-navigation>
-          <q-btn v-if="step < 3" @click="nextStep(step)" color="primary" label="ถัดไป" />
+          <q-btn
+            v-if="step < 3"
+            @click="nextStep(step)"
+            color="primary"
+            label="ถัดไป"
+          />
           <q-btn
             v-if="step === 3"
             icon="fas fa-thumbs-up"
