@@ -4,11 +4,16 @@
       <div v-if="loading">
         <shop-list-loading-placeholder v-for="i in 5" :key="i" />
       </div>
-      <div v-if="!loading && shop">
-        <shop-list :shop="shop" @shop-selected="toMyshop" />
+      <div v-if="!loading && shop" class="row">
+        <div class="col-12 col-sm-3 account">
+          <shop-list :shop="shop" @shop-selected="toMyshop" />
+        </div>
       </div>
     </q-page>
-    <div v-if="!$currentUser" class="absolute-center full-width q-px-md shop-notice">
+    <div
+      v-if="!$currentUser"
+      class="absolute-center full-width q-px-md shop-notice"
+    >
       <q-icon
         name="fas fa-store"
         color="primary"
@@ -25,7 +30,10 @@
         style="animation-duration: 2s;"
       />
     </div>
-    <div v-if="$currentUser && !shop" class="absolute-center full-width q-px-md shop-notice">
+    <div
+      v-if="$currentUser && !shop"
+      class="absolute-center full-width q-px-md shop-notice"
+    >
       <q-icon
         name="fas fa-store"
         color="primary"
@@ -94,5 +102,11 @@ export default {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+}
+@media only screen and (min-width: 1023px) {
+  .account {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
 }
 </style>

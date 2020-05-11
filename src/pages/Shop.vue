@@ -15,13 +15,28 @@
     <div v-if="loading">
       <shop-list-loading-placeholder v-for="i in 5" :key="i" />
     </div>
-    <div v-if="!loading">
-      <shop-list v-for="shop in shops" :key="shop.id" :shop="shop" @shop-selected="toShop" />
+    <div v-if="!loading" class="row">
+      <div
+        class="col-12 col-sm-3 shoplist"
+        v-for="shop in shops"
+        :key="shop.id"
+      >
+        <shop-list :shop="shop" @shop-selected="toShop" />
+      </div>
     </div>
 
-    <q-page-sticky position="bottom-right" :offset="[18, 18]" v-if="!isOwnShop && !loading">
+    <q-page-sticky
+      position="bottom-right"
+      :offset="[18, 18]"
+      v-if="!isOwnShop && !loading"
+    >
       <q-fab color="primary" icon="fas fa-store" direction="up">
-        <q-fab-action @click="toMyShop" color="secondary" label=" ฝากร้าน " icon="fas fa-store" />
+        <q-fab-action
+          @click="toMyShop"
+          color="secondary"
+          label=" ฝากร้าน "
+          icon="fas fa-store"
+        />
       </q-fab>
     </q-page-sticky>
   </q-page>
@@ -95,5 +110,11 @@ export default {
 }
 .service-section {
   display: flex;
+}
+@media only screen and (min-width: 1023px) {
+  .shoplist {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
 }
 </style>
