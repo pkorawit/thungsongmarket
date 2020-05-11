@@ -42,8 +42,16 @@ const routes = [
         meta: { authRequired: true }
       },
       { path: "map", name: "map", component: () => import("pages/Map.vue") },
-      { path: "about", name: "about", component: () => import("pages/About.vue") },
-      { path: "category", name: "category", component: () => import("pages/Category.vue") },
+      {
+        path: "about",
+        name: "about",
+        component: () => import("pages/About.vue")
+      },
+      {
+        path: "category",
+        name: "category",
+        component: () => import("pages/Category.vue")
+      },
       {
         path: "account",
         name: "account",
@@ -59,6 +67,11 @@ const routes = [
         name: "myshop-list",
         component: () => import("pages/ShopsOfUser.vue"),
         meta: { authRequired: true }
+      },
+      {
+        path: "category/:id",
+        name: "categoryById",
+        component: () => import("pages/CategoryById.vue")
       }
     ]
   }
