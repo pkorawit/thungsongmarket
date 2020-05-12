@@ -23,30 +23,50 @@
 
       <q-tab-panels v-model="tab" animated>
         <q-tab-panel name="mails">
-          <q-btn color="primary" @click="showTextLoading">จัดการ</q-btn>
+          <div class="q-pa-md row items-start q-gutter-md">
+            <q-card class="my-card col-12 col-md-2">
+              <img :src="photoURL" />
 
-          <q-card class="bg-grey-3 relative-position card-example" v-show="showSimulatedReturnData">
-            <q-card-section class="q-pb-none">
-              <div class="text-h6">Lorem Ipsum</div>
-            </q-card-section>
-
-            <q-card-section>
-              <transition
-                appear
-                enter-active-class="animated fadeIn"
-                leave-active-class="animated fadeOut"
-              >
-                <div>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent vel magna eu risus laoreet tristique.
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent vel magna eu risus laoreet tristique.
+              <q-card-section>
+                <div class="text-h5">{{ shopName }}</div>
+                <div class="flex text-grey-8">
+                  <q-icon
+                    name="fas fa-tag"
+                    color="grey-8"
+                    size="12px"
+                    style="padding: 7px 0 0 5px; margin: 0 8px 0 0"
+                  />
+                  {{ shopCategory }}
                 </div>
-              </transition>
-            </q-card-section>
+                <div class="description-caption rating">
+                  <div class="q-mr-xs">
+                    <q-icon
+                      name="money"
+                      color="green"
+                      size="15px"
+                      style="padding: 0px 0px 0px 0px;"
+                    />
+                  </div>
+                  <div>{{shopPaymentType}}</div>
+                </div>
+                <div class="row">
+                  <div class="description-caption service-type col-6">
+                    <q-icon
+                      name="fas fa-shipping-fast"
+                      color="primary"
+                      style="margin-top: 4px; margin-left: 2px; margin-right: 5px;"
+                      size="12px"
+                    />
+                    <div>{{shopServiceType}}</div>
+                  </div>
 
-            <q-inner-loading :showing="visible">
-              <q-spinner-gears size="500px" color="primary"></q-spinner-gears>
-            </q-inner-loading>
-          </q-card>
+                  <div class="col text-right">
+                    <q-btn color="secondary" label="จัดการ" @click="confirm" />
+                  </div>
+                </div>
+              </q-card-section>
+            </q-card>
+          </div>
         </q-tab-panel>
 
         <q-tab-panel name="alarms">
@@ -64,7 +84,11 @@ export default {
   data() {
     return {
       tab: "mails",
-
+      photoURL: "https://cdn.quasar.dev/img/mountains.jpg",
+      shopName: "ยำขนมจีนพี่ปอนด์",
+      shopCategory: "ของกิน",
+      shopPaymentType: "เงินสดโอน",
+      shopServiceType: "ส่งทุกเที่ยง",
       visible: false,
       showSimulatedReturnData: false
     };
@@ -106,5 +130,11 @@ export default {
 <style>
 .card-example {
   width: 500px;
+}
+.rating {
+  display: flex;
+}
+.service-type {
+  display: flex;
 }
 </style>
