@@ -70,9 +70,7 @@
         </q-tab-panel>
 
         <q-tab-panel name="alarms">
-          <div class="q-pa-md q-gutter-lg">
-            <q-btn label="จัดการ" color="primary" @click="confirm"></q-btn>
-          </div>
+          <h4>ทั้งหมด</h4>
         </q-tab-panel>
       </q-tab-panels>
     </q-card>
