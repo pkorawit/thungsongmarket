@@ -5,13 +5,13 @@
       <div
         class="col-12 col-sm-3 category"
         v-for="shop in shopsCategory"
-        :key="shop.id"
-        @click="toCategoryById(shop.category)"
+        :key="shop"
+        @click="toCategoryById(shop)"
       >
         <q-card class="no-border-radius">
           <q-img src="https://cdn.quasar.dev/img/parallax2.jpg" basic>
             <div class="absolute-bottom text-subtitle2 text-center">
-              {{ shop.category }}
+              {{ shop }}
             </div>
           </q-img>
         </q-card>
@@ -21,33 +21,19 @@
 </template>
 
 <script>
-import { getNearbyShop } from "../api/api";
+import { getCategory } from "../api/api";
 export default {
   data() {
     return {
-      shops: [],
       shopsCategory: []
     };
   },
   async mounted() {
-    this.$geolocation.getCurrentPosition(
-      async pos => {
-        const lat = pos.coords.latitude;
-        const lng = pos.coords.longitude;
-        this.shops = await getNearbyShop({ lat, lng });
-        let type = this.shops.map(x => x.category);
-        type = [...new Set(type)];
-        for (let i = 0; i < type.length; i++) {
-          this.shopsCategory.push({
-            id: i + 1,
-            category: type[i]
-          });
-        }
-      },
-      err => {
-        console.log(err);
-      }
-    );
+    //getCategory
+    let categoryOption = await getCategory();
+    this.shopsCategory = categoryOption.map(x => x.name);
+
+    console.log("this.shopsCategory", this.shopsCategory);
   },
   methods: {
     toCategoryById(a) {
