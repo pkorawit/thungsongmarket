@@ -1,5 +1,5 @@
 import axios from "axios";
-import { BASE_API_URL } from "./configs";
+import { BASE_API_URL, lookups } from "./configs";
 
 export function getNearbyShop(location) {
   return axios
@@ -47,4 +47,16 @@ export function getUserById(id) {
 
 export function addNewUser(user) {
   return axios.post(`${BASE_API_URL}/user/`, user);
+}
+
+export function getCategory() {
+  return lookups.categories;
+}
+
+export function getServiceType() {
+  return lookups.serviceTypes;
+}
+
+export function getPaymentType() {
+  return lookups.paymentTypes;
 }
