@@ -1,5 +1,5 @@
 export const BASE_API_URL =
-  "https://lardchumtang-backend-uct4hu6rza-an.a.run.app/api/v1";
+  "https://lardchumtang-api-uct4hu6rza-de.a.run.app/api";
 
 // export const BASE_API_URL = "http://localhost:3000/api/v1";
 
@@ -43,7 +43,7 @@ export const lookups = {
           name: "เงินสด"
       },
       {
-          name: "โอนเงินผ่าบัญชี"
+          name: "โอนเงินผ่านบัญชี"
       },
       {
           name: "พร้อมเพย์"
