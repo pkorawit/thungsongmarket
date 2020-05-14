@@ -27,16 +27,32 @@ export function getShopById(id) {
 
 export function getOwnedShop(uid) {
   return axios
-    .get(`${BASE_API_URL}/shop/owned?id=${uid}`);
+    .get(`${BASE_API_URL}/Shops/search/owner/${uid}`);
 }
 
-export function authorizeShop(id, status) {
+export function getAuthorizedShop() {
   return axios
-    .put(`${BASE_API_URL}/api/Shops/${id}/authorize/${status}`);
+    .get(`${BASE_API_URL}/Shops/search/authorized/`);
+}
+
+export function getPendingShop() {
+  return axios
+    .get(`${BASE_API_URL}/Shops/search/pending/`);
 }
 
 export function getShopByUser(uid) {
   return axios.get(`${BASE_API_URL}/shop/user/${uid}`);
+}
+
+
+export function setAuthorizeStatus(id, status) {
+  return axios
+    .put(`${BASE_API_URL}/Shops/${id}/authorize/${status}`);
+}
+
+export function setShopStatus(id, status) {
+  return axios
+    .put(`${BASE_API_URL}/Shops/${id}/status/${status}`);
 }
 
 export function addNewShop(shop) {
