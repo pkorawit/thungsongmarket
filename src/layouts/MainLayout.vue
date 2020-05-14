@@ -6,19 +6,67 @@
           <div v-if="isTopLevel">
             <q-avatar rounded>
               <q-img src="~assets/logo.png" />
-            </q-avatar> หลาดชุมทางทุ่งสง
+            </q-avatar>
+            หลาดชุมทางทุ่งสง
           </div>
           <div v-if="!isTopLevel">
             <q-btn flat icon="arrow_left" @click="back" size="lg" dense>
               <!-- <q-avatar>
                 <q-img src="~assets/logo.png" />
               </q-avatar>-->
-              {{title}}
+              {{ title }}
             </q-btn>
           </div>
         </q-toolbar-title>
+        <div v-if="screen != 'xs'" class="q-mx-sm">
+          <q-toolbar inset>
+            <q-btn
+              class="q-ma-sm"
+              flat
+              label="ร้านค้า"
+              name="shop"
+              :to="{ name: 'shop' }"
+              icon="fas fa-store"
+              dense
+            />
+            <q-btn
+              class="q-ma-sm"
+              flat
+              label="หมวดหมู่"
+              name="category"
+              :to="{ name: 'category' }"
+              icon="fas fa-list-alt"
+              dense
+            />
+            <q-btn
+              class="q-ma-sm"
+              flat
+              label="ร้านของฉัน"
+              name="account"
+              :to="{ name: 'account' }"
+              @click="toAccount"
+              icon="fas fa-user-circle"
+              dense
+            />
+            <q-btn
+              class="q-ma-sm"
+              flat
+              label="ติดต่อ"
+              name="about"
+              :to="{ name: 'about' }"
+              icon="fas fa-question-circle"
+              dense
+            />
+          </q-toolbar>
+        </div>
         <div v-if="$currentUser && route.name === 'account'">
-          <q-btn flat icon-right="logout" label="ออกจากระบบ" @click="logout" dense />
+          <q-btn
+            flat
+            icon-right="logout"
+            label="ออกจากระบบ"
+            @click="logout"
+            dense
+          />
         </div>
       </q-toolbar>
     </q-header>
@@ -34,7 +82,7 @@
       </transition>
     </q-page-container>
 
-    <q-footer class="bg-primary">
+    <q-footer v-if="screen == 'xs'" class="bg-primary">
       <q-tabs
         no-caps
         active-color="white"
@@ -43,10 +91,15 @@
         v-model="tab"
         dense
       >
-        <q-route-tab name="shop" :to="{name:'shop'}" icon="fas fa-store" label="ร้านค้า" />
+        <q-route-tab
+          name="shop"
+          :to="{ name: 'shop' }"
+          icon="fas fa-store"
+          label="ร้านค้า"
+        />
         <q-route-tab
           name="category"
-          :to="{name:'category'}"
+          :to="{ name: 'category' }"
           icon="fas fa-list-alt"
           label="หมวดหมู่"
         />
@@ -58,14 +111,14 @@
         />-->
         <q-route-tab
           name="account"
-          :to="{name: 'account'}"
+          :to="{ name: 'account' }"
           @click="toAccount"
           icon="fas fa-user-circle"
           label="ร้านของฉัน"
         />
         <q-route-tab
           name="about"
-          :to="{name:'about'}"
+          :to="{ name: 'about' }"
           icon="fas fa-question-circle"
           label="ติดต่อ"
         />
@@ -75,13 +128,19 @@
 </template>
 
 <script>
+import { Screen } from "quasar";
 export default {
   data() {
     return {
       tab: "home",
       leaveTransition: "animated slideOutLeft",
-      enterTransition: "animated slideInRight"
+      enterTransition: "animated slideInRight",
+      screen: ""
     };
+  },
+  mounted() {
+    this.screen = this.$q.screen.name;
+    console.log("screen", this.screen);
   },
   methods: {
     pushStack(route) {

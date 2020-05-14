@@ -86,7 +86,6 @@ export default {
         this.$store.commit("SET_NAV_TITLE", "รายการร้านของฉัน");
         this.loading = true;
         this.shop = await getOwnedShop(this.$currentUser.uid);
-        console.log(this.shop);
         this.loading = false;
       }
     } catch (error) {
