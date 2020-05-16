@@ -144,7 +144,8 @@ export default {
   async mounted() {
     const shopId = this.$route.params.id;
     this.loading = true;
-    this.shop = await getShopById(shopId);
+    const response = await getShopById(shopId);
+    this.shop = response.data;
     this.$store.commit("SET_NAV_TITLE", this.shop.name);
     this.loading = false;
   }

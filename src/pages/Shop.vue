@@ -43,7 +43,7 @@
 </template>
 
 <script>
-import { getNearbyShop } from "../api/api";
+import { getLastUpdatedShop } from "../api/api";
 import ShopListLoadingPlaceholder from "../components/shop/ShopListLoadingPlaceholder.vue";
 import ShopList from "../components/shop/ShopList.vue";
 
@@ -66,7 +66,8 @@ export default {
       async pos => {
         const lat = pos.coords.latitude;
         const lng = pos.coords.longitude;
-        this.shops = await getNearbyShop({ lat, lng });
+        const response = await getLastUpdatedShop();
+        this.shops = response.data;
         if (this.$currentUser && this.shops) {
           for (let index = 0; index < this.shops.length; index++) {
             const shop = this.shops[index];
@@ -88,7 +89,7 @@ export default {
       this.$router.push({ name: "myshop" });
     },
     toShop(shop) {
-      this.$router.push({ name: "shopinfo", params: { id: shop._id } });
+      this.$router.push({ name: "shopinfo", params: { id: shop.id } });
     }
   }
 };
