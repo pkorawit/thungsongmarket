@@ -1,9 +1,9 @@
 <template>
   <div class="full-height image-container" @click="openFileSelector">
-    <q-img :src="preview ? preview : src" spinner-color="primary" class="circle-image shadow-5" />
     <q-img
-      src="https://icons.iconarchive.com/icons/designbolts/free-multimedia/1024/Dslr-Camera-icon.png"
-      class="icon"
+      :src="preview ? preview : src"
+      spinner-color="primary"
+      class="circle-image shadow-5"
     />
     <q-file
       v-model="files"
@@ -53,8 +53,8 @@ export default {
 }
 .circle-image {
   border-radius: 50%;
-  width: 120px;
-  height: 120px;
+  width: 200px;
+  height: 200px;
 }
 .icon {
   position: absolute;

@@ -8,26 +8,29 @@
       flat
     >
       <q-step :name="1" title="ทั่วไป" icon="settings" :done="step > 1">
-        <div class="row">
-          <div class="col-12">
+        <div class="row ">
+          <div class="col-12 col-sm-6 step">
             <q-input
               filled
               bottom-slots
               ref="shopName"
-              v-model="model.name"
+              v-model="model.shopName"
               label="ร้านชื่ออะไร"
               :rules="[val => !!val || 'ใส่ชื่อร้านด้วยค่ะ']"
             ></q-input>
           </div>
-          <div class="col-12">
-            <q-input
+          <div class="col-12 col-sm-6 step">
+            <q-select
               filled
-              bottom-slots
-              v-model="model.category"
               label="ประเภทสินค้า"
-            ></q-input>
+              v-model="model.category"
+              :options="categoryOption"
+            />
           </div>
-          <div class="col-12">
+        </div>
+
+        <div class="row">
+          <div class="col-12 step">
             <q-input
               type="textarea"
               rows="14"
@@ -36,26 +39,31 @@
               label="ฝากร้านได้เลยค่ะ"
             />
           </div>
-          <div class="col-12">
+        </div>
+
+        <div class="row">
+          <div class="col-12 step">
             <div class="text-subtitle2 text-weight-bolder q-mt-sm">
               รูปแบบบริการ
             </div>
           </div>
-          <div class="col-12">
-            <q-input
-              filled
-              bottom-slots
+        </div>
+        <div class="row">
+          <div class="col-12 col-sm-6 step">
+            <q-select
+              :options="serviceOption"
               v-model="model.serviceType"
-              label="ส่งแบบไหนบ้าง"
-            ></q-input>
-          </div>
-          <div class="col-12">
-            <q-input
               filled
-              bottom-slots
+              label="ส่งแบบไหนบ้าง"
+            />
+          </div>
+          <div class="col-12 col-sm-6 step">
+            <q-select
+              :options="paymentOption"
               v-model="model.paymentType"
+              filled
               label="จ่ายเงินแบบไหนได้บ้าง"
-            ></q-input>
+            ></q-select>
           </div>
         </div>
       </q-step>
@@ -101,7 +109,7 @@
               bottom-slots
               filled
               dense
-              v-model="product.name"
+              v-model="product.productName"
               label="ชื่อสินค้า"
             ></q-input>
           </div>
@@ -139,13 +147,47 @@
       </q-step>
 
       <q-step :name="3" title="สถานที่" icon="fas fa-map-marker-alt">
+        <div class="row column items-center">
+          <div class="col-12">
+            <CircleProfileImage
+              :src="model.owner.photoURL"
+              @imageSelected="imageProfileSelected"
+            />
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-12 col-sm-6 step">
+            <q-input
+              v-model="model.owner.firstName"
+              bottom-slots
+              label="ชื่อ"
+            ></q-input>
+          </div>
+          <div class="col-12 col-sm-6 step">
+            <q-input
+              v-model="model.owner.lastName"
+              bottom-slots
+              label="นามสกุล"
+            ></q-input>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <q-input
+              v-model="model.owner.telNo"
+              bottom-slots
+              label="เบอร์โทรศัพท์"
+            ></q-input>
+          </div>
+        </div>
         <div class="row">
           <div class="col-12">
             <div class="text-subtitle2 text-weight-bolder">ที่อยู่</div>
           </div>
         </div>
         <div class="row">
-          <div class="col-6">
+          <div class="col-12 col-sm-6 step">
             <q-input
               bottom-slots
               v-model="model.address.province"
@@ -153,7 +195,7 @@
               label="จังหวัด"
             ></q-input>
           </div>
-          <div class="col-6">
+          <div class="col-12 col-sm-6 step">
             <q-select
               v-model="model.address.district"
               :options="districtOptions"
@@ -162,14 +204,14 @@
           </div>
         </div>
         <div class="row">
-          <div class="col-6">
+          <div class="col-12 col-sm-6 step">
             <q-select
               v-model="model.address.subDistrict"
               :options="subdistrictOptions"
               label="ตำบล"
             />
           </div>
-          <div class="col-6">
+          <div class="col-12 col-sm-6 step">
             <q-input
               bottom-slots
               v-model="model.address.postalCode"
@@ -187,30 +229,25 @@
           </div>
         </div>
         <div class="row q-mt-md">
-          <div class="col-12">
-            <div class="text-subtitle2 text-weight-bolder">
-              เลือกตำแหน่งร้านบนแผนที่
-            </div>
-          </div>
-          <div class="col-12" style="height:300px">
-            <Map
-              :lat="model.location.coordinates[1]"
-              :lng="model.location.coordinates[0]"
-              @center-updated="locationSeleted"
-            ></Map>
-          </div>
-        </div>
-        <div class="row q-mt-md">
           <div class="col-12"></div>
         </div>
         <div class="row">
-          <div class="col-12">
+          <div class="col-12 col-sm-6 step">
             <q-input
-              type="textarea"
-              filled
-              v-model="model.contact"
-              label="ช่องทางติดต่อต่างๆ"
+              v-model="model.contact.telNo"
+              label="เบอร์โทรศัพท์ติดต่อร้าน"
             />
+          </div>
+          <div class="col-12 col-sm-6 step">
+            <q-input v-model="model.contact.line" label="Line" />
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 col-sm-6 step">
+            <q-input v-model="model.contact.facebook" label="facebook" />
+          </div>
+          <div class="col-12 col-sm-6 step">
+            <q-input v-model="model.contact.others" label="อื่นๆ" />
           </div>
         </div>
       </q-step>
@@ -247,8 +284,16 @@
 <script>
 import firebaseUploader from "components/FirebaseUploader";
 import ImageFilePicker from "../components/ImageFilePicker.vue";
-import { addNewShop, getShopByUser, updateShop } from "../api/api";
-import Map from "../components/CenterFixedMarkerMap.vue";
+import CircleProfileImage from "../components/account/CircleProfileImage";
+import noi from "../statics/noimage.png";
+import {
+  addNewShop,
+  getShopByUser,
+  updateShop,
+  getCategory,
+  getServiceType,
+  getPaymentType
+} from "../api/api";
 import { Dialog } from "quasar";
 
 export default {
@@ -257,7 +302,7 @@ export default {
       uid: "",
       shopId: "",
       model: {
-        name: "",
+        shopName: "",
         description: "",
         category: "",
         photoURL: [
@@ -269,14 +314,19 @@ export default {
         ],
         serviceType: "",
         paymentType: "",
-        products: [{ name: "", price: null }],
+        products: [{ productName: "", price: null }],
         hashtags: [],
         location: {
           type: "Point",
           coordinates: [0, 0]
         },
         telephone: "",
-        contact: "",
+        contact: {
+          telNo: "",
+          line: "",
+          facebook: "",
+          others: ""
+        },
         address: {
           province: "ภูเก็ต",
           district: "",
@@ -284,10 +334,20 @@ export default {
           postalCode: "",
           detail: ""
         },
-        owner: ""
+        owner: {
+          firstName: "",
+          lastName: "",
+          telNo: "",
+          photoURL: "statics/noimage.png"
+        },
+        isAuthorized: false,
+        status: "open"
       },
       step: 1,
-      districtOptions: ["เมือง", "กะทู้", "ถลาง"]
+      districtOptions: ["เมือง", "กะทู้", "ถลาง"],
+      categoryOption: [],
+      serviceOption: [],
+      paymentOption: []
     };
   },
   methods: {
@@ -300,6 +360,9 @@ export default {
     },
     imageSelected(base64, index) {
       this.model.photoURL[index] = base64;
+    },
+    imageProfileSelected(base64) {
+      this.model.owner.photoURL = base64;
     },
     locationSeleted(location) {
       this.model.location.coordinates[0] = location.lng;
@@ -351,6 +414,8 @@ export default {
     }
   },
   mounted() {
+    console.log("model ", typeof this.model.owner.photoURL);
+
     this.$store.commit("SET_NAV_TITLE", "ร้านของฉัน");
 
     this.$q.loading.show();
@@ -405,6 +470,18 @@ export default {
           icon: "report_problem"
         });
       });
+
+    //getCategory
+    let categoryOption = getCategory();
+    this.categoryOption = categoryOption.map(x => x.name);
+
+    //getSeviceType
+    let service = getServiceType();
+    this.serviceOption = service.map(x => x.name);
+
+    //getPaymentType
+    let paymentType = getPaymentType();
+    this.paymentOption = paymentType.map(x => x.name);
   },
   computed: {
     subdistrictOptions() {
@@ -436,7 +513,7 @@ export default {
   components: {
     firebaseUploader,
     ImageFilePicker,
-    Map
+    CircleProfileImage
   }
 };
 </script>
@@ -451,5 +528,12 @@ q-input {
 
 .q-stepper--horizontal .q-stepper__step-inner {
   padding: 15px;
+}
+.step {
+  padding: 3px;
+}
+.imgOwner {
+  width: 250px;
+  height: 350px;
 }
 </style>
