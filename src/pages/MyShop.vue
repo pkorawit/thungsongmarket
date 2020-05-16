@@ -362,7 +362,7 @@ export default {
     }
 
     // Check if the shop is exist for this user
-    getShopByUser(this.uid)
+    getShopByUser(this.model.telephone)
       .then(response => {
         console.log(response);
         this.$q.loading.hide();

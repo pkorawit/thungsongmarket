@@ -41,7 +41,7 @@ export function getPendingShop() {
 }
 
 export function getShopByUser(uid) {
-  return axios.get(`${BASE_API_URL}/shop/user/${uid}`);
+  return axios.get(`${BASE_API_URL}/Shops/search/owner/${uid}`);
 }
 
 
