@@ -85,7 +85,8 @@ export default {
       if (this.$currentUser) {
         this.$store.commit("SET_NAV_TITLE", "รายการร้านของฉัน");
         this.loading = true;
-        this.shop = await getOwnedShop(this.$currentUser.uid);
+        const response = await getOwnedShop(this.$firebase.auth().currentUser.phoneNumber);
+        this.model = response.data;
         this.loading = false;
       }
     } catch (error) {
