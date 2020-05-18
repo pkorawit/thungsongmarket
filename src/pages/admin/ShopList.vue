@@ -1,10 +1,5 @@
 <template>
   <q-page class="q-pa-md">
-    <h4 class="text-center">
-      รายชื่อร้านค้า
-      <hr />
-    </h4>
-
     <q-card>
       <q-tabs
         v-model="tab"
@@ -24,11 +19,15 @@
       <q-tab-panels v-model="tab" animated>
         <q-tab-panel name="mails">
           <div class="q-pa-md row items-start q-gutter-md">
-            <q-card class="my-card col-12 col-md-2">
-              <img :src="photoURL" />
+            <q-card
+              class="my-card col-12 col-md-2"
+              v-for="(pendings,index) in this.pendingShops"
+              :key="index"
+            >
+              <img :src="pendings.photoURL[0]" />
 
               <q-card-section>
-                <div class="text-h5">{{ shopName }}</div>
+                <div class="text-h5">{{ pendings.shopName }}</div>
                 <div class="flex text-grey-8">
                   <q-icon
                     name="fas fa-tag"
@@ -36,7 +35,7 @@
                     size="12px"
                     style="padding: 7px 0 0 5px; margin: 0 8px 0 0"
                   />
-                  {{ shopCategory }}
+                  {{ pendings.category }}
                 </div>
                 <div class="description-caption rating">
                   <div class="q-mr-xs">
@@ -47,7 +46,7 @@
                       style="padding: 0px 0px 0px 0px;"
                     />
                   </div>
-                  <div>{{shopPaymentType}}</div>
+                  <div>{{ pendings.paymentType[0] }}</div>
                 </div>
                 <div class="row">
                   <div class="description-caption service-type col-6">
@@ -57,11 +56,11 @@
                       style="margin-top: 4px; margin-left: 2px; margin-right: 5px;"
                       size="12px"
                     />
-                    <div>{{shopServiceType}}</div>
+                    <div>{{ pendings.serviceType[0] }}</div>
                   </div>
 
                   <div class="col text-right">
-                    <q-btn color="secondary" label="จัดการ" @click="confirm" />
+                    <q-btn label="จัดการ" color="primary" @click="updateData(pendings.id, true)"></q-btn>
                   </div>
                 </div>
               </q-card-section>
@@ -70,7 +69,57 @@
         </q-tab-panel>
 
         <q-tab-panel name="alarms">
-          <h4>ทั้งหมด</h4>
+          <div class="q-pa-md row items-start q-gutter-md">
+            <q-card
+              class="my-card col-12 col-md-2"
+              v-for="(authorizeds,index) in authorizedShop"
+              :key="index"
+            >
+              <img :src="authorizeds.photoURL[0]" />
+              <q-card-section>
+                <div class="text-h5">{{ authorizeds.shopName }}</div>
+                <div class="flex text-grey-8">
+                  <q-icon
+                    name="fas fa-tag"
+                    color="grey-8"
+                    size="12px"
+                    style="padding: 7px 0 0 5px; margin: 0 8px 0 0"
+                  />
+                  {{ authorizeds.category }}
+                </div>
+                <div class="description-caption rating">
+                  <div class="q-mr-xs">
+                    <q-icon
+                      name="money"
+                      color="green"
+                      size="15px"
+                      style="padding: 0px 0px 0px 0px;"
+                    />
+                  </div>
+                  <div>{{ authorizeds.paymentType[0] }}</div>
+                </div>
+                <div class="row">
+                  <div class="description-caption service-type col-6">
+                    <q-icon
+                      name="fas fa-shipping-fast"
+                      color="primary"
+                      style="margin-top: 4px; margin-left: 2px; margin-right: 5px;"
+                      size="12px"
+                    />
+                    <div>{{ authorizeds.serviceType[0] }}</div>
+                  </div>
+
+                  <div class="col text-right">
+                    <q-btn
+                      label="จัดการ"
+                      color="primary"
+                      @click="updateData(authorizeds.id, false)"
+                    ></q-btn>
+                  </div>
+                </div>
+              </q-card-section>
+            </q-card>
+          </div>
         </q-tab-panel>
       </q-tab-panels>
     </q-card>
@@ -78,48 +127,71 @@
 </template>
 
 <script>
+import {
+  getAuthorizedShop,
+  getPendingShop,
+  setAuthorizeStatus
+} from "../../api/api";
+
 export default {
   data() {
     return {
       tab: "mails",
-      photoURL: "https://cdn.quasar.dev/img/mountains.jpg",
-      shopName: "ยำขนมจีนพี่ปอนด์",
-      shopCategory: "ของกิน",
-      shopPaymentType: "เงินสดโอน",
-      shopServiceType: "ส่งทุกเที่ยง",
-      visible: false,
-      showSimulatedReturnData: false
+      // visible: false,
+      // showSimulatedReturnData: false,
+      pendingShops: [],
+      authorizedShop: [],
     };
   },
+  async mounted() {
+    this.getdata();
+  },
   methods: {
-    showTextLoading() {
-      this.visible = true;
-      this.showSimulatedReturnData = false;
-      setTimeout(() => {
-        this.visible = false;
-        this.showSimulatedReturnData = true;
-      }, 1000);
-    },
-    confirm() {
+    updateData(id, status) {
       this.$q
         .dialog({
-          title: "ชื่อร้าน",
-          message: "ข้อมูล",
+          // title: "",
+          message: "ยืนยันข้อมูลการเปิดร้าน",
+          options: {
+            // type: "toggle",
+            type: "radio",
+            model: "",
+            // inline: true,
+            items: [
+              { label: "อนุมัติ", value: "comfirm", color: "secondary" },
+              { label: "รออนุมัติ", value: "unComfirm", color: "secondary" }
+            ]
+          },
           cancel: true,
           persistent: true
         })
-        .onOk(() => {
-          // console.log('>>>> OK')
-        })
-        .onOk(() => {
-          // console.log('>>>> second OK catcher')
+        .onOk(async data => {
+          if (data == "comfirm" && status == true) {
+            // console.log("comfirm");
+
+            const responseStatus = await setAuthorizeStatus(id, status);
+            this.getdata();
+          } else if (data == "unComfirm" && status == false) {
+            // console.log("unComfirm");
+
+            const responseStatus = await setAuthorizeStatus(id, status);
+            this.getdata();
+          } else {
+            // console.log("NO");
+          }
         })
         .onCancel(() => {
           // console.log('>>>> Cancel')
-        })
-        .onDismiss(() => {
-          // console.log('I am triggered on both OK and Cancel')
         });
+    },
+    async getdata() {
+      const responsePending = await getPendingShop();
+      this.pendingShops = responsePending.data;
+      // console.log(this.pendingShops);
+
+      const responseAuthorized = await getAuthorizedShop();
+      this.authorizedShop = responseAuthorized.data;
+      // console.log(this.authorizedShop);
     }
   }
 };
