@@ -73,12 +73,6 @@ export default {
     toMyshop(shop) {
       this.$router.push({ name: "myshop", props: { shop } });
     },
-    toMyshopList() {
-      this.$router.push({
-        name: "myshop-list",
-        query: { id: this.$currentUser.uid }
-      });
-    }
   },
   async mounted() {
     try {
@@ -86,7 +80,8 @@ export default {
         this.$store.commit("SET_NAV_TITLE", "รายการร้านของฉัน");
         this.loading = true;
         const response = await getOwnedShop(this.$firebase.auth().currentUser.phoneNumber);
-        this.model = response.data;
+        console.log(this.$firebase.auth().currentUser.phoneNumber);
+        this.shop = response.data[0];
         this.loading = false;
       }
     } catch (error) {
