@@ -8,7 +8,8 @@
       <div class="col-11 col-md-3">
         <q-card class="bg-orange-6 text-white">
           <q-card-section>
-            <div class="text-h6">ร้านค้า 50 ร้าน</div>
+            <!-- <div class="text-h6">ร้านค้า 50 ร้าน</div> -->
+            <div class="text-h6">ร้านค้า {{ shops.length }} ร้าน</div>
             <!-- <div class="text-subtitle2">by John Doe</div> -->
           </q-card-section>
 
@@ -33,23 +34,37 @@
       </div>
     </div>
     <!-- โยงหน้า -->
-    <br>
+    <br />
     <div class="text-center">
-      <q-btn @click="openList" label="Go Shop List" type="submit" color="blue-10"></q-btn>
+      <q-btn @click="openShopList" label="Go Shop List" type="submit" color="blue-10"></q-btn>
     </div>
-
   </q-page>
 </template>
 
 <script>
+import { getShops } from "../../api/api";
+
 export default {
   data() {
-    return {};
+    return {
+      shops: []
+    };
+  },
+  async mounted() {
+    this.forShop();
   },
   methods: {
-    openList() {
+    openShopList() {
       console.log("openList");
       this.$router.push({ name: "shoplist" });
+    },
+    async forShop() {
+      const response = await getShops();
+      this.shops = response.data;
+      // console.log(this.shops);
+      // for (i = 0; i < shops.length; i++) {
+      //   console.log("i"+ [i]);
+      // }
     }
   }
 };
