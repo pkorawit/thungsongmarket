@@ -32,7 +32,7 @@ const routes = [
     // Auth Routes
     path: "/admin",
     name: "admin",
-    component: () => import("layouts/Admin.vue"),    
+    component: () => import("layouts/Admin.vue"),
     children: [
       {
         path: "",
@@ -50,6 +50,12 @@ const routes = [
         path: "shoplist",
         name: "shoplist",
         component: () => import("pages/admin/ShopList.vue"),
+        meta: { authRequired: false }
+      },
+      {
+        path: "shop/:id",
+        name: "shopinfoAdmin",
+        component: () => import("pages/ShopInfo.vue"),
         meta: { authRequired: false }
       }
     ]
