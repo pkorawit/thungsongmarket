@@ -52,15 +52,6 @@ export default {
   data() {
     return {
       confirmCode: "",
-      user: {
-        uid: "",
-        firstname: "",
-        lastname: "",
-        telephone: "",
-        gender: "",
-        photoURL: "",
-        email: ""
-      }
     };
   },
   methods: {
@@ -70,21 +61,7 @@ export default {
         .confirm(code)
         .then(result => {
           let user = result.user;
-          // Check for existing user data collection
-          getUserById(user.uid).then(response => {
-            const userData = response.data;  
-            // If not exist, create new empty user
-            if (!userData) {
-              this.user.uid = user.uid;
-              this.user.telephone = user.phoneNumber;
-              
-              addNewUser(this.user).then(response => {
-                this.$router.push({ path: this.$route.params.nextUrl });
-              });
-            } else {
-              this.$router.push({ path: this.$route.params.nextUrl });
-            }
-          });
+          this.$router.push({ path: this.$route.params.nextUrl });
         })
         .catch(error => {
           let errorMessage = error.message;
