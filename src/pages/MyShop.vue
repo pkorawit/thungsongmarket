@@ -20,28 +20,16 @@
             ></q-input>
           </div>
           <div class="col-12 col-sm-6 step">
-            {{ model.category }}
             <div class="col-12">
-              <q-radio
-                v-for="categoryOption in categoryOption"
-                :key="categoryOption"
-                v-model="model.category"
-                :val="categoryOption"
-                :label="categoryOption"
-              />
-            </div>
-            <div class="col-12" v-if="model.category == 'อื่่น ๆ'">
-              {{ textCategory }}
-              <q-input
-                v-model="textCategory"
+              <q-select
                 filled
-                bottom-slots
-                label="อื่นๆ"
-              ></q-input>
+                v-model="model.category"
+                :options="categoryOption"
+                label="ประเภทสินค้า"
+              />
             </div>
           </div>
         </div>
-
         <div class="row">
           <div class="col-12 step">
             <q-input
@@ -53,7 +41,6 @@
             />
           </div>
         </div>
-
         <div class="row">
           <div class="col-12 step">
             <div class="text-subtitle2 text-weight-bolder q-mt-sm">
@@ -524,8 +511,6 @@ export default {
             this.paymentOption = allpayment.filter(
               (item, pos) => allpayment.indexOf(item) === pos
             );
-            //add category to radio
-            this.categoryOption.push(this.model.category);
           }
         }
         // First time visit
