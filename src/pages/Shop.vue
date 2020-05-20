@@ -67,6 +67,7 @@ export default {
         const lat = pos.coords.latitude;
         const lng = pos.coords.longitude;
         const response = await getLastUpdatedShop();
+        console.log("shop ", response);
         this.shops = response.data;
         if (this.$currentUser && this.shops) {
           for (let index = 0; index < this.shops.length; index++) {
@@ -114,8 +115,8 @@ export default {
 }
 @media only screen and (min-width: 1023px) {
   .shoplist {
-    padding-left: 15px;
-    padding-right: 15px;
+    padding-left: 10px;
+    padding-right: 10px;
   }
 }
 </style>
