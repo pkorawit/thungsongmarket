@@ -48,14 +48,10 @@
           <q-separator inset />
           <q-card-section>
             <q-list>
-              <q-item
-                dense
-                v-for="(food, index) in this.shop.products"
-                :key="index"
-              >
+              <q-item dense v-for="(food, index) in shop.products" :key="index">
                 <q-item-section>
                   <q-item-label style="font-size:15px"
-                    >• {{ food.name }}</q-item-label
+                    >• {{ food.productName }}</q-item-label
                   >
                 </q-item-section>
 
@@ -73,6 +69,28 @@
           <q-card-section>
             <div class="text-h6">
               <q-icon name="info" class="q-mr-sm" />ข้อมูลร้าน
+            </div>
+          </q-card-section>
+          <q-separator inset />
+          <q-card-section>
+            <div style="font-size:15px;">ข้อมูลเจ้าของร้าน</div>
+            <div class="row">
+              <div class="q-ma-md">
+                <q-avatar v-if="shop.owner.photoURL" size="90px">
+                  <img :src="shop.owner.photoURL" />
+                </q-avatar>
+                <q-avatar v-if="shop.owner.photoURL == ''" size="90px">
+                  <img src="statics/noimage.png" />
+                </q-avatar>
+              </div>
+              <div style="font-size:15px;">
+                <div class="q-pa-sm">
+                  ชื่อ:
+                  {{ shop.owner.firstName }}
+                  {{ shop.owner.lastName }}
+                </div>
+                <div class="q-pa-sm">เบอร์โทร: {{ shop.owner.telNo }}</div>
+              </div>
             </div>
           </q-card-section>
           <q-separator inset />
