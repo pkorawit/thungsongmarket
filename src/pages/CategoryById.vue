@@ -5,16 +5,9 @@
         <shop-list v-if="shop.category == id" :shop="shop" @shop-selected="toShop" />
       </div>
     </div>
-    <!-- <div v-if="this.shopC.length = 0">
-      <div>
-        <h1>ON</h1>
-      </div>
-    </div>
-    <div v-if="this.shopC.length != 0" class="row"> -->
       <div class="col-12 col-sm-3 shoplist" v-for="shop in shopC" :key="shop.id">
         <shop-list :shop="shop" @shop-selected="toShop" />
       </div>
-    <!-- </div> -->
   </q-page>
 </template>
 
@@ -28,9 +21,7 @@ export default {
   },
   data() {
     return {
-      
       shopC: [],
-
       shops: [],
       shopsCategory: [],
       id: ""
@@ -43,10 +34,7 @@ export default {
 
     const response = await getShopByCategory(this.id);
     this.shopC = response.data;
-    if(this.shopC.isAuthorized == true){
-
-    }
-    console.log(this.shopC);
+    // console.log(this.shopC);
 
     this.$geolocation.getCurrentPosition(
       async pos => {
