@@ -4,15 +4,21 @@
       <q-img :src="shop.photoURL[0]" class="shop-avatar fit" :ratio="16 / 9" />
     </div>
     <div class="description-box q-pa-sm" v-ripple>
-      <div class="description-header text-h5">{{ shop.name }}</div>
+      <div class="description-header text-h5">{{ shop.shopName }}</div>
       <div class="flex text-grey-8">
-        <q-icon
-          name="fas fa-tag"
-          color="grey-8"
-          size="12px"
-          style="padding: 7px 0 0 5px; margin: 0 8px 0 0"
-        />
-        {{ this.shop.category }}
+        <div class="row">
+          <div>
+            <q-icon
+              name="fas fa-tag"
+              color="grey-8"
+              size="12px"
+              style="padding: 7px 0 0 5px; margin: 0 8px 0 0"
+            />
+          </div>
+          <div>
+            {{ shop.category }}
+          </div>
+        </div>
       </div>
       <div class="description-caption rating">
         <div class="q-mr-xs">
@@ -23,16 +29,34 @@
             style="padding: 0px 0px 0px 0px;"
           />
         </div>
-        <div>{{ shop.paymentType }}</div>
+        <div class="row">
+          <div
+            class="q-ma-xs"
+            v-for="paymentType in shop.paymentType"
+            :key="paymentType"
+          >
+            {{ paymentType }}
+          </div>
+        </div>
       </div>
       <div class="description-caption service-type">
-        <q-icon
-          name="fas fa-shipping-fast"
-          color="primary"
-          style="margin-top: 4px; margin-left: 2px; margin-right: 5px;"
-          size="12px"
-        />
-        <div>{{ shop.serviceType }}</div>
+        <div class="col-12">
+          <q-icon
+            name="fas fa-shipping-fast"
+            color="primary"
+            style="margin-top: 4px; margin-left: 2px; margin-right: 5px;"
+            size="12px"
+          />
+        </div>
+        <div class="row">
+          <div
+            class="q-ma-xs"
+            v-for="serviceType in shop.serviceType"
+            :key="serviceType"
+          >
+            {{ serviceType }}
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -72,8 +96,6 @@ export default {
   width: 100%;
   /* border: 1px solid grey; */
   background: rgba(0, 0, 0, 0.02);
-}
-.shop-avatar {
 }
 .description-box {
   /* border: 1px solid grey; */

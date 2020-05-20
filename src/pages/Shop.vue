@@ -114,8 +114,8 @@ export default {
 }
 @media only screen and (min-width: 1023px) {
   .shoplist {
-    padding-left: 15px;
-    padding-right: 15px;
+    padding-left: 10px;
+    padding-right: 10px;
   }
 }
 </style>

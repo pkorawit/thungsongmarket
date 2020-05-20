@@ -21,14 +21,16 @@
           <div class="q-pa-md row items-start q-gutter-md">
             <q-card
               class="my-card col-12 col-md-2"
-              v-for="(pendings,index) in this.pendingShops"
+              v-for="(pendings, index) in this.pendingShops"
               :key="index"
             >
               <q-img :src="pendings.photoURL[0]" height="250px">
                 <div
                   class="absolute-bottom text-right"
                   style="font-size: 12px;"
-                >{{ lastUpdate(pendings.lastUpdated) }}</div>
+                >
+                  {{ lastUpdate(pendings.lastUpdated) }}
+                </div>
               </q-img>
 
               <q-card-section>
@@ -48,8 +50,14 @@
                       <q-img :src="pendings.owner.photoURL" height="70px" />
                     </q-avatar>
                   </div>
-                  <div class="col" style="padding: 15px 0px 0px 0px; font-size: 17px;">
-                    <p>{{ pendings.owner.firstName }} {{ pendings.owner.lastName }}</p>
+                  <div
+                    class="col"
+                    style="padding: 15px 0px 0px 0px; font-size: 17px;"
+                  >
+                    <p>
+                      {{ pendings.owner.firstName }}
+                      {{ pendings.owner.lastName }}
+                    </p>
                   </div>
                 </div>
 
@@ -105,14 +113,16 @@
           <div class="q-pa-md row items-start q-gutter-md">
             <q-card
               class="my-card col-12 col-md-2"
-              v-for="(authorizeds,index) in authorizedShop"
+              v-for="(authorizeds, index) in authorizedShop"
               :key="index"
             >
               <q-img :src="authorizeds.photoURL[0]" height="250px">
                 <div
                   class="absolute-bottom text-right"
                   style="font-size: 12px;"
-                >{{ lastUpdate(authorizeds.lastUpdated) }}</div>
+                >
+                  {{ lastUpdate(authorizeds.lastUpdated) }}
+                </div>
               </q-img>
               <q-card-section>
                 <div class="text-h5">{{ authorizeds.shopName }}</div>
@@ -132,8 +142,14 @@
                       <q-img :src="authorizeds.owner.photoURL" height="70px" />
                     </q-avatar>
                   </div>
-                  <div class="col" style="padding: 15px 0px 0px 0px; font-size: 17px;">
-                    <p>{{ authorizeds.owner.firstName }} {{ authorizeds.owner.lastName }}</p>
+                  <div
+                    class="col"
+                    style="padding: 15px 0px 0px 0px; font-size: 17px;"
+                  >
+                    <p>
+                      {{ authorizeds.owner.firstName }}
+                      {{ authorizeds.owner.lastName }}
+                    </p>
                   </div>
                 </div>
 
@@ -146,7 +162,9 @@
                       style="padding: 0px 0px 0px 0px;"
                     />
                   </div>
-                  <div style="font-size: 17px;">{{ authorizeds.owner.telNo }}</div>
+                  <div style="font-size: 17px;">
+                    {{ authorizeds.owner.telNo }}
+                  </div>
                 </div>
 
                 <div class="row q-gutter-md" style="padding: 10px 0px 0px 0px;">
