@@ -617,7 +617,4 @@ q-input {
 .step {
   padding: 3px;
 }
-.toggle {
-  border: 1px solid #027be3;
-}
 </style>
