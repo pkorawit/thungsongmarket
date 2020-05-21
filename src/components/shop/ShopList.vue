@@ -1,5 +1,5 @@
 <template>
-  <div class="shop-container shadow-3 q-my-md bg-white" @click="toShop">
+  <div class="shop-container shadow-1 q-mb-sm bg-white" @click="toShop">
     <div class="shop-avatar-box q-pa-sm">
       <q-img :src="shop.photoURL[0]" class="shop-avatar fit" :ratio="16 / 9" />
     </div>
