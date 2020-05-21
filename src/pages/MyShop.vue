@@ -349,7 +349,6 @@ import {
 import CircleProfileImage from "../components/account/CircleProfileImage";
 import { Dialog } from "quasar";
 import { functions } from "firebase";
-
 export default {
   data() {
     return {
@@ -486,17 +485,14 @@ export default {
     //getCategory
     let categoryOption = getCategory();
     this.categoryOption = categoryOption.map(x => x.name);
-
     //getSeviceType
     let service = getServiceType();
     this.serviceOption = service.map(x => x.name);
     this.serviceOption = this.serviceOption.filter(word => word != "อื่่น ๆ");
-
     //getPaymentType
     let paymentType = getPaymentType();
     this.paymentOption = paymentType.map(x => x.name);
     this.paymentOption = this.paymentOption.filter(word => word != "อื่่น ๆ");
-
     this.$q.loading.show();
     // Get current user info from firebase
     if (this.$firebase.auth().currentUser !== null) {
@@ -504,7 +500,6 @@ export default {
       this.model.owner.telNo = this.$firebase.auth().currentUser.phoneNumber;
       this.uid = this.model.owner.telNo;
     }
-
     // Check if the shop is exist for this user
     getShopByUser(this.uid)
       .then(response => {
@@ -539,10 +534,8 @@ export default {
           // Set initial values
           this.model.owner.telNo = this.uid;
           this.getCurrentLocation();
-
           // Add new shop to db with initial value
           console.log(JSON.stringify(this.model));
-
           addNewShop(this.model)
             .then(response => {
               console.log("addNewShop response", response);
