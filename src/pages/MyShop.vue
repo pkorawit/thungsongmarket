@@ -8,27 +8,23 @@
       flat
     >
       <q-step :name="1" title="ทั่วไป" icon="settings" :done="step > 1">
-        <div class="column items-end q-ma-xs">
-          <div class="col-12 ">
-            ร้านเปิดหรือยัง?
-            <q-btn-toggle
-              v-model="model.status"
-              class="my-custom-toggle"
-              no-caps
-              rounded
-              unelevated
-              toggle-color="primary"
-              color="white"
-              text-color="primary"
-              :options="[
-                { label: 'เปิด', value: 'open' },
-                { label: 'ปิด', value: 'close' }
-              ]"
-              @click="OpenStore(model.status)"
-            />
-          </div>
-        </div>
-        <div class="row ">
+        <q-btn-toggle
+          v-model="open"
+          spread
+          class="toggle "
+          no-caps
+          toggle-color="orange"
+          color="grey"
+          text-color="white"
+          toggle-text-color="black"
+          :options="[
+            { label: 'เปิดร้าน', value: 'open' },
+            { label: 'ปิดร้าน', value: 'close' }
+          ]"
+          @click="OpenStore(open)"
+        />
+
+        <div class="row q-mt-sm ">
           <div class="col-12 col-sm-6 step">
             <q-input
               filled
@@ -409,7 +405,8 @@ export default {
       otherServiceType: false,
       otherPaymentType: false,
       othersCategory: "",
-      textCategory: ""
+      textCategory: "",
+      open: "open"
     };
   },
   methods: {
@@ -524,6 +521,8 @@ export default {
             this.model.paymentType = this.model.paymentType.filter(
               word => word != ""
             );
+            //open store?
+            this.open = this.model.status;
             //filter and add to checkbok
             let allsevice = this.serviceOption.concat(this.model.serviceType);
             this.serviceOption = allsevice.filter(
@@ -618,7 +617,7 @@ q-input {
 .step {
   padding: 3px;
 }
-.my-custom-toggle {
+.toggle {
   border: 1px solid #027be3;
 }
 </style>
