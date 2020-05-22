@@ -1,19 +1,27 @@
 <template>
   <q-page>
     <div class="row justify-center">
-      <div class="col-12 text-center"><h5>Category</h5></div>
+      <div class="col-12 text-center">
+        <h5>Category</h5>
+      </div>
       <div
-        class="col-12 col-sm-3 category"
+        class="col-12 col-sm-3 category items-start q-gutter-md"
         v-for="shop in shopsCategory"
         :key="shop"
         @click="toCategoryById(shop)"
       >
-        <q-card class="no-border-radius">
-          <q-img src="https://cdn.quasar.dev/img/parallax2.jpg" basic>
-            <div class="absolute-bottom text-subtitle2 text-center">
-              {{ shop }}
-            </div>
-          </q-img>
+        <q-card class="my-card ">
+          <q-item>
+            <q-item-section avatar>
+              <q-avatar>
+                <img src="https://cdn.quasar.dev/img/avatar2.jpg" />
+              </q-avatar>
+            </q-item-section>
+
+            <q-item-section>
+              <q-item-label>{{ shop }}</q-item-label>
+            </q-item-section>
+          </q-item>
         </q-card>
       </div>
     </div>
