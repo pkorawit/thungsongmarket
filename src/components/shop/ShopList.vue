@@ -1,26 +1,24 @@
 <template>
-  <div class="shop-container shadow-1 q-mb-sm bg-white" @click="toShop">
-    <div class="shop-avatar-box q-pa-sm">
+  <div class="shop-container shadow-1 q-mb-sm bg-white">
+    <div class="shop-avatar-box q-pa-sm" @click="toShop">
       <q-img :src="shop.photoURL[0]" class="shop-avatar fit" :ratio="16 / 9" />
     </div>
     <div class="description-box q-pa-sm" v-ripple>
-      <div class="description-header text-h5">{{ shop.shopName }}</div>
-      <div class="flex text-grey-8">
+      <div class="description-header text-h5" @click="toShop">
+        {{ shop.shopName }}
+      </div>
+      <div class="flex text-grey-8 cursor" @click="toCategory(shop.category)">
         <div class="row">
-          <div>
-            <q-icon
-              name="fas fa-tag"
-              color="grey-8"
-              size="12px"
-              style="padding: 7px 0 0 5px; margin: 0 8px 0 0"
-            />
-          </div>
-          <div>
-            {{ shop.category }}
-          </div>
+          <q-icon
+            name="fas fa-tag"
+            color="grey-8"
+            size="12px"
+            style="padding: 7px 0 0 5px; margin: 0 8px 0 0"
+          />
+          {{ shop.category }}
         </div>
       </div>
-      <div class="description-caption rating">
+      <div class="description-caption rating" @click="toShop">
         <div class="q-mr-xs">
           <q-icon
             name="money"
@@ -39,7 +37,7 @@
           </div>
         </div>
       </div>
-      <div class="description-caption service-type">
+      <div class="description-caption service-type" @click="toShop">
         <div class="col-12">
           <q-icon
             name="fas fa-shipping-fast"
@@ -78,6 +76,9 @@ export default {
     },
     toShop() {
       this.$emit("shop-selected", this.shop);
+    },
+    toCategory(type) {
+      this.$router.push({ name: "categoryById", params: { id: type } });
     }
   }
 };
@@ -115,5 +116,11 @@ export default {
 }
 .service-type {
   display: flex;
+}
+.cursor {
+  cursor: pointer;
+}
+.cursor:hover {
+  text-decoration-line: underline;
 }
 </style>

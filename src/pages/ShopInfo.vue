@@ -42,7 +42,7 @@
         <q-card class="q-mt-md">
           <q-card-section>
             <div class="text-h6 full-width">
-              <q-icon name="list" class="q-mr-sm" />รายการอาหาร
+              <q-icon name="list" class="q-mr-sm" />รายการสินค้า
             </div>
           </q-card-section>
           <q-separator inset />
