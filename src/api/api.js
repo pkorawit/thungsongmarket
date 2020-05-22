@@ -15,6 +15,11 @@ export function getLastUpdatedShop() {
     .get(`${BASE_API_URL}/Shops/search/updated`);
 }
 
+export function getLastUpdatedShopByPage(pageNumber) {
+  return axios
+    .get(`${BASE_API_URL}/Shops/search/updated/${pageNumber}`);
+}
+
 export function getShops() {
   return axios
     .get(`${BASE_API_URL}/Shops`);
