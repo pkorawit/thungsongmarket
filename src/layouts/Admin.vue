@@ -3,25 +3,25 @@
     <q-header class="bg-primary shadow-3">
       <q-toolbar>
         <q-toolbar-title>
-            <q-avatar rounded>
-              <q-img src="~assets/logo.png" />
-            </q-avatar> ระบบจัดการ
+          <q-avatar rounded>
+            <q-img src="~assets/logo.png" />
+          </q-avatar>ระบบจัดการ
         </q-toolbar-title>
         <q-btn flat round dense icon="more_vert">
-            <q-menu>
-          <q-list style="min-width: 200px">
-            <q-item clickable v-close-popup>
-              <q-item-section>หน้าแรก</q-item-section>
-            </q-item>
-            <q-item clickable v-close-popup>
-              <q-item-section>รายชื่อร้านค้า</q-item-section>
-            </q-item>
-            <q-separator />
-            <q-item clickable v-close-popup>
-              <q-item-section>ออกจากระบบ</q-item-section>
-            </q-item>            
-          </q-list>
-        </q-menu>
+          <q-menu>
+            <q-list style="min-width: 200px">
+              <q-item clickable v-close-popup>
+                <q-item-section @click="dashboard">หน้าแรก</q-item-section>
+              </q-item>
+              <q-item clickable v-close-popup>
+                <q-item-section @click="shopList">รายชื่อร้านค้า</q-item-section>
+              </q-item>
+              <q-separator />
+              <q-item clickable v-close-popup>
+                <q-item-section @click="logout">ออกจากระบบ</q-item-section>
+              </q-item>
+            </q-list>
+          </q-menu>
         </q-btn>
       </q-toolbar>
     </q-header>
@@ -47,6 +47,25 @@ export default {
       enterTransition: "animated slideInRight"
     };
   },
+  methods: {
+    dashboard() {
+      this.$router.push({ name: "dashboard" });
+    },
+    shopList() {
+      this.$router.push({ name: "shoplist" });
+    },
+    logout() {
+      this.$firebase
+        .auth()
+        .signOut()
+        .then(() => {
+          this.$router.push({ name: "adminsignin" });
+        })
+        .catch(function(error) {
+          // An error happened.
+        });
+    }
+  }
 };
 </script>
 
