@@ -379,7 +379,7 @@ export default {
           others: ""
         },
         address: {
-          province: "ภูเก็ต",
+          province: "นครศรีธรรมราช",
           district: "",
           subDistrict: "",
           postalCode: "",
@@ -450,9 +450,6 @@ export default {
     saveData() {
       this.model.serviceType.push(this.textServiceType);
       this.model.paymentType.push(this.textPaymentType);
-      if (this.model.category == "อื่่น ๆ") {
-        this.model.category = this.textCategory;
-      }
       this.$q.loading.show();
       updateShop(this.shopId, this.model)
         .then(response => {
