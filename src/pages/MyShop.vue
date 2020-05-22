@@ -250,11 +250,17 @@
             ></q-input>
           </div>
           <div class="col-12 col-sm-6 step">
-            <q-select
+            <!-- <q-select
               v-model="model.address.district"
               :options="districtOptions"
               label="อำเภอ"
-            />
+            /> -->
+            <q-input
+              bottom-slots
+              v-model="model.address.district"
+              readonly
+              label="อำเภอ"
+            ></q-input>
           </div>
         </div>
         <div class="row">
@@ -380,7 +386,7 @@ export default {
         },
         address: {
           province: "นครศรีธรรมราช",
-          district: "",
+          district: "ทุ่งสง",
           subDistrict: "",
           postalCode: "",
           detail: ""
@@ -395,7 +401,7 @@ export default {
         status: ""
       },
       step: 1,
-      districtOptions: ["เมือง", "กะทู้", "ถลาง"],
+      // districtOptions: ["เมือง", "กะทู้", "ถลาง"],
       categoryOption: [],
       serviceOption: [],
       paymentOption: [],
@@ -448,8 +454,14 @@ export default {
       this.model.products.splice(index, 1);
     },
     saveData() {
-      this.model.serviceType.push(this.textServiceType);
-      this.model.paymentType.push(this.textPaymentType);
+      if (this.textServiceType != "") {
+        this.model.serviceType.push(this.textServiceType);
+        this.model.paymentType.push(this.textPaymentType);
+      }
+      this.model.status = this.open;
+      if (this.model.category == "อื่่น ๆ") {
+        this.model.category = this.textCategory;
+      }
       this.$q.loading.show();
       updateShop(this.shopId, this.model)
         .then(response => {
@@ -514,7 +526,11 @@ export default {
               word => word != ""
             );
             //open store?
-            this.open = this.model.status;
+            if (this.model.status == "") {
+              this.open = "open";
+            } else {
+              this.open = this.model.status;
+            }
             //filter and add to checkbok
             let allsevice = this.serviceOption.concat(this.model.serviceType);
             this.serviceOption = allsevice.filter(
@@ -562,26 +578,21 @@ export default {
   computed: {
     subdistrictOptions() {
       let output = [];
-      if (this.model.address.district === "กะทู้")
-        output = ["กมลา", "กะทู้", "ป่าตอง"];
-      if (this.model.address.district === "เมือง")
+      if (this.model.address.district === "ทุ่งสง")
         output = [
-          "กะรน",
-          "ฉลอง",
-          "ตลาดเหนือ",
-          "ตลาดใหญ่",
-          "รัษฎา",
-          "ราไวย์",
-          "วิชิต"
-        ];
-      if (this.model.address.district === "ถลาง")
-        output = [
-          "เกาะแก้ว",
-          "ป่าคลอก",
-          "ศรีสุนทร",
-          "สาคู",
-          "เชิงทะเล",
-          "เทพกระษัตรี"
+          "ปากแพรก",
+          "ชะมาย",
+          "หนองหงส์",
+          "ควนกรด",
+          "นาไม้ไผ่",
+          "นาหลวงเสน",
+          "เขาโร",
+          "กะปาง",
+          "ที่วัง",
+          "น้ำตก",
+          "ถ้ำใหญ่",
+          "นาโพธิ์",
+          "เขาขาว"
         ];
       return output;
     }
