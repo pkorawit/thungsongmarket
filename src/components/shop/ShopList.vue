@@ -7,15 +7,15 @@
       <div class="description-header text-h5" @click="toShop">
         {{ shop.shopName }}
       </div>
-      <div class="flex text-grey-8 cursor" @click="toCategory(shop.category)">
-        <div class="row">
+      <div class="flex text-blue cursor" @click="toCategory(shop.category)">
+        <div class="row ">
           <q-icon
             name="fas fa-tag"
             color="grey-8"
             size="12px"
             style="padding: 7px 0 0 5px; margin: 0 8px 0 0"
           />
-          <a href="">{{ shop.category }}</a>
+          {{ shop.category }}
         </div>
       </div>
       <div class="description-caption rating" @click="toShop">
@@ -119,8 +119,9 @@ export default {
 }
 .cursor {
   cursor: pointer;
-}
-.cursor:hover {
   text-decoration-line: underline;
 }
+/* .cursor:hover {
+  text-decoration-line: underline;
+} */
 </style>
