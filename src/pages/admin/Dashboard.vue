@@ -35,7 +35,7 @@
     <!-- โยงหน้า -->
     <br />
     <div class="text-center">
-      <q-btn @click="openShopList" label="Go Shop List" type="submit" color="blue-10"></q-btn>
+      <q-btn @click="openShopList" label="อนุมัติร้านค้า" type="submit" color="blue-10"></q-btn>
     </div>
   </q-page>
 </template>
