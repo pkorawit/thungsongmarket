@@ -288,8 +288,14 @@
             />
           </div>
         </div>
+
         <div class="row q-mt-md">
           <div class="col-12"></div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <div class="text-subtitle2 text-weight-bolder">ติดต่อร้าน</div>
+          </div>
         </div>
         <div class="row">
           <div class="col-12 col-sm-6 step">

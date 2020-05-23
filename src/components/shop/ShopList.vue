@@ -15,7 +15,7 @@
             size="12px"
             style="padding: 7px 0 0 5px; margin: 0 8px 0 0"
           />
-          {{ shop.category }}
+          <a href="">{{ shop.category }}</a>
         </div>
       </div>
       <div class="description-caption rating" @click="toShop">
