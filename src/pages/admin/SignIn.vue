@@ -10,7 +10,7 @@
         <div class="row">
           <div class="col"></div>
           <div class="col-10">
-            <q-input filled v-model="email" type="email" suffix="@gmail.com" hint="Email">
+            <q-input filled v-model="Email" type="email" suffix="@lardchumtang.com" hint="Email">
               <template v-slot:before>
                 <q-icon name="mail" />
               </template>
@@ -19,10 +19,11 @@
           <div class="col"></div>
         </div>
         <br />
+
         <div class="row">
           <div class="col"></div>
           <div class="col-10">
-            <q-input filled v-model="password" :type="isPwd ? 'password' : 'text'" hint="Password">
+            <q-input filled v-model="pass" :type="isPwd ? 'password' : 'text'" hint="Password">
               <template v-slot:before>
                 <q-icon
                   :name="isPwd ? 'visibility_off' : 'visibility'"
@@ -49,18 +50,43 @@
   </q-page>
 </template>
 
-
 <script>
 export default {
   data() {
     return {
+      Email: "",
+      pass: "",
       isPwd: true
+      // admin@lardchumtang.com
+      // 123456
     };
+  },
+  async mounted() {
+    await this.$firebase.auth().onAuthStateChanged(user => {
+      if (user) {
+        // console.log(user);
+        this.$router.push({ name: "dashboard" });
+      } else {
+        // console.log("NOOOO");
+      }
+    });
   },
   methods: {
     openDash() {
-      console.log("openDash");
-      this.$router.push({ name: "dashboard" });
+      var email = this.Email + "@lardchumtang.com";
+      var password = this.pass;
+      // console.log(email);
+      // console.log(password);
+      this.$firebase
+        .auth()
+        .signInWithEmailAndPassword(email, password)
+        .catch(function(error) {
+          // Handle Errors here.
+          var errorCode = error.code;
+          var errorMessage = error.message;
+          // ...
+        });
+      // this.$router.push({ name: "dashboard" });
     }
   }
 };

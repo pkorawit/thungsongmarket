@@ -1,6 +1,6 @@
 <template>
-  <q-page id="shopList" class="q-pa-md">
-    <q-card>
+  <q-page id="shopList" >
+    <q-card class="bg-warning">
       <q-tabs
         v-model="tab"
         dense
@@ -11,7 +11,7 @@
         narrow-indicator
       >
         <q-tab name="mails" label="รออนุมัติ"></q-tab>
-        <q-tab name="alarms" label="ทั้งหมด"></q-tab>
+        <q-tab name="alarms" label="อนุมัติแล้ว"></q-tab>
       </q-tabs>
 
       <q-separator></q-separator>

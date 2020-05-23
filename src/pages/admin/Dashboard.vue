@@ -8,7 +8,6 @@
       <div class="col-11 col-md-3">
         <q-card class="bg-orange-6 text-white">
           <q-card-section>
-            <!-- <div class="text-h6">ร้านค้า 50 ร้าน</div> -->
             <div class="text-h6">ร้านค้า {{ shops.length }} ร้าน</div>
             <!-- <div class="text-subtitle2">by John Doe</div> -->
           </q-card-section>
