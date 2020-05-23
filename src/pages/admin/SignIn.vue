@@ -62,14 +62,14 @@ export default {
     };
   },
   async mounted() {
-    await this.$firebase.auth().onAuthStateChanged(user => {
-      if (user) {
-        // console.log(user);
-        this.$router.push({ name: "dashboard" });
-      } else {
-        // console.log("NOOOO");
-      }
-    });
+    // await this.$firebase.auth().onAuthStateChanged(user => {
+    //   if (user) {
+    //     console.log("onAuthStateChanged");
+    //     this.$router.push({ name: "dashboard" });
+    //   } else {
+    //     // console.log("NOOOO");
+    //   }
+    // });
   },
   methods: {
     openDash() {
@@ -80,6 +80,9 @@ export default {
       this.$firebase
         .auth()
         .signInWithEmailAndPassword(email, password)
+        .then(user => {
+            this.$router.push({ name: "dashboard" });
+        })
         .catch(function(error) {
           // Handle Errors here.
           var errorCode = error.code;
