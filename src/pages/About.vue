@@ -20,12 +20,6 @@
         <q-img src="../assets/spon5.jpg" class="img" contain />
       </div>
     </q-card>
-    <!-- <div class="col-12 col-md-2 m1" style="height:300px;"></div>
-    <div class="col-12 col-md-2 m2" style="height:300px"></div>
-    <div class="col-12 col-md-2 m3" style="height:300px"></div>
-    <div class="col-12 col-md-2 m4" style="height:300px"></div>
-    <div class="col-12 col-md-2 m5" style="height:300px"></div>-->
-    <!-- </div> -->
   </q-page>
 </template>
 
