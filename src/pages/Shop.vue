@@ -56,22 +56,26 @@ export default {
     };
   },
   async mounted() {
-    this.loading = true;
-    this.$geolocation.getCurrentPosition(
-      async pos => {
-        const lat = pos.coords.latitude;
-        const lng = pos.coords.longitude;
-        // Get first page manually, later page will use pull to refresh
-        const response = await getLastUpdatedShopByPage(this.pageNumber);
-        const shops = response.data;
-        this.shops = shops;
-        this.pageNumber++;
-        this.loading = false;
-      },
-      err => {
-        console.log(err);
-      }
-    );
+
+    // Get cached shops
+    if (sessionStorage.shops){ 
+      this.shops = JSON.parse(sessionStorage.shops);
+      console.log("Get cached data");      
+    }
+    if (sessionStorage.pageNumber)
+      this.pageNumber = parseInt(sessionStorage.pageNumber);
+    if (sessionStorage.isLastPage) 
+      this.isLastPage = sessionStorage.isLastPage;
+
+    if (this.shops.length == 0) {
+      this.loading = true;
+      // Get first page manually, later page will use pull to refresh
+      const response = await getLastUpdatedShopByPage(this.pageNumber);
+      const shops = response.data;
+      this.shops = shops;
+      this.pageNumber++;
+      this.loading = false;
+    }
   },
   methods: {
     async getMoreData() {
@@ -82,6 +86,8 @@ export default {
         for (let shop in shops) {
           this.shops.push(shops[shop]);
         }
+        sessionStorage.shops = JSON.stringify(this.shops);
+        sessionStorage.pageNumber = this.pageNumber;
         return true;
       } else {
         return false;
@@ -99,10 +105,12 @@ export default {
         console.log("Loading...");
         const haveMoreData = await this.getMoreData();
         console.log(haveMoreData);
-        if (haveMoreData == false) this.isLastPage = true;
+        if (haveMoreData == false) {
+          this.isLastPage = true;
+          sessionStorage.isLastPage = this.isLastPage;
+        }
         done();
-      }
-      else{
+      } else {
         done();
       }
     }
