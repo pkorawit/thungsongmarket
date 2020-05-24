@@ -1,63 +1,53 @@
 import axios from "axios";
 import { BASE_API_URL, lookups } from "./configs";
+import * as firebase from "firebase";
 
 export function getNearbyShop(location) {
-  return getLastUpdatedShop()
+  return getLastUpdatedShop();
 }
 
 export function getShopByCategory(category) {
-  return axios
-    .get(`${BASE_API_URL}/Shops/category/${category}`);
+  return axios.get(`${BASE_API_URL}/Shops/category/${category}`);
 }
 
 export function getLastUpdatedShop() {
-  return axios
-    .get(`${BASE_API_URL}/Shops/search/updated`);
+  return axios.get(`${BASE_API_URL}/Shops/search/updated`);
 }
 
 export function getLastUpdatedShopByPage(pageNumber) {
-  return axios
-    .get(`${BASE_API_URL}/Shops/search/updated/${pageNumber}`);
+  return axios.get(`${BASE_API_URL}/Shops/search/updated/${pageNumber}`);
 }
 
 export function getShops() {
-  return axios
-    .get(`${BASE_API_URL}/Shops`);
+  return axios.get(`${BASE_API_URL}/Shops`);
 }
 
 export function getShopById(id) {
-  return axios
-    .get(`${BASE_API_URL}/Shops/${id}`);
+  return axios.get(`${BASE_API_URL}/Shops/${id}`);
 }
 
 export function getOwnedShop(uid) {
-  return axios
-    .get(`${BASE_API_URL}/Shops/search/owner/${uid}`);
+  return axios.get(`${BASE_API_URL}/Shops/search/owner/${uid}`);
 }
 
 export function getAuthorizedShop() {
-  return axios
-    .get(`${BASE_API_URL}/Shops/search/authorized/`);
+  return axios.get(`${BASE_API_URL}/Shops/search/authorized/`);
 }
 
 export function getPendingShop() {
-  return axios
-    .get(`${BASE_API_URL}/Shops/search/pending/`);
+  return axios.get(`${BASE_API_URL}/Shops/search/pending/`);
 }
 
 export function getShopByUser(uid) {
   return axios.get(`${BASE_API_URL}/Shops/search/owner/${uid}`);
 }
 
-
 export function setAuthorizeStatus(id, status) {
-  return axios
-    .put(`${BASE_API_URL}/Shops/${id}/authorize/${status}`);
+  return axios.put(`${BASE_API_URL}/Shops/${id}/authorize/${status}`);
 }
 
 export function setShopStatus(id, status) {
-  return axios
-    .put(`${BASE_API_URL}/Shops/${id}/status/${status}`);
+  return axios.put(`${BASE_API_URL}/Shops/${id}/status/${status}`);
 }
 
 export function addNewShop(shop) {
@@ -86,4 +76,12 @@ export function getServiceType() {
 
 export function getPaymentType() {
   return lookups.paymentTypes;
+}
+
+export async function uploadImage(file) {
+  console.log(file);
+  const storageRef = firebase.storage().ref();
+  const imageRef = storageRef.child(`media/images/${Date.now()}.jpg`);
+  await imageRef.put(file, { contentType: file.type });
+  return imageRef.getDownloadURL();
 }
