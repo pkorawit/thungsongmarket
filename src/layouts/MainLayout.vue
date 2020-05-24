@@ -187,7 +187,7 @@ export default {
   watch: {
     route: function(to, from) {
       if (this.baseRoutes.includes(to.name)) {
-        this.$store.commit("SET_NAV_TITLE", "WeMarket");
+        this.$store.commit("SET_NAV_TITLE", "หลาดชุมทางทุ่งสง");
         this.clearStack();
       } else {
         this.pushStack(from);

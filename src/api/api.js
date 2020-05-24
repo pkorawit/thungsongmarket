@@ -10,14 +10,19 @@ export function getShopByCategory(category) {
     .get(`${BASE_API_URL}/Shops/category/${category}`);
 }
 
-export function getLastUpdatedShop() {
+export function getAllLastUpdatedShop() {
   return axios
     .get(`${BASE_API_URL}/Shops/search/updated`);
 }
 
-export function getLastUpdatedShopByPage(pageNumber) {
+export function getLastUpdatedShop(pageNumber) {
   return axios
     .get(`${BASE_API_URL}/Shops/search/updated/${pageNumber}`);
+}
+
+export function searchShopByKeyword(keyword, pageNumber) {
+  return axios
+    .get(`${BASE_API_URL}/Shops/search/keyword/${keyword}/${pageNumber}`);
 }
 
 export function getShops() {

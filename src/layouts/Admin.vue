@@ -5,7 +5,7 @@
         <q-toolbar-title>
           <q-avatar rounded>
             <q-img src="~assets/logo.png" />
-          </q-avatar>ระบบจัดการ
+          </q-avatar> ระบบจัดการ
         </q-toolbar-title>
         <q-btn flat round dense icon="more_vert">
           <q-menu>
