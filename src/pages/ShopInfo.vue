@@ -50,15 +50,11 @@
             <q-list>
               <q-item dense v-for="(food, index) in shop.products" :key="index">
                 <q-item-section>
-                  <q-item-label style="font-size:15px"
-                    >• {{ food.productName }}</q-item-label
-                  >
+                  <q-item-label style="font-size:15px">• {{ food.productName }}</q-item-label>
                 </q-item-section>
 
                 <q-item-section side class="text-right">
-                  <q-item-label style="font-size:15px"
-                    >฿ {{ food.price }}</q-item-label
-                  >
+                  <q-item-label style="font-size:15px">฿ {{ food.price }}</q-item-label>
                 </q-item-section>
               </q-item>
             </q-list>
@@ -97,15 +93,8 @@
           <q-card-section>
             <q-list>
               <q-item dense>
-                <q-item-section
-                  thumbnail
-                  style="padding-right: 13px; margin-left: -20px;"
-                >
-                  <q-icon
-                    name="location_on"
-                    class="text-orange"
-                    style="font-size: 22px;"
-                  />
+                <q-item-section thumbnail style="padding-right: 13px; margin-left: -20px;">
+                  <q-icon name="location_on" class="text-orange" style="font-size: 22px;" />
                 </q-item-section>
                 <q-item-section style="font-size:15px;">
                   อยู่ที่ : {{ shop.address.detail }}
@@ -130,20 +119,14 @@
                       class="q-ma-xs"
                       v-for="service in shop.serviceType"
                       :key="service"
-                    >
-                      {{ service }}
-                    </div>
+                    >{{ service }}</div>
                   </div>
                 </q-item-section>
               </q-item>
               <q-item dense>
                 <!--  -->
                 <q-item-section thumbnail>
-                  <q-icon
-                    name="far fa-money-bill-alt"
-                    class="text-green"
-                    style="font-size: 15px;"
-                  />
+                  <q-icon name="far fa-money-bill-alt" class="text-green" style="font-size: 15px;" />
                 </q-item-section>
                 <q-item-section style="font-size:15px">
                   <div class="row">
@@ -151,9 +134,7 @@
                       class="q-ma-xs"
                       v-for="payment in shop.paymentType"
                       :key="payment"
-                    >
-                      {{ payment }}
-                    </div>
+                    >{{ payment }}</div>
                   </div>
                 </q-item-section>
               </q-item>
@@ -170,16 +151,10 @@
           <q-separator inset />
           <q-card-section>
             <div style="font-size:15px">
-              <p v-if="shop.contact.telNo">
-                เบอร์โทร : {{ shop.contact.telNo }}
-              </p>
+              <p v-if="shop.contact.telNo">เบอร์โทร : {{ shop.contact.telNo }}</p>
               <p v-if="shop.contact.line">line : {{ shop.contact.line }}</p>
-              <p v-if="shop.contact.facebook">
-                facebook : {{ shop.contact.facebook }}
-              </p>
-              <p v-if="shop.contact.others">
-                อื่นๆ : {{ shop.contact.others }}
-              </p>
+              <p v-if="shop.contact.facebook">facebook : {{ shop.contact.facebook }}</p>
+              <p v-if="shop.contact.others">อื่นๆ : {{ shop.contact.others }}</p>
             </div>
           </q-card-section>
         </q-card>
