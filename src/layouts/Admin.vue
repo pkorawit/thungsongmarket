@@ -12,7 +12,7 @@
             <q-btn flat icon="arrow_left" @click="back" size="lg" dense>{{ title }}</q-btn>
           </div>
         </q-toolbar-title>
-        <q-btn flat round dense icon="more_vert">
+        <q-btn flat round dense icon="more_vert" v-if="!hideMenu">
           <q-menu>
             <q-list style="min-width: 200px">
               <q-item clickable v-close-popup>
@@ -105,6 +105,9 @@ export default {
     },
     currentUser() {
       return this.$currentUser;
+    },
+    hideMenu() {
+      return this.route.name === "adminsignin" ? true : false;
     }
   },
   watch: {
