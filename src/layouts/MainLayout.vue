@@ -6,8 +6,7 @@
           <div v-if="isTopLevel">
             <q-avatar rounded>
               <q-img src="~assets/logo.png" />
-            </q-avatar>
-            หลาดชุมทางทุ่งสง
+            </q-avatar>หลาดชุมทางทุ่งสง
           </div>
           <div v-if="!isTopLevel">
             <q-btn flat icon="arrow_left" @click="back" size="lg" dense>
@@ -60,13 +59,7 @@
           </q-toolbar>
         </div>
         <div v-if="$currentUser && route.name === 'account'">
-          <q-btn
-            flat
-            icon-right="logout"
-            label="ออกจากระบบ"
-            @click="logout"
-            dense
-          />
+          <q-btn flat icon-right="logout" label="ออกจากระบบ" @click="logout" dense />
         </div>
       </q-toolbar>
     </q-header>
@@ -91,12 +84,7 @@
         v-model="tab"
         dense
       >
-        <q-route-tab
-          name="shop"
-          :to="{ name: 'shop' }"
-          icon="fas fa-store"
-          label="ร้านค้า"
-        />
+        <q-route-tab name="shop" :to="{ name: 'shop' }" icon="fas fa-store" label="ร้านค้า" />
         <q-route-tab
           name="category"
           :to="{ name: 'category' }"
@@ -186,6 +174,7 @@ export default {
   },
   watch: {
     route: function(to, from) {
+      console.log(to.name);
       if (this.baseRoutes.includes(to.name)) {
         this.$store.commit("SET_NAV_TITLE", "หลาดชุมทางทุ่งสง");
         this.clearStack();

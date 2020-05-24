@@ -1,8 +1,16 @@
-export default function() {
+export default function () {
   return {
     navTitle: "",
     backTo: [],
     isTopLevel: true,
-    baseRoutes: ["shop", "category", "account", "about"]
+    baseRoutes: [
+      "shop",
+      "category",
+      "account",
+      "about",
+      "admin",
+      "adminsignin",
+      "dashboard",
+    ],
   };
 }
