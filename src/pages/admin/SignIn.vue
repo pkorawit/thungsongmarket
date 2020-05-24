@@ -1,8 +1,7 @@
 <template>
-  <q-page>
-    <div class="q-pa-md row">
-      <div class="col"></div>
-
+  <q-page class="q-pa-md">
+    <div class="text-h4 text-center" style="padding: 0px 0px 15px 0px;">หลาดชุมทางทุ่งสง</div>
+    <div class="row justify-center">
       <q-card class="my-card col-12 col-md-4">
         <q-card-section class="text-center">Log in to you Admin</q-card-section>
         <div class="row">
@@ -36,15 +35,16 @@
 
         <div class="col-6 text-center">
           <q-btn @click="openDash" label="Submit" type="submit" color="blue-10">
-            <q-icon name="fas fa-angle-right" style="font-size: 1.5rem; padding: 0px 0px 0px 25px;" />
+            <q-icon
+              name="fas fa-angle-right"
+              style="font-size: 1.5rem; padding: 0px 0px 0px 25px;"
+            />
           </q-btn>
         </div>
 
         <br />
         <br />
       </q-card>
-
-      <div class="col"></div>
     </div>
   </q-page>
 </template>
@@ -60,16 +60,7 @@ export default {
       // 123456
     };
   },
-  async mounted() {
-    // await this.$firebase.auth().onAuthStateChanged(user => {
-    //   if (user) {
-    //     console.log("onAuthStateChanged");
-    //     this.$router.push({ name: "dashboard" });
-    //   } else {
-    //     // console.log("NOOOO");
-    //   }
-    // });
-  },
+  mounted() {},
   methods: {
     openDash() {
       var email = this.Email + "@lardchumtang.com";
