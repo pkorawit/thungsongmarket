@@ -34,8 +34,11 @@
     </div>
     <!-- โยงหน้า -->
     <br />
+
     <div class="text-center">
-      <q-btn @click="openShopList" label="อนุมัติร้านค้า" type="submit" color="blue-10"></q-btn>
+      <q-btn @click="openShopList" label="อนุมัติร้านค้า" type="submit" color="blue-10">
+        <q-icon name="fas fa-angle-right" style="font-size: 1.5rem; padding: 0px 0px 0px 25px;" />
+      </q-btn>
     </div>
   </q-page>
 </template>

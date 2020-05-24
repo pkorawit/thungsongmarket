@@ -5,8 +5,6 @@
 
       <q-card class="my-card col-12 col-md-4">
         <q-card-section class="text-center">Log in to you Admin</q-card-section>
-
-        <!-- <q-form @submit="onSubmit" action="ShopList.vue"> -->
         <div class="row">
           <div class="col"></div>
           <div class="col-10">
@@ -19,7 +17,6 @@
           <div class="col"></div>
         </div>
         <br />
-
         <div class="row">
           <div class="col"></div>
           <div class="col-10">
@@ -38,9 +35,11 @@
         <br />
 
         <div class="col-6 text-center">
-          <q-btn @click="openDash" label="Submit" type="submit" color="blue-10"></q-btn>
+          <q-btn @click="openDash" label="Submit" type="submit" color="blue-10">
+            <q-icon name="fas fa-angle-right" style="font-size: 1.5rem; padding: 0px 0px 0px 25px;" />
+          </q-btn>
         </div>
-        <!-- </q-form> -->
+
         <br />
         <br />
       </q-card>
@@ -81,7 +80,7 @@ export default {
         .auth()
         .signInWithEmailAndPassword(email, password)
         .then(user => {
-            this.$router.push({ name: "dashboard" });
+          this.$router.push({ name: "dashboard" });
         })
         .catch(function(error) {
           // Handle Errors here.
