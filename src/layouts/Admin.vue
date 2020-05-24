@@ -12,13 +12,16 @@
             <q-list style="min-width: 200px">
               <q-item clickable v-close-popup>
                 <q-item-section @click="dashboard">หน้าแรก</q-item-section>
+                <q-icon name="fas fa-angle-right" class="icon" />
               </q-item>
               <q-item clickable v-close-popup>
                 <q-item-section @click="shopList">รายชื่อร้านค้า</q-item-section>
+                <q-icon name="fas fa-angle-right" class="icon" />
               </q-item>
               <q-separator />
               <q-item clickable v-close-popup>
                 <q-item-section @click="logout">ออกจากระบบ</q-item-section>
+                <q-icon name="fas fa-sign-out-alt" class="icon" />
               </q-item>
             </q-list>
           </q-menu>
@@ -70,4 +73,8 @@ export default {
 </script>
 
 <style>
+.icon {
+  font-size: 1rem;
+  padding: 15px 20px 0px 0px;
+}
 </style>
