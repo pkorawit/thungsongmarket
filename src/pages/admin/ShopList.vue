@@ -1,5 +1,5 @@
 <template>
-  <q-page id="shopList" >
+  <q-page id="shopList">
     <q-card class="bg-warning">
       <q-tabs
         v-model="tab"
@@ -18,6 +18,10 @@
 
       <q-tab-panels v-model="tab" animated>
         <q-tab-panel name="mails">
+          <div v-if="pendingShops.length == 0">
+            <div class="text-h5 text-center">ไม่มีร้านที่รออนุมัติ</div>
+          </div>
+
           <div class="q-pa-md row items-start q-gutter-md">
             <q-card
               class="my-card col-12 col-md-2"
@@ -28,9 +32,7 @@
                 <div
                   class="absolute-bottom text-right"
                   style="font-size: 12px;"
-                >
-                  {{ lastUpdate(pendings.lastUpdated) }}
-                </div>
+                >{{ lastUpdate(pendings.lastUpdated) }}</div>
               </q-img>
 
               <q-card-section>
@@ -50,10 +52,7 @@
                       <q-img :src="pendings.owner.photoURL" height="70px" />
                     </q-avatar>
                   </div>
-                  <div
-                    class="col"
-                    style="padding: 15px 0px 0px 0px; font-size: 17px;"
-                  >
+                  <div class="col" style="padding: 15px 0px 0px 0px; font-size: 17px;">
                     <p>
                       {{ pendings.owner.firstName }}
                       {{ pendings.owner.lastName }}
@@ -72,18 +71,6 @@
                   </div>
                   <div style="font-size: 17px;">{{ pendings.owner.telNo }}</div>
                 </div>
-
-                <!-- <div class="description-caption rating">
-                  <div class="q-mr-xs">
-                    <q-icon
-                      name="money"
-                      color="green"
-                      size="15px"
-                      style="padding: 0px 0px 0px 0px;"
-                    />
-                  </div>
-                  <div>{{ pendings.paymentType[0] }}</div>
-                </div>-->
 
                 <div class="row q-gutter-md" style="padding: 10px 0px 0px 0px;">
                   <div class="col text-right">
@@ -107,9 +94,14 @@
               </q-card-section>
             </q-card>
           </div>
+
         </q-tab-panel>
 
         <q-tab-panel name="alarms">
+          <div v-if="authorizedShop.length == 0">
+            <div class="text-h5 text-center">ไม่มีร้านที่ผ่านการอนุมัติ</div>
+          </div>
+
           <div class="q-pa-md row items-start q-gutter-md">
             <q-card
               class="my-card col-12 col-md-2"
@@ -120,9 +112,7 @@
                 <div
                   class="absolute-bottom text-right"
                   style="font-size: 12px;"
-                >
-                  {{ lastUpdate(authorizeds.lastUpdated) }}
-                </div>
+                >{{ lastUpdate(authorizeds.lastUpdated) }}</div>
               </q-img>
               <q-card-section>
                 <div class="text-h5">{{ authorizeds.shopName }}</div>
@@ -142,10 +132,7 @@
                       <q-img :src="authorizeds.owner.photoURL" height="70px" />
                     </q-avatar>
                   </div>
-                  <div
-                    class="col"
-                    style="padding: 15px 0px 0px 0px; font-size: 17px;"
-                  >
+                  <div class="col" style="padding: 15px 0px 0px 0px; font-size: 17px;">
                     <p>
                       {{ authorizeds.owner.firstName }}
                       {{ authorizeds.owner.lastName }}
@@ -162,9 +149,7 @@
                       style="padding: 0px 0px 0px 0px;"
                     />
                   </div>
-                  <div style="font-size: 17px;">
-                    {{ authorizeds.owner.telNo }}
-                  </div>
+                  <div style="font-size: 17px;">{{ authorizeds.owner.telNo }}</div>
                 </div>
 
                 <div class="row q-gutter-md" style="padding: 10px 0px 0px 0px;">
