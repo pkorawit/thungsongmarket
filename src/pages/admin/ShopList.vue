@@ -94,7 +94,6 @@
               </q-card-section>
             </q-card>
           </div>
-
         </q-tab-panel>
 
         <q-tab-panel name="alarms">
@@ -248,9 +247,6 @@ export default {
       this.$q.loading.hide();
     },
     openPending(id) {
-      // console.log("openPending");
-      // console.log(id);
-
       this.$router.push({
         name: "shopinfoAdmin",
         params: { id: id }
