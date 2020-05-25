@@ -94,7 +94,6 @@
               </q-card-section>
             </q-card>
           </div>
-
         </q-tab-panel>
 
         <q-tab-panel name="alarms">
@@ -237,6 +236,7 @@ export default {
         });
     },
     async getdata() {
+      this.$q.loading.show();
       const responsePending = await getPendingShop();
       this.pendingShops = responsePending.data;
       // console.log(this.pendingShops);
@@ -244,11 +244,9 @@ export default {
       const responseAuthorized = await getAuthorizedShop();
       this.authorizedShop = responseAuthorized.data;
       // console.log(this.authorizedShop);
+      this.$q.loading.hide();
     },
     openPending(id) {
-      // console.log("openPending");
-      // console.log(id);
-
       this.$router.push({
         name: "shopinfoAdmin",
         params: { id: id }
