@@ -7,9 +7,10 @@
       filled
       square
       class="window-width q-mb-sm shadow-3 bg-white"
+      v-model="keyword"
     >
       <template v-slot:append>
-        <q-icon color="primary" name="search" />
+        <q-icon color="primary" name="search" @click="searchShop" />
       </template>
     </q-input>
     <div v-if="loading">
@@ -20,6 +21,7 @@
         <div class="col-12 col-sm-3 shoplist" v-for="shop in shops" :key="shop.id">
           <shop-list :shop="shop" @shop-selected="toShop" />
         </div>
+        <div class="col-12 q-pa-md text-center" v-show="shops.length == 0">ไม่พบข้อมูลร้านค้า</div>
       </div>
       <template v-slot:loading>
         <div class="row justify-center q-my-md">
@@ -27,16 +29,16 @@
         </div>
       </template>
     </q-infinite-scroll>
-    <q-page-sticky position="bottom-right" :offset="[18, 18]" v-if="!isOwnShop && !loading">
+    <!-- <q-page-sticky position="bottom-right" :offset="[18, 18]" v-if="!isOwnShop && !loading">
       <q-fab color="primary" icon="fas fa-store" direction="up">
         <q-fab-action @click="toMyShop" color="secondary" label=" ฝากร้าน " icon="fas fa-store" />
       </q-fab>
-    </q-page-sticky>
+    </q-page-sticky>-->
   </q-page>
 </template>
 
 <script>
-import { getLastUpdatedShopByPage } from "../api/api";
+import { getLastUpdatedShop, searchShopByKeyword } from "../api/api";
 import ShopListLoadingPlaceholder from "../components/shop/ShopListLoadingPlaceholder.vue";
 import ShopList from "../components/shop/ShopList.vue";
 
@@ -52,25 +54,19 @@ export default {
       loading: false,
       isOwnShop: false,
       pageNumber: 1,
-      isLastPage: false
+      isLastPage: false,
+      keyword: "",
+      searchMode: false
     };
   },
   async mounted() {
 
-    // Get cached shops
-    if (sessionStorage.shops){ 
-      this.shops = JSON.parse(sessionStorage.shops);
-      console.log("Get cached data");      
-    }
-    if (sessionStorage.pageNumber)
-      this.pageNumber = parseInt(sessionStorage.pageNumber);
-    if (sessionStorage.isLastPage) 
-      this.isLastPage = sessionStorage.isLastPage;
+    this.getCachedShops();
 
     if (this.shops.length == 0) {
       this.loading = true;
       // Get first page manually, later page will use pull to refresh
-      const response = await getLastUpdatedShopByPage(this.pageNumber);
+      const response = await getLastUpdatedShop(this.pageNumber);
       const shops = response.data;
       this.shops = shops;
       this.pageNumber++;
@@ -78,8 +74,37 @@ export default {
     }
   },
   methods: {
+    getCachedShops() {
+      // Get cached shops
+      if (sessionStorage.shops) {
+        this.shops = JSON.parse(sessionStorage.shops);
+        console.log("Get cached data");
+      }
+      if (sessionStorage.pageNumber)
+        this.pageNumber = parseInt(sessionStorage.pageNumber);
+      if (sessionStorage.isLastPage)
+        this.isLastPage = sessionStorage.isLastPage;
+      if (sessionStorage.keyword)
+        this.keyword = sessionStorage.keyword;
+    },
+
+    clearCachedShops() {
+      if (sessionStorage.shops) {
+        sessionStorage.removeItem("shops");
+        console.log("Clear cached data");
+      }
+      if (sessionStorage.pageNumber) sessionStorage.removeItem("pageNumber");
+      if (sessionStorage.isLastPage) sessionStorage.removeItem("isLastPage");
+      if (sessionStorage.keyword) sessionStorage.removeItem("keyword");
+    },
+
     async getMoreData() {
-      const response = await getLastUpdatedShopByPage(this.pageNumber++);
+      let response = null;
+
+      if (this.searchMode)
+        response = await searchShopByKeyword(this.keyword, this.pageNumber++);
+      else response = await getLastUpdatedShop(this.pageNumber++);
+
       const shops = response.data;
       console.log("shop ", shops);
       if (shops.length > 0) {
@@ -92,6 +117,34 @@ export default {
       } else {
         return false;
       }
+    },
+    async searchShop() {
+
+      console.log("searchShop");
+
+      if(this.keyword == ""){
+        return;
+      }
+
+      this.loading = true;
+
+      this.clearCachedShops();   
+
+      this.searchMode = true;
+      this.pageNumber = 1;
+
+      const response = await searchShopByKeyword(
+        this.keyword,
+        this.pageNumber++
+      );
+      const shops = response.data;
+      this.shops = shops;
+
+      sessionStorage.keyword = this.keyword
+      sessionStorage.shops = JSON.stringify(this.shops);
+
+      this.loading = false;
+      console.log(shops);
     },
     toMyShop() {
       this.$router.push({ name: "myshop" });

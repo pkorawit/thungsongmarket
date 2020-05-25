@@ -1,17 +1,11 @@
 <template>
   <div>
-    <q-stepper
-      v-model="step"
-      ref="stepper"
-      active-color="primary"
-      animated
-      flat
-    >
+    <q-stepper v-model="step" ref="stepper" active-color="primary" animated flat>
       <q-step :name="1" title="ทั่วไป" icon="settings" :done="step > 1">
         <q-btn-toggle
           v-model="open"
           spread
-          class="toggle "
+          class="toggle"
           no-caps
           toggle-color="orange"
           color="grey"
@@ -24,7 +18,7 @@
           @click="OpenStore(open)"
         />
 
-        <div class="row q-mt-sm ">
+        <div class="row q-mt-sm">
           <div class="col-12 col-sm-6 step">
             <q-input
               filled
@@ -59,9 +53,7 @@
         </div>
         <div class="row">
           <div class="col-12 step">
-            <div class="text-subtitle2 text-weight-bolder q-mt-sm">
-              รูปแบบบริการ
-            </div>
+            <div class="text-subtitle2 text-weight-bolder q-mt-sm">รูปแบบบริการ</div>
           </div>
         </div>
         <div class="row">
@@ -76,20 +68,10 @@
                 :val="n"
                 color="orange"
               />
-              <q-checkbox
-                v-model="otherServiceType"
-                label="อื่นๆ"
-                val="อื่นๆ"
-                color="orange"
-              />
+              <q-checkbox v-model="otherServiceType" label="อื่นๆ" val="อื่นๆ" color="orange" />
             </div>
             <div class="col-12" v-if="otherServiceType">
-              <q-input
-                v-model="textServiceType"
-                filled
-                bottom-slots
-                label="อื่นๆ"
-              ></q-input>
+              <q-input v-model="textServiceType" filled bottom-slots label="อื่นๆ"></q-input>
             </div>
           </div>
           <div class="col-12 col-sm-6 step">
@@ -103,20 +85,10 @@
                 :val="n"
                 color="orange"
               />
-              <q-checkbox
-                v-model="otherPaymentType"
-                label="อื่นๆ"
-                val="อื่นๆ"
-                color="orange"
-              />
+              <q-checkbox v-model="otherPaymentType" label="อื่นๆ" val="อื่นๆ" color="orange" />
             </div>
             <div class="col-12" v-if="otherPaymentType">
-              <q-input
-                v-model="textPaymentType"
-                filled
-                bottom-slots
-                label="อื่นๆ"
-              ></q-input>
+              <q-input v-model="textPaymentType" filled bottom-slots label="อื่นๆ"></q-input>
             </div>
           </div>
         </div>
@@ -153,19 +125,9 @@
             <div class="text-subtitle2 text-weight-bolder">รายการสินค้า</div>
           </div>
         </div>
-        <div
-          class="row q-col-gutter-sm"
-          v-for="(product, index) in model.products"
-          :key="index"
-        >
+        <div class="row q-col-gutter-sm" v-for="(product, index) in model.products" :key="index">
           <div class="col-6">
-            <q-input
-              bottom-slots
-              filled
-              dense
-              v-model="product.productName"
-              label="ชื่อสินค้า"
-            ></q-input>
+            <q-input bottom-slots filled dense v-model="product.productName" label="ชื่อสินค้า"></q-input>
           </div>
           <div class="col-4">
             <q-input
@@ -203,36 +165,21 @@
       <q-step :name="3" title="สถานที่" icon="fas fa-map-marker-alt">
         <div class="row column items-center">
           <div class="col-12">
-            <CircleProfileImage
-              :src="model.owner.photoURL"
-              @imageSelected="imageProfileSelected"
-            />
+            <CircleProfileImage :src="model.owner.photoURL" @imageSelected="imageProfileSelected" />
           </div>
         </div>
 
         <div class="row">
           <div class="col-12 col-sm-6 step">
-            <q-input
-              v-model="model.owner.firstName"
-              bottom-slots
-              label="ชื่อ"
-            ></q-input>
+            <q-input v-model="model.owner.firstName" bottom-slots label="ชื่อ"></q-input>
           </div>
           <div class="col-12 col-sm-6 step">
-            <q-input
-              v-model="model.owner.lastName"
-              bottom-slots
-              label="นามสกุล"
-            ></q-input>
+            <q-input v-model="model.owner.lastName" bottom-slots label="นามสกุล"></q-input>
           </div>
         </div>
         <div class="row">
           <div class="col-12">
-            <q-input
-              v-model="model.owner.telNo"
-              bottom-slots
-              label="เบอร์โทรศัพท์"
-            ></q-input>
+            <q-input v-model="model.owner.telNo" bottom-slots label="เบอร์โทรศัพท์"></q-input>
           </div>
         </div>
         <div class="row">
@@ -242,25 +189,15 @@
         </div>
         <div class="row">
           <div class="col-12 col-sm-6 step">
-            <q-input
-              bottom-slots
-              v-model="model.address.province"
-              readonly
-              label="จังหวัด"
-            ></q-input>
+            <q-input bottom-slots v-model="model.address.province" readonly label="จังหวัด"></q-input>
           </div>
           <div class="col-12 col-sm-6 step">
             <!-- <q-select
               v-model="model.address.district"
               :options="districtOptions"
               label="อำเภอ"
-            /> -->
-            <q-input
-              bottom-slots
-              v-model="model.address.district"
-              readonly
-              label="อำเภอ"
-            ></q-input>
+            />-->
+            <q-input bottom-slots v-model="model.address.district" readonly label="อำเภอ"></q-input>
           </div>
         </div>
         <div class="row">
@@ -272,20 +209,12 @@
             />
           </div>
           <div class="col-12 col-sm-6 step">
-            <q-input
-              bottom-slots
-              v-model="model.address.postalCode"
-              label="รหัสไปรษณีย์"
-            ></q-input>
+            <q-input bottom-slots v-model="model.address.postalCode" label="รหัสไปรษณีย์"></q-input>
           </div>
         </div>
         <div class="row">
           <div class="col-12">
-            <q-input
-              v-model="model.address.detail"
-              autogrow
-              label="รายละเอียดที่อยู่"
-            />
+            <q-input v-model="model.address.detail" autogrow label="รายละเอียดที่อยู่" />
           </div>
         </div>
 
@@ -299,10 +228,7 @@
         </div>
         <div class="row">
           <div class="col-12 col-sm-6 step">
-            <q-input
-              v-model="model.contact.telNo"
-              label="เบอร์โทรศัพท์ติดต่อร้าน"
-            />
+            <q-input v-model="model.contact.telNo" label="เบอร์โทรศัพท์ติดต่อร้าน" />
           </div>
           <div class="col-12 col-sm-6 step">
             <q-input v-model="model.contact.line" label="Line" />
@@ -320,12 +246,7 @@
 
       <template v-slot:navigation>
         <q-stepper-navigation>
-          <q-btn
-            v-if="step < 3"
-            @click="nextStep(step)"
-            color="primary"
-            label="ถัดไป"
-          />
+          <q-btn v-if="step < 3" @click="nextStep(step)" color="primary" label="ถัดไป" />
           <q-btn
             v-if="step === 3"
             icon="fas fa-thumbs-up"
@@ -356,7 +277,8 @@ import {
   updateShop,
   getCategory,
   getServiceType,
-  getPaymentType
+  getPaymentType,
+  uploadImage
 } from "../api/api";
 import CircleProfileImage from "../components/account/CircleProfileImage";
 import { Dialog } from "quasar";
@@ -459,7 +381,7 @@ export default {
     removeMenu(index) {
       this.model.products.splice(index, 1);
     },
-    saveData() {
+    async saveData() {
       if (this.textServiceType != "") {
         this.model.serviceType.push(this.textServiceType);
         this.model.paymentType.push(this.textPaymentType);
@@ -469,30 +391,55 @@ export default {
         this.model.category = this.textCategory;
       }
       this.$q.loading.show();
-      updateShop(this.shopId, this.model)
-        .then(response => {
-          this.$q.loading.hide();
-          this.$q.notify({
-            color: "warning",
-            position: "bottom",
-            message: "บันทึกสำเร็จ",
-            icon: "fas fa-check-circle"
-          });
-          setTimeout(() => this.$router.push({ name: "myshop-list" }), 2000);
-        })
-        .catch(err => {
-          this.$q.loading.hide();
-          this.$q.notify({
-            color: "warning",
-            position: "top",
-            message: err.message,
-            icon: "report_problem"
-          });
+      try {
+        const urlPattern = new RegExp(
+          "(http|ftp|https)://[w-]+(.[w-]+)+([w.,@?^=%&amp;:/~+#-]*[w@?^=%&amp;/~+#-])?"
+        );
+        for (let index = 0; index < this.model.photoURL.length; index++) {
+          const image = this.model.photoURL[index];
+          if (image === "statics/noimage.png") {
+          } else if (typeof image === "string") {
+            this.model.photoURL[index] = image;
+          } else {
+            this.model.photoURL[index] = await uploadImage(image);
+          }
+        }
+        await updateShop(this.shopId, this.model);
+        this.$q.loading.hide();
+        this.$q.notify({
+          color: "warning",
+          position: "bottom",
+          message: "บันทึกสำเร็จ",
+          icon: "fas fa-check-circle"
         });
-      console.log("data", this.model);
+        setTimeout(() => this.$router.push({ name: "myshop-list" }), 2000);
+      } catch (error) {
+        this.$q.loading.hide();
+        this.$q.notify({
+          color: "warning",
+          position: "top",
+          message: error.message,
+          icon: "report_problem"
+        });
+      }
     },
     OpenStore(data) {
       this.model.status = data;
+    },
+    async uploadImage() {
+      const urlPattern = new RegExp(
+        "(http|ftp|https)://[w-]+(.[w-]+)+([w.,@?^=%&amp;:/~+#-]*[w@?^=%&amp;/~+#-])?"
+      );
+      this.model.photoURL.forEach(async (image, index) => {
+        if (image === "statics/noimage.png") {
+        } else if (image.match(urlPattern)) {
+          image = image;
+        } else {
+          const url = await uploadImage(image);
+          this.model.photoURL[index] = url;
+        }
+      });
+      return await Promise.resolve();
     }
   },
   mounted() {

@@ -3,11 +3,16 @@
     <q-header class="bg-primary shadow-3">
       <q-toolbar>
         <q-toolbar-title>
-          <q-avatar rounded>
-            <q-img src="~assets/logo.png" />
-          </q-avatar>ระบบจัดการ
+          <div v-if="isTopLevel">
+            <q-avatar rounded>
+              <q-img src="~assets/logo.png" />
+            </q-avatar>ระบบจัดการ หลาดชุมทางทุ่งสง
+          </div>
+          <div v-if="!isTopLevel">
+            <q-btn flat icon="arrow_left" @click="back" size="lg" dense>{{ title }}</q-btn>
+          </div>
         </q-toolbar-title>
-        <q-btn flat round dense icon="more_vert">
+        <q-btn flat round dense icon="more_vert" v-if="!hideMenu">
           <q-menu>
             <q-list style="min-width: 200px">
               <q-item clickable v-close-popup>
@@ -51,8 +56,17 @@ export default {
     };
   },
   methods: {
+    pushStack(route) {
+      this.$store.commit("PUSH_STACK", route);
+    },
+    clearStack() {
+      this.$store.commit("CLEAR_STACK");
+    },
     dashboard() {
       this.$router.push({ name: "dashboard" });
+    },
+    back() {
+      this.$router.back();
     },
     shopList() {
       this.$router.push({ name: "shoplist" });
@@ -68,6 +82,54 @@ export default {
           // An error happened.
         });
     }
+  },
+  computed: {
+    title: {
+      get() {
+        return this.$store.state.mainLayout.navTitle;
+      }
+    },
+    isTopLevel: {
+      get() {
+        return this.$store.state.mainLayout.isTopLevel;
+      }
+    },
+    route() {
+      return this.$route;
+    },
+    baseRoutes() {
+      return this.$store.state.mainLayout.baseRoutes;
+    },
+    backTo() {
+      return this.$store.getters.backTo;
+    },
+    currentUser() {
+      return this.$currentUser;
+    },
+    hideMenu() {
+      return this.route.name === "adminsignin" ? true : false;
+    }
+  },
+  watch: {
+    route: function(to, from) {
+      if (this.baseRoutes.includes(to.name)) {
+        this.$store.commit("SET_NAV_TITLE", "หลาดชุมทางทุ่งสง");
+        this.clearStack();
+      } else {
+        this.pushStack(from);
+      }
+    },
+    isTopLevel(to) {
+      if (!to) {
+        this.enterTransition = "animated slideInRight";
+
+        this.leaveTransition = "animated slideOutLeft";
+      } else {
+        this.enterTransition = "animated slideInLeft";
+
+        this.leaveTransition = "animated slideOutRight";
+      }
+    }
   }
 };
 </script>
@@ -77,4 +139,4 @@ export default {
   font-size: 1rem;
   padding: 15px 20px 0px 0px;
 }
-</style>
+</style> 
