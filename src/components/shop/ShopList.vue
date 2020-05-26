@@ -7,7 +7,7 @@
       <div class="description-header text-h5" @click="toShop">
         {{ shop.shopName }}
       </div>
-      <div class="flex text-blue cursor" @click="toCategory(shop.category)">
+      <div class="flex" @click="toCategory(shop.category)">
         <div class="row ">
           <q-icon
             name="fas fa-tag"
@@ -15,7 +15,7 @@
             size="12px"
             style="padding: 7px 0 0 5px; margin: 0 8px 0 0"
           />
-          {{ shop.category }}
+          <div class="text-blue cursor">{{ shop.category }}</div>
         </div>
       </div>
       <div class="description-caption rating" @click="toShop">

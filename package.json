@@ -2,7 +2,7 @@
   "name": "wemarket",
   "version": "0.0.1",
   "description": "Open marketplace during COVID-19 crisis",
-  "productName": "WeMarket",
+  "productName": "หลาดชุมทางทุ่งสง",
   "cordovaId": "com.korawit.wemarket",
   "capacitorId": "",
   "author": "Korawit Prutsachainimmit <korawit.p@gmail.com>",
@@ -14,6 +14,7 @@
   "dependencies": {
     "@quasar/extras": "^1.0.0",
     "axios": "^0.18.1",
+    "core-js": "^2.6.5",
     "firebase": "^7.13.1",
     "leaflet": "^1.6.0",
     "moment": "^2.25.3",

@@ -96,9 +96,9 @@ module.exports = function(ctx) {
         clientsClaim: true
       }, // only for GenerateSW
       manifest: {
-        name: "WeMarket",
-        short_name: "WeMarket",
-        description: "Open marketplace during COVID-19 crisis",
+        name: "LardChumtang",
+        short_name: "LardChumtang",
+        description: "Open marketplace during for Lard Chum Tang Thungsong",
         display: "standalone",
         orientation: "portrait",
         background_color: "#00A5E0",
@@ -162,7 +162,7 @@ module.exports = function(ctx) {
       builder: {
         // https://www.electron.build/configuration/configuration
 
-        appId: "wemarket"
+        appId: "lardchumtang"
       },
 
       // More info: https://quasar.dev/quasar-cli/developing-electron-apps/node-integration
