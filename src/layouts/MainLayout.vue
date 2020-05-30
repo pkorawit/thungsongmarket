@@ -31,15 +31,6 @@
             <q-btn
               class="q-ma-sm"
               flat
-              label="หมวดหมู่"
-              name="category"
-              :to="{ name: 'category' }"
-              icon="fas fa-list-alt"
-              dense
-            />
-            <q-btn
-              class="q-ma-sm"
-              flat
               label="ร้านของฉัน"
               name="account"
               :to="{ name: 'account' }"

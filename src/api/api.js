@@ -11,18 +11,17 @@ export function getShopByCategory(category) {
 }
 
 export function getAllLastUpdatedShop() {
-  return axios
-    .get(`${BASE_API_URL}/Shops/search/updated`);
+  return axios.get(`${BASE_API_URL}/Shops/search/updated`);
 }
 
 export function getLastUpdatedShop(pageNumber) {
-  return axios
-    .get(`${BASE_API_URL}/Shops/search/updated/${pageNumber}`);
+  return axios.get(`${BASE_API_URL}/Shops/search/updated/${pageNumber}`);
 }
 
 export function searchShopByKeyword(keyword, pageNumber) {
-  return axios
-    .get(`${BASE_API_URL}/Shops/search/keyword/${keyword}/${pageNumber}`);
+  return axios.get(
+    `${BASE_API_URL}/Shops/search/keyword/${keyword}/${pageNumber}`
+  );
 }
 
 export function getShops() {
@@ -73,7 +72,7 @@ export function addNewUser(user) {
   return axios.post(`${BASE_API_URL}/Shops/`, user);
 }
 
-export function getCategory() {
+export function getCategories() {
   return lookups.categories;
 }
 

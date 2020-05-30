@@ -13,6 +13,19 @@
         <q-icon color="primary" name="search" @click="searchShop" />
       </template>
     </q-input>
+    <div class="flex-row q-mb-md">
+      <!-- <div class="text-h7">ประเภทสินค้า:</div> -->
+      <q-chip
+        v-for="cat in categories"
+        :key="cat"
+        :label="cat"
+        :outline="cat === category ? false : true"
+        color="secondary"
+        text-color="white"
+        clickable
+        @click="category = cat"
+      />
+    </div>
     <div v-if="loading">
       <shop-list-loading-placeholder v-for="i in 5" :key="i" />
     </div>
@@ -42,7 +55,11 @@
 </template>
 
 <script>
-import { getLastUpdatedShop, searchShopByKeyword } from "../api/api";
+import {
+  getLastUpdatedShop,
+  searchShopByKeyword,
+  getCategories
+} from "../api/api";
 import ShopListLoadingPlaceholder from "../components/shop/ShopListLoadingPlaceholder.vue";
 import ShopList from "../components/shop/ShopList.vue";
 
@@ -60,12 +77,14 @@ export default {
       pageNumber: 1,
       isLastPage: false,
       keyword: "",
-      searchMode: false
+      searchMode: false,
+      category: "ทั้งหมด",
+      categories: []
     };
   },
   async mounted() {
     this.getCachedShops();
-
+    await this.getCategories();
     if (this.shops.length == 0) {
       this.loading = true;
       // Get first page manually, later page will use pull to refresh
@@ -88,7 +107,6 @@ export default {
         this.isLastPage = sessionStorage.isLastPage;
       if (sessionStorage.keyword) this.keyword = sessionStorage.keyword;
     },
-
     clearCachedShops() {
       if (sessionStorage.shops) {
         sessionStorage.removeItem("shops");
@@ -97,7 +115,6 @@ export default {
       if (sessionStorage.isLastPage) sessionStorage.removeItem("isLastPage");
       if (sessionStorage.keyword) sessionStorage.removeItem("keyword");
     },
-
     async getMoreData() {
       let response = null;
       if (this.searchMode)
@@ -160,6 +177,13 @@ export default {
         : moded === 1
         ? `${prefix}-mid`
         : `${prefix}-right`;
+    },
+    async getCategories() {
+      console.log(await getCategories());
+      this.categories = [
+        "ทั้งหมด",
+        ...(await getCategories()).map(c => c.name)
+      ];
     }
   }
 };

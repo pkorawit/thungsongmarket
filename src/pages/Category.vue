@@ -10,7 +10,7 @@
         :key="shop"
         @click="toCategoryById(shop)"
       >
-        <q-card class="my-card ">
+        <q-card class="my-card">
           <q-item>
             <q-item-section avatar>
               <q-avatar>
@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import { getCategory } from "../api/api";
+import { getCategories } from "../api/api";
 export default {
   data() {
     return {
@@ -38,7 +38,7 @@ export default {
   },
   async mounted() {
     //getCategory
-    let categoryOption = await getCategory();
+    let categoryOption = await getCategories();
     this.shopsCategory = categoryOption.map(x => x.name);
 
     console.log("this.shopsCategory", this.shopsCategory);

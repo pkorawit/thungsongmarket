@@ -275,7 +275,7 @@ import {
   addNewShop,
   getShopByUser,
   updateShop,
-  getCategory,
+  getCategories,
   getServiceType,
   getPaymentType,
   uploadImage
@@ -444,8 +444,8 @@ export default {
   },
   mounted() {
     this.$store.commit("SET_NAV_TITLE", "ร้านของฉัน");
-    //getCategory
-    let categoryOption = getCategory();
+    //getCategories
+    let categoryOption = getCategories();
     this.categoryOption = categoryOption.map(x => x.name);
     //getSeviceType
     let service = getServiceType();
