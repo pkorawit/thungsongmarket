@@ -442,7 +442,7 @@ export default {
       return await Promise.resolve();
     }
   },
-  mounted() {
+  async mounted() {
     this.$store.commit("SET_NAV_TITLE", "ร้านของฉัน");
     //getCategories
     let categoryOption = getCategories();
@@ -459,8 +459,14 @@ export default {
     // Get current user info from firebase
     if (this.$firebase.auth().currentUser !== null) {
       console.log(this.$firebase.auth().currentUser);
-      this.model.owner.telNo = this.$firebase.auth().currentUser.phoneNumber;
-      this.uid = this.model.owner.telNo;
+      if (this.$firebase.auth().currentUser.phoneNumber) {
+        this.model.owner.telNo = this.$firebase.auth().currentUser.phoneNumber;
+        this.uid = this.model.owner.telNo;
+      } else {
+        //Invalid user (not have phoneNumber) force signout
+        console.log('Invalid user');
+        await this.$firebase.auth().signOut();     
+      }
     }
     // Check if the shop is exist for this user
     getShopByUser(this.uid)

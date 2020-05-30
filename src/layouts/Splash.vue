@@ -27,11 +27,20 @@ export default {
       location: null
     };
   },
-  mounted() {
+  async mounted() {
     //do we support geolocation
     if (!("geolocation" in navigator)) {
       this.errorStr = "Geolocation is not available.";
       return;
+    }
+
+    if (this.$firebase.auth().currentUser !== null) {
+      console.log(this.$firebase.auth().currentUser);
+      if (!this.$firebase.auth().currentUser.phoneNumber) {        
+        //Invalid user (not have phoneNumber) force signout
+        console.log('Invalid user');
+        await this.$firebase.auth().signOut();     
+      }
     }
 
     this.gettingLocation = true;
