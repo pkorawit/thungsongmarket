@@ -31,10 +31,18 @@
             <q-btn
               class="q-ma-sm"
               flat
+              label="หมวดหมู่"
+              name="category"
+              :to="{ name: 'category' }"
+              icon="fas fa-user-circle"
+              dense
+            />
+            <q-btn
+              class="q-ma-sm"
+              flat
               label="ร้านของฉัน"
               name="account"
               :to="{ name: 'account' }"
-              @click="toAccount"
               icon="fas fa-user-circle"
               dense
             />
@@ -91,7 +99,6 @@
         <q-route-tab
           name="account"
           :to="{ name: 'account' }"
-          @click="toAccount"
           icon="fas fa-user-circle"
           label="ร้านของฉัน"
         />
@@ -130,9 +137,6 @@ export default {
     },
     back() {
       this.$router.back();
-    },
-    toAccount() {
-      this.$router.push({ name: "account", query: { id: currentUser.uid } });
     },
     logout() {
       this.$auth.signOut();

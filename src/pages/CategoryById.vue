@@ -1,7 +1,7 @@
 <template>
-  <q-page>
+  <q-page class="app-container">
     <div class="row">
-      <div class="col-12 col-sm-3 categoryById" v-for="shop in shops" :key="shop.id">
+      <div class="col-12 col-sm-4 categoryById" v-for="shop in shops" :key="shop.id">
         <shop-list v-if="shop.category == id" :shop="shop" @shop-selected="toShop" />
       </div>
     </div>
@@ -12,7 +12,7 @@
       style="padding: 25px 0px 0px 0px;"
     >ไม่มีสินค้าประเภท {{ this.id }} ในขณะนี้</div>
     <div class="row">
-      <div class="col-12 col-sm-3 shoplist" v-for="shop in shopC" :key="shop.id">
+      <div class="col-12 col-sm-4 shoplist" v-for="shop in shopC" :key="shop.id">
         <shop-list :shop="shop" @shop-selected="toShop" />
       </div>
     </div>

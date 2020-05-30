@@ -1,5 +1,5 @@
 <template>
-  <div class="window-width shop-container shadow-3 q-my-sm">
+  <div class="shop-container shadow-3 q-my-sm">
     <div class="shop-avatar-box q-pa-sm">
       <q-skeleton size="200px" square class="full-width" />
     </div>

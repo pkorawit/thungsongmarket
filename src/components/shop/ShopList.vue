@@ -3,7 +3,7 @@
     <div class="shop-avatar-box q-pb-sm" @click="toShop">
       <q-img :src="shop.photoURL[0]" class="shop-avatar" :ratio="16 / 9" />
     </div>
-    <div class="description-box q-pa-sm" v-ripple>
+    <div class="description-box q-pa-sm">
       <div class="description-header text-h5" @click="toShop">{{ shop.shopName }}</div>
       <div class="flex" @click="toCategory(shop.category)">
         <div class="row">
@@ -77,6 +77,7 @@ export default {
     },
     toCategory(type) {
       this.$router.push({ name: "categoryById", params: { id: type } });
+      // this.$emit("category-selected", type);
     },
     downloadQr() {}
   },

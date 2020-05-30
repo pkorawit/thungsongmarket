@@ -13,7 +13,7 @@
         <q-icon color="primary" name="search" @click="searchShop" />
       </template>
     </q-input>
-    <div class="flex-row q-mb-md">
+    <div class="flex-row q-mb-md category-section">
       <!-- <div class="text-h7">ประเภทสินค้า:</div> -->
       <q-chip
         v-for="cat in categories"
@@ -23,28 +23,35 @@
         color="secondary"
         text-color="white"
         clickable
+        ripple
         @click="category = cat"
       />
     </div>
-    <div v-if="loading">
-      <shop-list-loading-placeholder v-for="i in 5" :key="i" />
+    <div v-if="loading" class="full-width row">
+      <shop-list-loading-placeholder v-for="i in 10" :key="i" class="col-12 col-sm-4" />
     </div>
     <q-infinite-scroll @load="onLoad" :offset="200">
-      <div v-if="!loading" class="row">
-        <div
-          :class="`col-12 col-sm-4 ${shopListClass(index)}`"
-          v-for="(shop, index) in shops"
-          :key="shop.id"
-        >
-          <shop-list :shop="shop" @shop-selected="toShop" />
+      <q-pull-to-refresh @refresh="refresh">
+        <div v-if="!loading" class="row">
+          <div
+            :class="`col-12 col-sm-4 ${shopListClass(index)}`"
+            v-for="(shop, index) in shops"
+            :key="shop.id"
+          >
+            <shop-list
+              :shop="shop"
+              @shop-selected="toShop"
+              @category-selected="selectedCategory => category = selectedCategory"
+            />
+          </div>
+          <div class="col-12 q-pa-md text-center" v-show="shops.length == 0">ไม่พบข้อมูลร้านค้า</div>
         </div>
-        <div class="col-12 q-pa-md text-center" v-show="shops.length == 0">ไม่พบข้อมูลร้านค้า</div>
-      </div>
-      <template v-slot:loading>
-        <div class="row justify-center q-my-md">
-          <q-spinner-dots color="primary" size="40px" />
-        </div>
-      </template>
+        <template v-slot:loading>
+          <div class="row justify-center q-my-md">
+            <q-spinner-dots color="primary" size="40px" />
+          </div>
+        </template>
+      </q-pull-to-refresh>
     </q-infinite-scroll>
     <!-- <q-page-sticky position="bottom-right" :offset="[18, 18]" v-if="!isOwnShop && !loading">
       <q-fab color="primary" icon="fas fa-store" direction="up">
@@ -72,6 +79,7 @@ export default {
   data() {
     return {
       shops: [],
+      shops$: [],
       loading: false,
       isOwnShop: false,
       pageNumber: 1,
@@ -84,22 +92,33 @@ export default {
   },
   async mounted() {
     this.getCachedShops();
-    await this.getCategories();
-    if (this.shops.length == 0) {
+    if (this.shops$.length == 0) {
       this.loading = true;
       // Get first page manually, later page will use pull to refresh
       const response = await getLastUpdatedShop(this.pageNumber);
       const shops = response.data;
-      this.shops = shops;
+      this.shops$ = shops;
       this.pageNumber++;
       this.loading = false;
     }
+    this.shops = this.shops$;
+    await this.getCategories();
   },
   methods: {
+    refresh(done) {
+      this.loading = true;
+      this.category = "ทั้งหมด";
+      this.getCachedShops();
+      setTimeout(() => {
+        this.loading = false;
+        this.shops = this.shops$;
+        done();
+      }, 2500);
+    },
     getCachedShops() {
       // Get cached shops
       if (sessionStorage.shops) {
-        this.shops = JSON.parse(sessionStorage.shops);
+        this.shops$ = JSON.parse(sessionStorage.shops);
       }
       if (sessionStorage.pageNumber)
         this.pageNumber = parseInt(sessionStorage.pageNumber);
@@ -123,9 +142,9 @@ export default {
       const shops = response.data;
       if (shops.length > 0) {
         for (let shop in shops) {
-          this.shops.push(shops[shop]);
+          this.shops$.push(shops[shop]);
         }
-        sessionStorage.shops = JSON.stringify(this.shops);
+        sessionStorage.shops = JSON.stringify(this.shops$);
         sessionStorage.pageNumber = this.pageNumber;
         return true;
       } else {
@@ -145,9 +164,9 @@ export default {
         this.pageNumber++
       );
       const shops = response.data;
-      this.shops = shops;
+      this.shops$ = shops;
       sessionStorage.keyword = this.keyword;
-      sessionStorage.shops = JSON.stringify(this.shops);
+      sessionStorage.shops = JSON.stringify(this.shops$);
       this.loading = false;
     },
     toMyShop() {
@@ -157,6 +176,10 @@ export default {
       this.$router.push({ name: "shopinfo", params: { id: shop.id } });
     },
     async onLoad(index, done) {
+      if (this.category !== "ทั้งหมด") {
+        done();
+        return;
+      }
       // Pull to refresh will no work on last page and first page
       if (this.isLastPage == false && this.pageNumber > 1) {
         const haveMoreData = await this.getMoreData();
@@ -179,11 +202,20 @@ export default {
         : `${prefix}-right`;
     },
     async getCategories() {
-      console.log(await getCategories());
       this.categories = [
         "ทั้งหมด",
         ...(await getCategories()).map(c => c.name)
       ];
+    }
+  },
+  watch: {
+    category: function(category) {
+      if (this.loading) {
+        return;
+      }
+      category === "ทั้งหมด"
+        ? (this.shops = this.shops$)
+        : (this.shops = this.shops$.filter(shop => shop.category === category));
     }
   }
 };
@@ -205,6 +237,9 @@ export default {
 
 .service-section 
   display: flex;
+
+.category-section
+  overflow-x: scroll
 
 @media only screen and (min-width: 1024px) 
   .shop-list-left 
