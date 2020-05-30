@@ -1,12 +1,12 @@
 <template>
   <q-layout view="hHh lpR fFf">
-    <q-header class="bg-primary shadow-3">
+    <q-header class="bg-primary shadow-3 app-container">
       <q-toolbar>
         <q-toolbar-title>
           <div v-if="isTopLevel">
             <q-avatar rounded>
               <q-img src="~assets/logo.png" />
-            </q-avatar> หลาดชุมทางทุ่งสง
+            </q-avatar>หลาดชุมทางทุ่งสง
           </div>
           <div v-if="!isTopLevel">
             <q-btn flat icon="arrow_left" @click="back" size="lg" dense>

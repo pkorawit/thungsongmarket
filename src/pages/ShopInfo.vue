@@ -7,18 +7,21 @@
         v-model="carouselIndex"
         thumbnails
         infinite
-        height="250px"
+        navigation
+        class="carousel"
         autoplay
       >
         <q-carousel-slide
           :name="index"
           v-for="(imageUrl, index) in this.shop.photoURL"
           :key="index"
-          :img-src="imageUrl"
-        />
+          class="text-center q-pa-none carousel-slide"
+        >
+          <q-img :src="imageUrl" class="img" :ratio="16 / 9" />
+        </q-carousel-slide>
       </q-carousel>
 
-      <div>
+      <div class="app-container">
         <q-card>
           <q-card-section class="bg-secondary text-black">
             <div class="text-h5">{{ shop.shopName }}</div>
@@ -69,77 +72,82 @@
           </q-card-section>
           <q-separator inset />
           <q-card-section>
-            <div style="font-size:15px;">ข้อมูลเจ้าของร้าน</div>
+            <div style="font-size:15px;" class="q-pl-md q-pl-md-md q-mb-md">ข้อมูลเจ้าของร้าน</div>
             <div class="row">
-              <div class="q-ma-md">
+              <div class="col-md-6 col-12 flex-row q-pl-md q-pl-md-md">
                 <q-avatar v-if="shop.owner.photoURL" size="90px">
                   <img :src="shop.owner.photoURL" />
                 </q-avatar>
                 <q-avatar v-if="shop.owner.photoURL == ''" size="90px">
                   <img src="statics/noimage.png" />
                 </q-avatar>
-              </div>
-              <div style="font-size:15px;">
-                <div class="q-pa-sm">
-                  ชื่อ:
-                  {{ shop.owner.firstName }}
-                  {{ shop.owner.lastName }}
+                <div style="font-size:15px;">
+                  <div class="q-py-sm q-px-lg">
+                    ชื่อ:
+                    {{ shop.owner.firstName }}
+                    {{ shop.owner.lastName }}
+                  </div>
+                  <div class="q-px-lg">เบอร์โทร: {{ shop.owner.telNo }}</div>
                 </div>
-                <div class="q-pa-sm">เบอร์โทร: {{ shop.owner.telNo }}</div>
+              </div>
+              <div class="col-12 col-md-6 q-pl-md q-pl-md-md">
+                <q-list>
+                  <q-item dense>
+                    <q-item-section thumbnail style="padding-right: 13px; margin-left: -20px;">
+                      <q-icon name="location_on" class="text-orange" style="font-size: 22px;" />
+                    </q-item-section>
+                    <q-item-section style="font-size:15px;">
+                      อยู่ที่ : {{ shop.address.detail }}
+                      {{ shop.address.subDistrict }}
+                      {{ shop.address.district }}
+                      {{ shop.address.province }}
+                      {{ shop.address.postalCode }}
+                    </q-item-section>
+                  </q-item>
+                  <!--  -->
+                  <q-item dense>
+                    <q-item-section thumbnail>
+                      <q-icon
+                        name="fas fa-shipping-fast"
+                        class="text-primary"
+                        style="font-size: 15px;"
+                      />
+                    </q-item-section>
+                    <q-item-section style="font-size:15px;">
+                      <div class="row">
+                        <div
+                          class="q-ma-xs"
+                          v-for="service in shop.serviceType"
+                          :key="service"
+                        >{{ service }}</div>
+                      </div>
+                    </q-item-section>
+                  </q-item>
+                  <q-item dense>
+                    <!--  -->
+                    <q-item-section thumbnail>
+                      <q-icon
+                        name="far fa-money-bill-alt"
+                        class="text-green"
+                        style="font-size: 15px;"
+                      />
+                    </q-item-section>
+                    <q-item-section style="font-size:15px">
+                      <div class="row">
+                        <div
+                          class="q-ma-xs"
+                          v-for="payment in shop.paymentType"
+                          :key="payment"
+                        >{{ payment }}</div>
+                      </div>
+                    </q-item-section>
+                  </q-item>
+                </q-list>
               </div>
             </div>
           </q-card-section>
           <q-separator inset />
-          <q-card-section>
-            <q-list>
-              <q-item dense>
-                <q-item-section thumbnail style="padding-right: 13px; margin-left: -20px;">
-                  <q-icon name="location_on" class="text-orange" style="font-size: 22px;" />
-                </q-item-section>
-                <q-item-section style="font-size:15px;">
-                  อยู่ที่ : {{ shop.address.detail }}
-                  {{ shop.address.subDistrict }}
-                  {{ shop.address.district }}
-                  {{ shop.address.province }}
-                  {{ shop.address.postalCode }}
-                </q-item-section>
-              </q-item>
-              <!--  -->
-              <q-item dense>
-                <q-item-section thumbnail>
-                  <q-icon
-                    name="fas fa-shipping-fast"
-                    class="text-primary"
-                    style="font-size: 15px;"
-                  />
-                </q-item-section>
-                <q-item-section style="font-size:15px;">
-                  <div class="row">
-                    <div
-                      class="q-ma-xs"
-                      v-for="service in shop.serviceType"
-                      :key="service"
-                    >{{ service }}</div>
-                  </div>
-                </q-item-section>
-              </q-item>
-              <q-item dense>
-                <!--  -->
-                <q-item-section thumbnail>
-                  <q-icon name="far fa-money-bill-alt" class="text-green" style="font-size: 15px;" />
-                </q-item-section>
-                <q-item-section style="font-size:15px">
-                  <div class="row">
-                    <div
-                      class="q-ma-xs"
-                      v-for="payment in shop.paymentType"
-                      :key="payment"
-                    >{{ payment }}</div>
-                  </div>
-                </q-item-section>
-              </q-item>
-            </q-list>
-          </q-card-section>
+          <q-card-section></q-card-section>
         </q-card>
 
         <q-card class="q-mt-md">
@@ -150,7 +158,7 @@
           </q-card-section>
           <q-separator inset />
           <q-card-section>
-            <div style="font-size:15px">
+            <div style="font-size:15px" class="q-pl-md q-pl-md-md">
               <p v-if="shop.contact.telNo">เบอร์โทร : {{ shop.contact.telNo }}</p>
               <p v-if="shop.contact.line">line : {{ shop.contact.line }}</p>
               <p v-if="shop.contact.facebook">facebook : {{ shop.contact.facebook }}</p>
@@ -169,8 +177,10 @@
 <script>
 import { getShopById } from "../api/api";
 import ShopInfoPlaceholder from "../components/shop-info/ShopInfoPlaceholder";
+import { pageStackMixin } from "../mixins/page-stack.mixin";
 
 export default {
+  mixins: [pageStackMixin],
   name: "ManuFoods",
   components: {
     ShopInfoPlaceholder
@@ -185,12 +195,28 @@ export default {
   async mounted() {
     const shopId = this.$route.params.id;
     this.loading = true;
-    const response = await getShopById(shopId);
-    this.shop = response.data;
-    this.$store.commit("SET_NAV_TITLE", this.shop.shopName);
+    this.shop = (await getShopById(shopId)).data;
+    this.setNavTitle(this.shop.shopName);
     this.loading = false;
   }
 };
 </script>
 
-<style></style>
+<style lang="sass">
+.carousel
+  height: 25vh
+
+.carousel-slide
+  background-color: $grey-3
+
+.img
+  max-height: 100%
+  max-width: 100%
+
+@media only screen and (min-width: 1024px) 
+  .img
+    max-height: 45vh
+    max-width: calc( 100% - 30% )
+  .carousel
+    height: 45vh
+</style>

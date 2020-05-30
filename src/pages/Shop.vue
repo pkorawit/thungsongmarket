@@ -1,12 +1,12 @@
 <template>
-  <q-page>
+  <q-page class="app-container">
     <q-input
       type="search"
       label="หาอะไรอยู่หรือป่าว. . .?"
       color="primary"
       filled
       square
-      class="window-width q-mb-sm shadow-3 bg-white"
+      class="full-width q-mb-md shadow-3 bg-white"
       v-model="keyword"
     >
       <template v-slot:append>
@@ -18,7 +18,11 @@
     </div>
     <q-infinite-scroll @load="onLoad" :offset="200">
       <div v-if="!loading" class="row">
-        <div class="col-12 col-sm-3 shoplist" v-for="shop in shops" :key="shop.id">
+        <div
+          :class="`col-12 col-sm-4 ${shopListClass(index)}`"
+          v-for="(shop, index) in shops"
+          :key="shop.id"
+        >
           <shop-list :shop="shop" @shop-selected="toShop" />
         </div>
         <div class="col-12 q-pa-md text-center" v-show="shops.length == 0">ไม่พบข้อมูลร้านค้า</div>
@@ -60,7 +64,6 @@ export default {
     };
   },
   async mounted() {
-
     this.getCachedShops();
 
     if (this.shops.length == 0) {
@@ -78,20 +81,17 @@ export default {
       // Get cached shops
       if (sessionStorage.shops) {
         this.shops = JSON.parse(sessionStorage.shops);
-        console.log("Get cached data");
       }
       if (sessionStorage.pageNumber)
         this.pageNumber = parseInt(sessionStorage.pageNumber);
       if (sessionStorage.isLastPage)
         this.isLastPage = sessionStorage.isLastPage;
-      if (sessionStorage.keyword)
-        this.keyword = sessionStorage.keyword;
+      if (sessionStorage.keyword) this.keyword = sessionStorage.keyword;
     },
 
     clearCachedShops() {
       if (sessionStorage.shops) {
         sessionStorage.removeItem("shops");
-        console.log("Clear cached data");
       }
       if (sessionStorage.pageNumber) sessionStorage.removeItem("pageNumber");
       if (sessionStorage.isLastPage) sessionStorage.removeItem("isLastPage");
@@ -100,13 +100,10 @@ export default {
 
     async getMoreData() {
       let response = null;
-
       if (this.searchMode)
         response = await searchShopByKeyword(this.keyword, this.pageNumber++);
       else response = await getLastUpdatedShop(this.pageNumber++);
-
       const shops = response.data;
-      console.log("shop ", shops);
       if (shops.length > 0) {
         for (let shop in shops) {
           this.shops.push(shops[shop]);
@@ -119,32 +116,22 @@ export default {
       }
     },
     async searchShop() {
-
-      console.log("searchShop");
-
-      if(this.keyword == ""){
+      if (this.keyword == "") {
         return;
       }
-
       this.loading = true;
-
-      this.clearCachedShops();   
-
+      this.clearCachedShops();
       this.searchMode = true;
       this.pageNumber = 1;
-
       const response = await searchShopByKeyword(
         this.keyword,
         this.pageNumber++
       );
       const shops = response.data;
       this.shops = shops;
-
-      sessionStorage.keyword = this.keyword
+      sessionStorage.keyword = this.keyword;
       sessionStorage.shops = JSON.stringify(this.shops);
-
       this.loading = false;
-      console.log(shops);
     },
     toMyShop() {
       this.$router.push({ name: "myshop" });
@@ -155,9 +142,7 @@ export default {
     async onLoad(index, done) {
       // Pull to refresh will no work on last page and first page
       if (this.isLastPage == false && this.pageNumber > 1) {
-        console.log("Loading...");
         const haveMoreData = await this.getMoreData();
-        console.log(haveMoreData);
         if (haveMoreData == false) {
           this.isLastPage = true;
           sessionStorage.isLastPage = this.isLastPage;
@@ -166,32 +151,47 @@ export default {
       } else {
         done();
       }
+    },
+    shopListClass(index) {
+      const moded = index % 3;
+      const prefix = "shop-list";
+      return moded === 0
+        ? `${prefix}-left`
+        : moded === 1
+        ? `${prefix}-mid`
+        : `${prefix}-right`;
     }
   }
 };
 </script>
 
-<style>
-.shop-logo {
+<style lang="sass">
+.shop-logo 
   width: 90px;
   height: 90px;
-}
-.hashtag-section {
+
+.hashtag-section 
   display: flex;
-}
-.hashtag {
+
+.hashtag 
   font-size: 11px;
-}
-.rating-section {
+
+.rating-section 
   display: flex;
-}
-.service-section {
+
+.service-section 
   display: flex;
-}
-@media only screen and (min-width: 1023px) {
-  .shoplist {
-    padding-left: 10px;
+
+@media only screen and (min-width: 1024px) 
+  .shop-list-left 
     padding-right: 10px;
-  }
-}
+  
+  .shop-list-mid 
+    padding-left: 5px;
+    padding-right: 5px;
+  
+  .shop-list-right 
+    padding-left: 10px;
+  
+
 </style>
