@@ -21,7 +21,7 @@ export const lookups = {
           name: "อาหาร"
       },
       {
-          name: "อื่่น ๆ"
+          name: "อื่น ๆ"
       }
   ],
   serviceTypes: [
@@ -35,7 +35,7 @@ export const lookups = {
           name: "จัดส่งภายในอำเภอ"
       }, 
       {
-          name: "อื่่น ๆ"
+          name: "อื่น ๆ"
       }
   ],
   paymentTypes: [
@@ -49,7 +49,7 @@ export const lookups = {
           name: "พร้อมเพย์"
       }, 
       {
-          name: "อื่่น ๆ"
+          name: "อื่น ๆ"
       }
   ]
 

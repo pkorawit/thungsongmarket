@@ -1,18 +1,18 @@
 <template>
-  <q-page class="app-container">
+  <q-page class="app-container q-mt-sm">
     <div class="row">
-      <div class="col-12 col-sm-4 categoryById" v-for="shop in shops" :key="shop.id">
-        <shop-list v-if="shop.category == id" :shop="shop" @shop-selected="toShop" />
+      <div class="col-12 col-sm-4 categoryByselectedCategory" v-for="shop in shops" :key="shop.selectedCategory">
+        <shop-list v-if="shop.category == selectedCategory" :shop="shop" @shop-selected="toShop" />
       </div>
     </div>
 
     <div
-      v-if="shopC.length == 0"
-      class="text-h5 text-center"
+      v-if="shopNotFound"
+      class="text-h6 text-center"
       style="padding: 25px 0px 0px 0px;"
-    >ไม่มีสินค้าประเภท {{ this.id }} ในขณะนี้</div>
+    >ไม่มีสินค้าประเภท {{ this.selectedCategory }} ในขณะนี้</div>
     <div class="row">
-      <div class="col-12 col-sm-4 shoplist" v-for="shop in shopC" :key="shop.id">
+      <div class="col-12 col-sm-4 shoplist" v-for="shop in shops" :key="shop.selectedCategory">
         <shop-list :shop="shop" @shop-selected="toShop" />
       </div>
     </div>
@@ -29,51 +29,34 @@ export default {
   },
   data() {
     return {
-      shopC: [],
       shops: [],
       shopsCategory: [],
-      id: ""
+      selectedCategory: "",
+      shopNotFound: false
     };
   },
   async mounted() {
-    this.id = this.$router.currentRoute.params.id;
-    this.$store.commit("SET_NAV_TITLE", this.id);
-    // console.log(this.id);
+    this.selectedCategory = this.$router.currentRoute.params.selectedCategory;
+    this.$store.commit("SET_NAV_TITLE", this.selectedCategory);
+    // console.log(this.selectedCategory);
 
     this.$q.loading.show();
-    const response = await getShopByCategory(this.id);
-    this.shopC = response.data;
-    // console.log(this.shopC);
-    this.$q.loading.hide();
-
-    this.$geolocation.getCurrentPosition(
-      async pos => {
-        const lat = pos.coords.latitude;
-        const lng = pos.coords.longitude;
-        let shop = await getNearbyShop({ lat, lng });
-        for (let i = 0; i < shop.length; i++) {
-          let data = shop[i].category;
-          if (data == this.id) {
-            this.shops.push(shop[i]);
-          }
-        }
-      },
-      err => {
-        console.log(err);
-      }
-    );
+    const response = await getShopByCategory(this.selectedCategory);
+    this.shops = response.data;
+    if(this.shops.length == 0) this.shopNotFound = true;
+    this.$q.loading.hselectedCategorye();
   },
   methods: {
     toShop(shop) {
-      this.$router.push({ name: "shopinfo", params: { id: shop.id } });
+      this.$router.push({ name: "shopinfo", params: { selectedCategory: shop.selectedCategory } });
     }
   }
 };
 </script>
 
 <style>
-@media only screen and (min-width: 1023px) {
-  .categoryById {
+@media only screen and (min-wselectedCategoryth: 1023px) {
+  .categoryByselectedCategory {
     padding-left: 15px;
     padding-right: 15px;
   }
