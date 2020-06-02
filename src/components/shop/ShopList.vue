@@ -9,7 +9,7 @@
         <div class="row">
           <q-icon
             name="fas fa-tag"
-            color="grey-8"
+            color="secondary"
             size="12px"
             style="padding: 7px 0 0 5px; margin: 0 8px 0 0"
           />

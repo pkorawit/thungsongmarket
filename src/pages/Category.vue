@@ -6,11 +6,11 @@
       </div>
       <div
         class="col-12 col-sm-3 category q-pa-md"
-        v-for="shop in shopsCategory"
-        :key="shop"
-        @click="toCategoryById(shop)"
+        v-for="category in shopsCategory"
+        :key="category"
+        @click="toCategoryById(category)"
       >
-      <q-btn unelevated rounded class="full-width text-black" color="secondary" size="lg" :label="shop" />
+      <q-btn unelevated rounded class="full-width text-black" color="secondary" size="lg" :label="category" />
         <!-- <q-card class="my-card bg-secondary">
           <q-item>
             <q-item-section avatar>
@@ -44,8 +44,8 @@ export default {
     console.log("this.shopsCategory", this.shopsCategory);
   },
   methods: {
-    toCategoryById(a) {
-      this.$router.push({ name: "categoryById", params: { id: a } });
+    toCategoryById(category) {
+      this.$router.push({ name: "categoryById", params: { id: category } });
     }
   }
 };

@@ -1,21 +1,27 @@
 <template>
   <q-page class="app-container q-mt-sm">
-    <div class="row">
-      <div class="col-12 col-sm-4 categoryByselectedCategory" v-for="shop in shops" :key="shop.selectedCategory">
-        <shop-list v-if="shop.category == selectedCategory" :shop="shop" @shop-selected="toShop" />
+    <q-infinite-scroll @load="onLoad" :offset="200">
+      <div class="row">
+        <div
+          class="col-12 col-sm-4 categoryByselectedCategory"
+          v-for="(shop, index) in shops"
+          :key="index"
+        >
+          <shop-list :shop="shop" @shop-selected="toShop" />
+        </div>
       </div>
-    </div>
+      <template v-slot:loading>
+        <div class="row justify-center q-my-md">
+          <q-spinner-dots color="secondary" size="40px" />
+        </div>
+      </template>
+    </q-infinite-scroll>
 
     <div
       v-if="shopNotFound"
       class="text-h6 text-center"
       style="padding: 25px 0px 0px 0px;"
     >ไม่มีสินค้าประเภท {{ this.selectedCategory }} ในขณะนี้</div>
-    <div class="row">
-      <div class="col-12 col-sm-4 shoplist" v-for="shop in shops" :key="shop.selectedCategory">
-        <shop-list :shop="shop" @shop-selected="toShop" />
-      </div>
-    </div>
   </q-page>
 </template>
 
@@ -32,30 +38,62 @@ export default {
       shops: [],
       shopsCategory: [],
       selectedCategory: "",
-      shopNotFound: false
+      shopNotFound: false,
+      pageNumber: 1,
+      isLastPage: false
     };
   },
   async mounted() {
-    this.selectedCategory = this.$router.currentRoute.params.selectedCategory;
+    this.selectedCategory = this.$route.params.id;
     this.$store.commit("SET_NAV_TITLE", this.selectedCategory);
-    // console.log(this.selectedCategory);
-
     this.$q.loading.show();
-    const response = await getShopByCategory(this.selectedCategory);
-    this.shops = response.data;
-    if(this.shops.length == 0) this.shopNotFound = true;
-    this.$q.loading.hselectedCategorye();
+    const hasData = this.getData(this.pageNumber);
+    this.pageNumber++;
+    if (!hasData) this.shopNotFound = true;
+    this.$q.loading.hide();
   },
   methods: {
     toShop(shop) {
-      this.$router.push({ name: "shopinfo", params: { selectedCategory: shop.selectedCategory } });
+      this.$router.push({
+        name: "shopinfo",
+        params: { id: shop.id }
+      });
+    },
+    async getData(pageNumber) {
+      console.log("getData " + pageNumber);
+      const response = await getShopByCategory(
+        this.selectedCategory,
+        pageNumber
+      );
+
+      if (response.data.length == 0) {
+        return false;
+      } else {
+        for (let shop in response.data) {
+          this.shops.push(response.data[shop]);
+        }
+        return true;
+      }
+    },
+    async onLoad(index, done) {
+      console.log("loading..");
+      if (this.isLastPage == false && this.pageNumber > 1) {
+        const haveMoreData = await this.getData(this.pageNumber);
+        this.pageNumber++;
+        if (haveMoreData == false) {
+          this.isLastPage = true;
+        }
+        done();
+      } else {
+        done();
+      }
     }
   }
 };
 </script>
 
 <style>
-@media only screen and (min-wselectedCategoryth: 1023px) {
+@media only screen and (min-wselectedcategoryth: 1023px) {
   .categoryByselectedCategory {
     padding-left: 15px;
     padding-right: 15px;

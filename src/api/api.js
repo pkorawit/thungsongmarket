@@ -6,8 +6,8 @@ export function getNearbyShop(location) {
   return getLastUpdatedShop();
 }
 
-export function getShopByCategory(category) {
-  return axios.get(`${BASE_API_URL}/Shops/category/${category}`);
+export function getShopByCategory(category, pageNumber) {
+  return axios.get(`${BASE_API_URL}/Shops/category/${category}/${pageNumber}`);
 }
 
 export function getAllLastUpdatedShop() {

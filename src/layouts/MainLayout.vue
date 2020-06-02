@@ -49,7 +49,7 @@
             <q-btn
               class="q-ma-sm"
               flat
-              label="ติดต่อ"
+              label="เกี่ยวกับ"
               name="about"
               :to="{ name: 'about' }"
               icon="fas fa-question-circle"
@@ -106,7 +106,7 @@
           name="about"
           :to="{ name: 'about' }"
           icon="fas fa-question-circle"
-          label="ติดต่อ"
+          label="เกี่ยวกับ"
         />
       </q-tabs>
     </q-footer>

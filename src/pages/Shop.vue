@@ -46,12 +46,12 @@
           </div>
           <div class="col-12 q-pa-md text-center" v-show="shops.length == 0">ไม่พบข้อมูลร้านค้า</div>
         </div>
-        <template v-slot:loading>
-          <div class="row justify-center q-my-md">
-            <q-spinner-dots color="primary" size="40px" />
-          </div>
-        </template>
       </q-pull-to-refresh>
+      <template v-slot:loading>
+        <div class="row justify-center q-my-md">
+          <q-spinner-dots color="primary" size="40px" />
+        </div>
+      </template>
     </q-infinite-scroll>
     <!-- <q-page-sticky position="bottom-right" :offset="[18, 18]" v-if="!isOwnShop && !loading">
       <q-fab color="primary" icon="fas fa-store" direction="up">
@@ -108,10 +108,14 @@ export default {
     refresh(done) {
       this.loading = true;
       this.category = "ทั้งหมด";
-      this.getCachedShops();
-      setTimeout(() => {
+      this.clearCachedShops();
+      setTimeout(async () => {
         this.loading = false;
-        this.shops = this.shops$;
+        // Get first page manually, later page will use pull to refresh
+      const response = await getLastUpdatedShop(this.pageNumber);
+      const shops = response.data;
+      this.shops$ = shops;
+      this.pageNumber++;
         done();
       }, 2500);
     },
@@ -133,6 +137,8 @@ export default {
       if (sessionStorage.pageNumber) sessionStorage.removeItem("pageNumber");
       if (sessionStorage.isLastPage) sessionStorage.removeItem("isLastPage");
       if (sessionStorage.keyword) sessionStorage.removeItem("keyword");
+      this.pageNumber = 1;
+      this.isLastPage = false;
     },
     async getMoreData() {
       let response = null;
@@ -222,35 +228,33 @@ export default {
 </script>
 
 <style lang="sass">
-.shop-logo 
-  width: 90px;
-  height: 90px;
+.shop-logo
+  width: 90px
+  height: 90px
 
-.hashtag-section 
-  display: flex;
+.hashtag-section
+  display: flex
 
-.hashtag 
-  font-size: 11px;
+.hashtag
+  font-size: 11px
 
-.rating-section 
-  display: flex;
+.rating-section
+  display: flex
 
-.service-section 
-  display: flex;
+.service-section
+  display: flex
 
 .category-section
   overflow-x: scroll
 
-@media only screen and (min-width: 1024px) 
-  .shop-list-left 
-    padding-right: 10px;
-  
-  .shop-list-mid 
-    padding-left: 5px;
-    padding-right: 5px;
-  
-  .shop-list-right 
-    padding-left: 10px;
-  
+@media only screen and (min-width: 1024px)
+  .shop-list-left
+    padding-right: 10px
 
+  .shop-list-mid
+    padding-left: 5px
+    padding-right: 5px
+
+  .shop-list-right
+    padding-left: 10px
 </style>
