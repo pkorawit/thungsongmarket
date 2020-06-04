@@ -7,6 +7,11 @@ export function getNearbyShop(location) {
   return getLastUpdatedShop();
 }
 
+export function clearCache(name){
+  let cache = new CacheStore(name);
+  cache.clearCache();
+}
+
 export async function getShopByCategory(category, pageNumber) {
   let cache = new CacheStore("getShopByCategory");
   let key = category + pageNumber;

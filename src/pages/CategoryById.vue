@@ -1,15 +1,17 @@
 <template>
   <q-page class="app-container q-mt-sm">
     <q-infinite-scroll @load="onLoad" :offset="200">
-      <div class="row">
-        <div
-          class="col-12 col-sm-4 categoryByselectedCategory"
-          v-for="(shop, index) in shops"
-          :key="index"
-        >
-          <shop-list :shop="shop" @shop-selected="toShop" />
+      <q-pull-to-refresh @refresh="refresh">
+        <div class="row" v-if="!loading">
+          <div
+            class="col-12 col-sm-4 categoryByselectedCategory"
+            v-for="(shop, index) in shops"
+            :key="index"
+          >
+            <shop-list :shop="shop" @shop-selected="toShop" />
+          </div>
         </div>
-      </div>
+      </q-pull-to-refresh>
       <template v-slot:loading>
         <div class="row justify-center q-my-md">
           <q-spinner-dots color="secondary" size="40px" />
@@ -25,7 +27,7 @@
 </template>
 
 <script>
-import { getNearbyShop, getShopByCategory } from "../api/api";
+import { getNearbyShop, getShopByCategory, clearCache } from "../api/api";
 import ShopList from "../components/shop/ShopList.vue";
 
 export default {
@@ -39,6 +41,7 @@ export default {
       shopNotFound: false,
       pageNumber: 1,
       isLastPage: false,
+      loading: false
     };
   },
   async mounted() {
@@ -50,6 +53,18 @@ export default {
     this.$q.loading.hide();
   },
   methods: {
+    refresh(done) {
+      this.loading = true;
+      clearCache("getShopByCategory");
+      this.pageNumber = 1;
+      setTimeout(async () => {
+        this.loading = false;
+        this.shops = [];
+        await this.getData();
+        this.pageNumber++;
+        done();
+      }, 2500);
+    },
     toShop(shop) {
       this.$router.push({
         name: "shopinfo",
@@ -62,21 +77,20 @@ export default {
         this.selectedCategory,
         this.pageNumber
       );
-      if(response.data.length > 0){
-         for (let shop in response.data) {
+      if (response.data.length > 0) {
+        for (let shop in response.data) {
           this.shops.push(response.data[shop]);
         }
         this.pageNumber++;
-      }
-      else{
-        if(this.pageNumber == 1) this.shopNotFound = true;
+      } else {
+        if (this.pageNumber == 1) this.shopNotFound = true;
         else this.isLastPage = true;
       }
     },
     async onLoad(index, done) {
       console.log("loading..");
       if (this.isLastPage == false && this.pageNumber > 1) {
-        await this.getData();        
+        await this.getData();
         done();
       } else {
         done();
