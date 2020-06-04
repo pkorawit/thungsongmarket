@@ -46,7 +46,7 @@ export default {
     this.$q.loading.show();
     this.selectedCategory = this.$route.params.id;
     this.$store.commit("SET_NAV_TITLE", this.selectedCategory);
-    await this.getData(this.pageNumber);
+    await this.getData();
     this.$q.loading.hide();
   },
   methods: {
@@ -56,22 +56,27 @@ export default {
         params: { id: shop.id }
       });
     },
-    async getData(pageNumber) {
-      console.log("getData " + pageNumber);
-      return await getShopByCategory(
+    async getData() {
+      console.log("getData " + this.pageNumber);
+      const response = await getShopByCategory(
         this.selectedCategory,
-        pageNumber
+        this.pageNumber
       );
+      if(response.data.length > 0){
+         for (let shop in response.data) {
+          this.shops.push(response.data[shop]);
+        }
+        this.pageNumber++;
+      }
+      else{
+        if(this.pageNumber == 1) this.shopNotFound = true;
+        else this.isLastPage = true;
+      }
     },
     async onLoad(index, done) {
       console.log("loading..");
       if (this.isLastPage == false && this.pageNumber > 1) {
-        const haveMoreData = await this.getData(this.pageNumber);
-        this.pageNumber++;
-        if (haveMoreData == false) {
-          this.isLastPage = true;
-        }
-        this.setCache();
+        await this.getData();        
         done();
       } else {
         done();
