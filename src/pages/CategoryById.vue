@@ -16,7 +16,6 @@
         </div>
       </template>
     </q-infinite-scroll>
-
     <div
       v-if="shopNotFound"
       class="text-h6 text-center"
@@ -36,20 +35,25 @@ export default {
   data() {
     return {
       shops: [],
-      shopsCategory: [],
       selectedCategory: "",
       shopNotFound: false,
       pageNumber: 1,
-      isLastPage: false
+      isLastPage: false,
+      fromPage: ""
     };
   },
+  beforeRouteEnter(to, from, next) {
+    console.log(from);
+    next(vm => {
+      vm.fromPage = from;
+    });
+  },
   async mounted() {
+    console.log("mounted");
+    this.$q.loading.show();
     this.selectedCategory = this.$route.params.id;
     this.$store.commit("SET_NAV_TITLE", this.selectedCategory);
-    this.$q.loading.show();
-    const hasData = this.getData(this.pageNumber);
-    this.pageNumber++;
-    if (!hasData) this.shopNotFound = true;
+    await this.getData(this.pageNumber);
     this.$q.loading.hide();
   },
   methods: {
@@ -61,19 +65,10 @@ export default {
     },
     async getData(pageNumber) {
       console.log("getData " + pageNumber);
-      const response = await getShopByCategory(
+      return await getShopByCategory(
         this.selectedCategory,
         pageNumber
       );
-
-      if (response.data.length == 0) {
-        return false;
-      } else {
-        for (let shop in response.data) {
-          this.shops.push(response.data[shop]);
-        }
-        return true;
-      }
     },
     async onLoad(index, done) {
       console.log("loading..");
@@ -83,6 +78,7 @@ export default {
         if (haveMoreData == false) {
           this.isLastPage = true;
         }
+        this.setCache();
         done();
       } else {
         done();

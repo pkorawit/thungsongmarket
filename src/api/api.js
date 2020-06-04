@@ -1,13 +1,25 @@
 import axios from "axios";
 import { BASE_API_URL, lookups } from "./configs";
 import * as firebase from "firebase";
+import { CacheStore } from "./cacheStore";
 
 export function getNearbyShop(location) {
   return getLastUpdatedShop();
 }
 
-export function getShopByCategory(category, pageNumber) {
-  return axios.get(`${BASE_API_URL}/Shops/category/${category}/${pageNumber}`);
+export async function getShopByCategory(category, pageNumber) {
+  let cache = new CacheStore("getShopByCategory");
+  let key = category + pageNumber;
+  if(cache.hasCached(key)){
+    console.log('cached hitted');     
+    return cache.getCache(key);
+  }
+  else{
+    console.log('cached missed');  
+    const response = await axios.get(`${BASE_API_URL}/Shops/category/${category}/${pageNumber}`);
+    cache.setCache(key, response);
+    return response;
+  }
 }
 
 export function getAllLastUpdatedShop() {
