@@ -39,14 +39,7 @@ export default {
       shopNotFound: false,
       pageNumber: 1,
       isLastPage: false,
-      fromPage: ""
     };
-  },
-  beforeRouteEnter(to, from, next) {
-    console.log(from);
-    next(vm => {
-      vm.fromPage = from;
-    });
   },
   async mounted() {
     console.log("mounted");
