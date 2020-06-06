@@ -106,5 +106,9 @@ export async function uploadImage(file) {
   const storageRef = firebase.storage().ref();
   const imageRef = storageRef.child(`media/images/${Date.now()}.jpg`);
   await imageRef.put(file, { contentType: file.type });
-  return imageRef.getDownloadURL();
+  // Add resolution in name for supporting image resize extension
+  let downloadURL = await imageRef.getDownloadURL();
+  const filename = imageRef.name.split('.').slice(0, -1).join('.');
+  const imageURL = downloadURL.replace(filename, filename + "_1920x1080");
+  return imageURL;
 }
