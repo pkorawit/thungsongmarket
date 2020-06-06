@@ -1,9 +1,6 @@
 <template>
   <div>
-    <div
-      v-if="loading"
-      class="window-height window-width row justify-center items-center bg-white"
-    >
+    <div v-if="loading" class="window-height window-width row justify-center items-center bg-white">
       <div class="column" style="height: 350px">
         <div class="col-8">
           <q-img src="~assets/logo.png" style="width: 250px"></q-img>
@@ -28,27 +25,25 @@ export default {
     };
   },
   async mounted() {
-
-    const shopId = this.$route.params.id;
-    if(shopId != null){
-      this.$router.push({ name: "shopinfo", params: { id: shopId } });
+ 
+    if (this.$firebase.auth().currentUser !== null) {
+      console.log(this.$firebase.auth().currentUser);
+      if (!this.$firebase.auth().currentUser.phoneNumber) {
+        //Invalid user (not have phoneNumber) force signout
+        console.log("Invalid user");
+        await this.$firebase.auth().signOut();
+      }
     }
+
+    setTimeout(() => {
+      this.$router.push({ name: "shop" });
+    }, 2000);
 
     //do we support geolocation
     // if (!("geolocation" in navigator)) {
     //   this.errorStr = "Geolocation is not available.";
     //   return;
     // }
-
-    if (this.$firebase.auth().currentUser !== null) {
-      console.log(this.$firebase.auth().currentUser);
-      if (!this.$firebase.auth().currentUser.phoneNumber) {        
-        //Invalid user (not have phoneNumber) force signout
-        console.log('Invalid user');
-        await this.$firebase.auth().signOut();     
-      }
-    }
-
     // this.gettingLocation = true;
     // this.$geolocation.getCurrentPosition(
     //   pos => {

@@ -1,6 +1,11 @@
 const routes = [
   {
     path: "/:id",
+    name: "redirect",
+    component: () => import("layouts/Redirect.vue")
+  },
+  {
+    path: "/",
     name: "root",
     component: () => import("layouts/Splash.vue")
   },
