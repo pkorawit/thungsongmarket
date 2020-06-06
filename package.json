@@ -12,6 +12,7 @@
     "dev": "quasar dev -m pwa"
   },
   "dependencies": {
+    "@chenfengyuan/vue-qrcode": "^1.0.2",
     "@quasar/extras": "^1.0.0",
     "axios": "^0.18.1",
     "core-js": "^2.6.5",
@@ -19,6 +20,7 @@
     "leaflet": "^1.6.0",
     "moment": "^2.25.3",
     "quasar": "^1.0.0",
+    "vue": "^2.6.11",
     "vue2-leaflet": "^2.5.2"
   },
   "devDependencies": {

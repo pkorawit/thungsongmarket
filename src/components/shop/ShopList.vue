@@ -42,21 +42,42 @@
         </div>
       </div>
     </div>
-    <div class="qr-btn" v-if="isMyShop">
-      <q-btn
-        color="primary"
-        icon="fas fa-qrcode"
-        label="ดาวน์โหลด QR Code"
-        @click="downloadQr"
-        class="full-width no-border-radius"
-      />
+    <div class="row q-ma-sm" v-if="isMyShop">
+      <div class="col-6">
+        <q-btn
+          color="primary"
+          icon="fas fa-edit"
+          label="แก้ไขข้อมูลร้าน"
+          @click="toShop"
+          class="no-border-radius full-width"
+        />
+      </div>
+      <div class="col-6">
+        <q-btn
+          color="primary"
+          icon="fas fa-qrcode"
+          label="ดาวน์โหลด QR Code"
+          @click="downloadQr"
+          class="no-border-radius full-width"
+        />
+      </div>
+    </div>
+    <div class="row"  v-if="showQR">
+      <div class="col-12 text-center">
+        <VueQrcode :value="qrText" :options="{ width: 350 }"></VueQrcode>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import VueQrcode from '@chenfengyuan/vue-qrcode';
+import { getShopURL } from "../../api/api";
 export default {
   name: "ShopList",
+  components: {
+    VueQrcode
+  },
   props: {
     shop: {
       type: Object,
@@ -65,7 +86,8 @@ export default {
     isMyShop: {
       type: Boolean,
       required: false
-    }
+    },
+    showQR: false,
   },
   methods: {
     dictionary(word) {
@@ -79,48 +101,50 @@ export default {
       this.$router.push({ name: "categoryById", params: { id: type } });
       // this.$emit("category-selected", type);
     },
-    downloadQr() {}
+    downloadQr() {
+      this.showQR = true;
+    }
   },
   computed: {
     serviceType() {
       return this.shop.serviceType.join(" ");
+    },
+    qrText(){      
+      return getShopURL(this.shop.id);
     }
   }
 };
 </script>
 
 <style lang="sass">
-.shop-container 
-  display: flex;
-  flex-direction: column;
+.shop-container
+  display: flex
+  flex-direction: column
   .truncate
     width: calc( 100% - 10% )
     text-overflow: ellipsis
-    white-space: nowrap;
-    overflow: hidden;
+    white-space: nowrap
+    overflow: hidden
 
+.shop-avatar-box
+  display: flex
+  height: 100%
+  width: 100%
+  background: rgba(0, 0, 0, 0.02)
 
-.shop-avatar-box 
-  display: flex;
-  height: 100%;
-  width: 100%;
-  background: rgba(0, 0, 0, 0.02);
+.description-box
+  background: rgba(0, 0, 0, 0.02)
 
-.description-box 
-  background: rgba(0, 0, 0, 0.02);
+.rating
+  display: flex
 
-.rating 
-  display: flex;
+.hashtags
+  display: flex
 
-.hashtags 
-  display: flex;
+.service-type
+  display: flex
 
-.service-type 
-  display: flex;
-
-.cursor 
-  cursor: pointer;
-  text-decoration-line: underline;
-
-
+.cursor
+  cursor: pointer
+  text-decoration-line: underline
 </style>

@@ -101,6 +101,10 @@ export function getPaymentType() {
   return lookups.paymentTypes;
 }
 
+export function getShopURL(shopId) {
+  return "https://www.xn--72caaj3ctb1f7a9cc9fe5ff0x.com/" + shopId;
+}
+
 export async function uploadImage(file) {
   console.log(file);
   const storageRef = firebase.storage().ref();

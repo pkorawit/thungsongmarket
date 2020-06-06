@@ -1,6 +1,6 @@
 const routes = [
   {
-    path: "/",
+    path: "/:id",
     name: "root",
     component: () => import("layouts/Splash.vue")
   },

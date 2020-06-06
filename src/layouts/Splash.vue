@@ -28,11 +28,17 @@ export default {
     };
   },
   async mounted() {
-    //do we support geolocation
-    if (!("geolocation" in navigator)) {
-      this.errorStr = "Geolocation is not available.";
-      return;
+
+    const shopId = this.$route.params.id;
+    if(shopId != null){
+      this.$router.push({ name: "shopinfo", params: { id: shopId } });
     }
+
+    //do we support geolocation
+    // if (!("geolocation" in navigator)) {
+    //   this.errorStr = "Geolocation is not available.";
+    //   return;
+    // }
 
     if (this.$firebase.auth().currentUser !== null) {
       console.log(this.$firebase.auth().currentUser);
@@ -43,23 +49,23 @@ export default {
       }
     }
 
-    this.gettingLocation = true;
-    this.$geolocation.getCurrentPosition(
-      pos => {
-        this.gettingLocation = false;
-        this.location = pos;
-        setTimeout(() => {
-          this.$router.push({ name: "shop" });
-        }, 2000);
-      },
-      err => {
-        this.gettingLocation = false;
-        this.errorStr = err.message;
-        setTimeout(() => {
-          this.$router.push({ name: "shop" });
-        }, 2000);
-      }
-    );
+    // this.gettingLocation = true;
+    // this.$geolocation.getCurrentPosition(
+    //   pos => {
+    //     this.gettingLocation = false;
+    //     this.location = pos;
+    //     setTimeout(() => {
+    //       this.$router.push({ name: "shop" });
+    //     }, 2000);
+    //   },
+    //   err => {
+    //     this.gettingLocation = false;
+    //     this.errorStr = err.message;
+    //     setTimeout(() => {
+    //       this.$router.push({ name: "shop" });
+    //     }, 2000);
+    //   }
+    // );
     // setTimeout(() => {
     //   this.loading = false;
     //   this.$router.push('main/home')
