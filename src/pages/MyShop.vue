@@ -392,9 +392,7 @@ export default {
       }
       this.$q.loading.show();
       try {
-        const urlPattern = new RegExp(
-          "(http|ftp|https)://[w-]+(.[w-]+)+([w.,@?^=%&amp;:/~+#-]*[w@?^=%&amp;/~+#-])?"
-        );
+        // upload product photo to firebase storage
         for (let index = 0; index < this.model.photoURL.length; index++) {
           const image = this.model.photoURL[index];
           if (image === "statics/noimage.png") {
@@ -404,6 +402,23 @@ export default {
             this.model.photoURL[index] = await uploadImage(image);
           }
         }
+        // upload profile photo to firebase storage
+        const profileImage = this.model.owner.photoURL;
+        if (profileImage === "statics/noimage.png") {
+        } else if (typeof profileImage === "string") {
+          this.model.owner.photoURL = profileImage;
+        } else {
+          this.model.owner.photoURL = await uploadImage(profileImage);
+        }
+
+        // clean empty product and price
+        let filtered = this.model.products.filter(element => {
+          if (element.productName != "" && element.price != null) {
+            return element;
+          }
+        });
+        this.model.products = filtered;
+
         await updateShop(this.shopId, this.model);
         this.$q.loading.hide();
         this.$q.notify({
@@ -425,21 +440,6 @@ export default {
     },
     OpenStore(data) {
       this.model.status = data;
-    },
-    async uploadImage() {
-      const urlPattern = new RegExp(
-        "(http|ftp|https)://[w-]+(.[w-]+)+([w.,@?^=%&amp;:/~+#-]*[w@?^=%&amp;/~+#-])?"
-      );
-      this.model.photoURL.forEach(async (image, index) => {
-        if (image === "statics/noimage.png") {
-        } else if (image.match(urlPattern)) {
-          image = image;
-        } else {
-          const url = await uploadImage(image);
-          this.model.photoURL[index] = url;
-        }
-      });
-      return await Promise.resolve();
     }
   },
   async mounted() {
@@ -464,8 +464,8 @@ export default {
         this.uid = this.model.owner.telNo;
       } else {
         //Invalid user (not have phoneNumber) force signout
-        console.log('Invalid user');
-        await this.$firebase.auth().signOut();     
+        console.log("Invalid user");
+        await this.$firebase.auth().signOut();
       }
     }
     // Check if the shop is exist for this user
