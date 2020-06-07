@@ -6,7 +6,7 @@
           <div v-if="isTopLevel">
             <q-avatar rounded>
               <q-img src="~assets/logo.png" />
-            </q-avatar>ระบบจัดการ หลาดชุมทางทุ่งสง
+            </q-avatar> ระบบจัดการหลาดชุมทางทุ่งสง
           </div>
           <div v-if="!isTopLevel">
             <q-btn flat icon="arrow_left" @click="back" size="lg" dense>{{ title }}</q-btn>

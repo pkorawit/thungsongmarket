@@ -1,6 +1,6 @@
 const routes = [
   {
-    path: "/:id",
+    path: "/redirect/:id",
     name: "redirect",
     component: () => import("layouts/Redirect.vue")
   },

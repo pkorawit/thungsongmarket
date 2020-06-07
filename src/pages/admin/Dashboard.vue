@@ -1,44 +1,55 @@
 <template>
   <q-page class="q-pa-md">
-    <h4 class="text-center">ภาพรวมร้านค้า</h4>
-
-    <div class="row items-start q-gutter-md text-center">
-      <div class="col-1"></div>
-
-      <div class="col-11 col-md-3">
-        <q-card class="bg-orange-6 text-white">
+    <div class="row  text-center">
+      <div class="text-h5 text-center">ภาพรวมตลาด</div>
+    </div>
+    <div class="row text-center q-pa-md" >
+      <div class="col-12 col-md-4 q-pa-md">
+        <q-card class="bg-orange-6 text-white" flat>
           <q-card-section>
-            <div class="text-h6">ร้านค้า {{ shops.length }} ร้าน</div>
-            <!-- <div class="text-subtitle2">by John Doe</div> -->
+            <q-icon name="fas fa-store" size="lg"/>
+            <div class="text-h6">ร้านค้า</div>
           </q-card-section>
-
-          <!-- <q-card-section>lorem</q-card-section> -->
+          <q-separator />
+          <q-card-actions align="center" class="bg-white text-black">
+            <div class="text-h6">{{ shops.length }} ร้าน</div>
+          </q-card-actions>
         </q-card>
       </div>
 
-      <div class="col-11 col-md-3">
-        <q-card class="bg-blue text-white">
+      <div class="col-12 col-md-4 q-pa-md">
+        <q-card class="bg-blue-6 text-white" flat>
           <q-card-section>
-            <div class="text-h6">ผู้ใช้งาน 600 คน</div>
+            <q-icon name="fas fa-boxes" size="lg"/>
+            <div class="text-h6">สินค้า</div>
           </q-card-section>
+          <q-separator />
+          <q-card-actions align="center" class="bg-white text-black">
+            <div class="text-h6">{{ shops.length }} ชนิด</div>
+          </q-card-actions>
         </q-card>
       </div>
 
-      <div class="col-11 col-md-3">
-        <q-card class="bg-purple-6 text-white">
+      <div class="col-12 col-md-4 q-pa-md">
+        <q-card class="bg-purple-6 text-white" flat>
           <q-card-section>
-            <div class="text-h6">สินค้า 1562 รายการ</div>
+            <q-icon name="fas fa-users" size="lg"/>
+            <div class="text-h6">ผู้เข้าชม</div>
           </q-card-section>
+          <q-separator />
+          <q-card-actions align="center" class="bg-white text-black">
+            <div class="text-h6">{{ shops.length }} คน</div>
+          </q-card-actions>
         </q-card>
       </div>
     </div>
-    <!-- โยงหน้า -->
-    <br />
 
-    <div class="text-center">
-      <q-btn @click="openShopList" label="อนุมัติร้านค้า" type="submit" color="blue-10">
-        <q-icon name="fas fa-angle-right" style="font-size: 1.5rem; padding: 0px 0px 0px 25px;" />
-      </q-btn>
+    <div class="row">
+      <div class="text-center col-12">
+        <q-btn @click="openShopList" label="ดูรายชื่อร้านค้ารออนุมัติ" size="lg" type="button" color="secondary">
+          <q-icon name="fas fa-angle-right" />
+        </q-btn>
+      </div>
     </div>
   </q-page>
 </template>

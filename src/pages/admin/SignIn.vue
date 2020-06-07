@@ -2,15 +2,12 @@
   <q-page class="q-pa-md">
     <div class="text-h4 text-center" style="padding: 0px 0px 15px 0px;">หลาดชุมทางทุ่งสง</div>
     <div class="row justify-center">
-      <q-card class="my-card col-12 col-md-4">
-        <q-card-section class="text-center">Log in to you Admin</q-card-section>
+      <q-card class="my-card col-12 col-md-3" flat>
+        <q-card-section class="text-center text-h5">เข้าสู่ระบบ</q-card-section>
         <div class="row">
           <div class="col"></div>
           <div class="col-10">
-            <q-input filled v-model="Email" type="email" suffix="@lardchumtang.com" hint="Email">
-              <template v-slot:before>
-                <q-icon name="mail" />
-              </template>
+            <q-input filled v-model="email" type="email" suffix="@lardchumtang.com" hint="อีเมล์ของผู้ดูแลระบบ">
             </q-input>
           </div>
           <div class="col"></div>
@@ -19,8 +16,8 @@
         <div class="row">
           <div class="col"></div>
           <div class="col-10">
-            <q-input filled v-model="pass" :type="isPwd ? 'password' : 'text'" hint="Password">
-              <template v-slot:before>
+            <q-input filled v-model="password" :type="isPwd ? 'password' : 'text'" hint="รหัสผ่าน">
+              <template v-slot:append>
                 <q-icon
                   :name="isPwd ? 'visibility_off' : 'visibility'"
                   class="cursor-pointer"
@@ -33,17 +30,14 @@
         </div>
         <br />
 
-        <div class="col-6 text-center">
-          <q-btn @click="openDash" label="Submit" type="submit" color="blue-10">
+        <div class="col-6 text-center q-ma-md">
+          <q-btn @click="openDash" class="full-width" size="lg" label="เข้าสู่ระบบ" type="submit" color="secondary">
             <q-icon
               name="fas fa-angle-right"
               style="font-size: 1.5rem; padding: 0px 0px 0px 25px;"
             />
           </q-btn>
         </div>
-
-        <br />
-        <br />
       </q-card>
     </div>
   </q-page>
@@ -53,8 +47,8 @@
 export default {
   data() {
     return {
-      Email: "",
-      pass: "",
+      email: "",
+      password: "",
       isPwd: true
       // admin@lardchumtang.com
       // 123456
@@ -63,8 +57,8 @@ export default {
   mounted() {},
   methods: {
     openDash() {
-      var email = this.Email + "@lardchumtang.com";
-      var password = this.pass;
+      var email = this.email + "@lardchumtang.com";
+      var password = this.password;
       // console.log(email);
       // console.log(password);
       this.$firebase
@@ -86,6 +80,10 @@ export default {
 </script>
 
 <style>
+input {
+  font-size: 18px;
+}
+
 .mBot {
   margin-bottom: 50px;
 }

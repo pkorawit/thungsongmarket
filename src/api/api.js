@@ -102,7 +102,7 @@ export function getPaymentType() {
 }
 
 export function getShopURL(shopId) {
-  return "https://www.xn--72caaj3ctb1f7a9cc9fe5ff0x.com/" + shopId;
+  return "https://www.xn--72caaj3ctb1f7a9cc9fe5ff0x.com/redirect/" + shopId;
 }
 
 export async function uploadImage(file) {
