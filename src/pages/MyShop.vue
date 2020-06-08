@@ -408,6 +408,8 @@ export default {
         } else if (typeof profileImage === "string") {
           this.model.owner.photoURL = profileImage;
         } else {
+          console.log('upload profile to storage');
+          
           this.model.owner.photoURL = await uploadImage(profileImage);
         }
 

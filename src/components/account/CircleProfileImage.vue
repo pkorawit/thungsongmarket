@@ -36,11 +36,14 @@ export default {
       this.$refs.fileInput.pickFiles();
     },
     imageSelected(file) {
+
+      this.$emit("imageSelected", file);
+
       this.fileReader.readAsDataURL(file);
       this.fileReader.onload = e => {
         const base64 = e.target.result;
         this.preview = base64;
-        this.$emit("imageSelected", base64);
+        this.$emit("base64ImageSelected", base64);
       };
     }
   }
