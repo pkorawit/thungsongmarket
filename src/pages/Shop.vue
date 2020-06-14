@@ -9,11 +9,14 @@
       class="full-width q-mb-md shadow-3 bg-white"
       v-model="keyword"
     >
-      <template v-slot:append>
+      <template v-slot:append v-if="searchMode">
+        <q-chip label="ยกเลิก" clickable color="secondary" icon="close" @click="cancelSearchShop"></q-chip>
+      </template>
+      <template v-slot:append v-else>
         <q-icon color="primary" name="search" @click="searchShop" />
       </template>
     </q-input>
-    <div class="flex-row q-mb-md category-section">
+    <div class="flex-row q-mb-md category-section" v-if="searchMode">
       <!-- <div class="text-h7">ประเภทสินค้า:</div> -->
       <q-chip
         v-for="cat in categories"
@@ -65,7 +68,8 @@
 import {
   getLastUpdatedShop,
   searchShopByKeyword,
-  getCategories
+  getCategories,
+  clearCache
 } from "../api/api";
 import ShopListLoadingPlaceholder from "../components/shop/ShopListLoadingPlaceholder.vue";
 import ShopList from "../components/shop/ShopList.vue";
@@ -91,15 +95,21 @@ export default {
     };
   },
   async mounted() {
-    this.getCachedShops();
-    if (this.shops$.length == 0) {
-      this.loading = true;
-      // Get first page manually, later page will use pull to refresh
-      const response = await getLastUpdatedShop(this.pageNumber);
-      const shops = response.data;
-      this.shops$ = shops;
-      this.pageNumber++;
-      this.loading = false;
+    // Restore from search mode
+    if (sessionStorage.keyword) {
+      this.keyword = sessionStorage.keyword;
+      this.searchMode = true;
+      this.searchShop();
+    } else {
+      if (this.shops$.length == 0) {
+        this.loading = true;
+        // Get first page manually, later page will use pull to refresh
+        const response = await getLastUpdatedShop(this.pageNumber);
+        const shops = response.data;
+        this.shops$ = shops;
+        this.pageNumber++;
+        this.loading = false;
+      }
     }
     this.shops = this.shops$;
     await this.getCategories();
@@ -107,38 +117,19 @@ export default {
   methods: {
     refresh(done) {
       this.loading = true;
-      this.category = "ทั้งหมด";
-      this.clearCachedShops();
-      setTimeout(async () => {
-        this.loading = false;
-        // Get first page manually, later page will use pull to refresh
-      const response = await getLastUpdatedShop(this.pageNumber);
-      const shops = response.data;
-      this.shops$ = shops;
-      this.pageNumber++;
-        done();
-      }, 2500);
-    },
-    getCachedShops() {
-      // Get cached shops
-      if (sessionStorage.shops) {
-        this.shops$ = JSON.parse(sessionStorage.shops);
-      }
-      if (sessionStorage.pageNumber)
-        this.pageNumber = parseInt(sessionStorage.pageNumber);
-      if (sessionStorage.isLastPage)
-        this.isLastPage = sessionStorage.isLastPage;
-      if (sessionStorage.keyword) this.keyword = sessionStorage.keyword;
-    },
-    clearCachedShops() {
-      if (sessionStorage.shops) {
-        sessionStorage.removeItem("shops");
-      }
-      if (sessionStorage.pageNumber) sessionStorage.removeItem("pageNumber");
-      if (sessionStorage.isLastPage) sessionStorage.removeItem("isLastPage");
-      if (sessionStorage.keyword) sessionStorage.removeItem("keyword");
       this.pageNumber = 1;
-      this.isLastPage = false;
+      this.category = "ทั้งหมด";
+      clearCache("getLastUpdatedShop");
+      clearCache("searchShopByKeyword");
+      setTimeout(async () => {
+        // Get first page manually, later page will use pull to refresh
+        const response = await getLastUpdatedShop(this.pageNumber++);
+        const shops = response.data;
+        this.shops = shops;
+        this.shops$ = shops;        
+        this.loading = false;
+        if (done) done();
+      }, 2500);
     },
     async getMoreData() {
       let response = null;
@@ -150,19 +141,23 @@ export default {
         for (let shop in shops) {
           this.shops$.push(shops[shop]);
         }
-        sessionStorage.shops = JSON.stringify(this.shops$);
-        sessionStorage.pageNumber = this.pageNumber;
         return true;
       } else {
         return false;
       }
     },
+    async cancelSearchShop() {
+      this.keyword = "";
+      this.searchMode = false;
+      sessionStorage.keyword = "";
+      this.refresh();
+    },
     async searchShop() {
+      console.log("Search for " + this.keyword);
       if (this.keyword == "") {
         return;
       }
       this.loading = true;
-      this.clearCachedShops();
       this.searchMode = true;
       this.pageNumber = 1;
       const response = await searchShopByKeyword(
@@ -170,9 +165,13 @@ export default {
         this.pageNumber++
       );
       const shops = response.data;
+      console.log(shops);
+      this.shops = shops;
       this.shops$ = shops;
+
+      // Perist search states
       sessionStorage.keyword = this.keyword;
-      sessionStorage.shops = JSON.stringify(this.shops$);
+
       this.loading = false;
     },
     toMyShop() {
@@ -191,7 +190,6 @@ export default {
         const haveMoreData = await this.getMoreData();
         if (haveMoreData == false) {
           this.isLastPage = true;
-          sessionStorage.isLastPage = this.isLastPage;
         }
         done();
       } else {

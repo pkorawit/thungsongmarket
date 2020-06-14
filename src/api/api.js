@@ -31,14 +31,34 @@ export function getAllLastUpdatedShop() {
   return axios.get(`${BASE_API_URL}/Shops/search/updated`);
 }
 
-export function getLastUpdatedShop(pageNumber) {
-  return axios.get(`${BASE_API_URL}/Shops/search/updated/${pageNumber}`);
+export async function getLastUpdatedShop(pageNumber) {
+  let cache = new CacheStore("getLastUpdatedShop");
+  let key = pageNumber;
+  if(cache.hasCached(key)){
+    console.log('cached hitted');     
+    return cache.getCache(key);
+  }
+  else{
+    console.log('cached missed');  
+    const response = await axios.get(`${BASE_API_URL}/Shops/search/updated/${pageNumber}`);
+    cache.setCache(key, response);
+    return response;
+  }
 }
 
-export function searchShopByKeyword(keyword, pageNumber) {
-  return axios.get(
-    `${BASE_API_URL}/Shops/search/keyword/${keyword}/${pageNumber}`
-  );
+export async function searchShopByKeyword(keyword, pageNumber) {
+  let cache = new CacheStore("searchShopByKeyword");
+  let key = keyword + pageNumber;
+  if(cache.hasCached(key)){
+    console.log('cached hitted');     
+    return cache.getCache(key);
+  }
+  else{
+    console.log('cached missed');  
+    const response = await axios.get(`${BASE_API_URL}/Shops/search/keyword/${keyword}/${pageNumber}`);
+    cache.setCache(key, response);
+    return response;
+  }
 }
 
 export function getShops() {
