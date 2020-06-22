@@ -159,9 +159,9 @@
           <q-separator inset />
           <q-card-section>
             <div style="font-size:15px" class="q-pl-md q-pl-md-md">
-              <p v-if="shop.contact.telNo">เบอร์โทร : {{ shop.contact.telNo }}</p>
-              <p v-if="shop.contact.line">line : {{ shop.contact.line }}</p>
-              <p v-if="shop.contact.facebook">facebook : {{ shop.contact.facebook }}</p>
+              <p v-if="shop.contact.telNo">เบอร์โทร : <a :href="'tel:' +  shop.contact.telNo">{{ shop.contact.telNo }}</a></p>
+              <p v-if="shop.contact.line">LINE : <a :href="'https://line.me/R/' +  shop.contact.line">{{ shop.contact.line }}</a></p>
+              <p v-if="shop.contact.facebook">Facebook : <a target="_blank" :href="shop.contact.facebook">{{ shop.contact.facebook }}</a></p>
               <p v-if="shop.contact.others">อื่นๆ : {{ shop.contact.others }}</p>
             </div>
           </q-card-section>

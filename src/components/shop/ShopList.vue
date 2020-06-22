@@ -56,7 +56,7 @@
         <q-btn
           color="primary"
           icon="fas fa-qrcode"
-          label="ดาวน์โหลด QR Code"
+          label="QR Code"
           @click="downloadQr"
           class="no-border-radius full-width"
         />

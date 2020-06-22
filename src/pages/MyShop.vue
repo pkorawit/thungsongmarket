@@ -231,12 +231,12 @@
             <q-input v-model="model.contact.telNo" label="เบอร์โทรศัพท์ติดต่อร้าน" />
           </div>
           <div class="col-12 col-sm-6 step">
-            <q-input v-model="model.contact.line" label="Line" />
+            <q-input v-model="model.contact.line" label="Line ID" />
           </div>
         </div>
         <div class="row">
           <div class="col-12 col-sm-6 step">
-            <q-input v-model="model.contact.facebook" label="facebook" />
+            <q-input v-model="model.contact.facebook" label="Facebook" />
           </div>
           <div class="col-12 col-sm-6 step">
             <q-input v-model="model.contact.others" label="อื่นๆ" />
@@ -309,7 +309,7 @@ export default {
         contact: {
           telno: "",
           line: "",
-          facebook: "",
+          facebook: "https://www.facebook.com/",
           others: ""
         },
         address: {
