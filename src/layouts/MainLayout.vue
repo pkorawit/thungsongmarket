@@ -34,7 +34,7 @@
               label="หมวดหมู่"
               name="category"
               :to="{ name: 'category' }"
-              icon="fas fa-user-circle"
+              icon="fas fa-list-alt"
               dense
             />
             <q-btn

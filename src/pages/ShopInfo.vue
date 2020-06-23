@@ -5,20 +5,32 @@
         swipeable
         animated
         v-model="carouselIndex"
-        thumbnails
         infinite
-        navigation
-        class="carousel"
-        autoplay
+        arrows
+        thumbnails
+        :fullscreen.sync="fullscreen"
+        height="280px"
       >
         <q-carousel-slide
           :name="index"
           v-for="(imageUrl, index) in this.shop.photoURL"
           :key="index"
-          class="text-center q-pa-none carousel-slide"
-        >
-          <q-img :src="imageUrl" class="img" :ratio="16 / 9" />
-        </q-carousel-slide>
+          :img-src="imageUrl"
+          class="uncropped-image"
+        ></q-carousel-slide>
+        <template v-slot:control>
+          <q-carousel-control position="top-right" :offset="[18, 18]">
+            <q-btn
+              push
+              round
+              dense
+              color="white"
+              text-color="primary"
+              :icon="fullscreen ? 'fullscreen_exit' : 'fullscreen'"
+              @click="fullscreen = !fullscreen"
+            />
+          </q-carousel-control>
+        </template>
       </q-carousel>
 
       <div class="app-container">
@@ -159,9 +171,24 @@
           <q-separator inset />
           <q-card-section>
             <div style="font-size:15px" class="q-pl-md q-pl-md-md">
-              <p v-if="shop.contact.telNo">เบอร์โทร : <a :href="'tel:' +  shop.contact.telNo">{{ shop.contact.telNo }}</a></p>
-              <p v-if="shop.contact.line">LINE : <a :href="'https://line.me/R/' +  shop.contact.line">{{ shop.contact.line }}</a></p>
-              <p v-if="shop.contact.facebook">Facebook : <a target="_blank" :href="shop.contact.facebook">{{ shop.contact.facebook }}</a></p>
+              <p v-if="shop.contact.telNo">
+                เบอร์โทร :
+                <a :href="'tel:' +  shop.contact.telNo">{{ shop.contact.telNo }}</a>
+              </p>
+              <p v-if="shop.contact.line">
+                LINE :
+                <a
+                  target="_blank"
+                  :href="'http://line.me/ti/p/~' +  shop.contact.line"
+                >{{ shop.contact.line }}</a>
+              </p>
+              <p v-if="shop.contact.facebook">
+                Facebook :
+                <a
+                  target="_blank"
+                  :href="shop.contact.facebook"
+                >{{ shop.contact.facebook }}</a>
+              </p>
               <p v-if="shop.contact.others">อื่นๆ : {{ shop.contact.others }}</p>
             </div>
           </q-card-section>
@@ -189,6 +216,7 @@ export default {
     return {
       shop: null,
       carouselIndex: 0,
+      fullscreen: false,
       loading: false
     };
   },
@@ -202,21 +230,10 @@ export default {
 };
 </script>
 
-<style lang="sass">
-.carousel
-  height: 25vh
-
-.carousel-slide
-  background-color: $grey-3
-
-.img
-  max-height: 100%
-  max-width: 100%
-
-@media only screen and (min-width: 1024px) 
-  .img
-    max-height: 45vh
-    max-width: calc( 100% - 30% )
-  .carousel
-    height: 45vh
+<style lang="scss">
+.uncropped-image {
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-color: black;
+}
 </style>
