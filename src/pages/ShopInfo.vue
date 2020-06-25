@@ -6,6 +6,7 @@
         animated
         v-model="carouselIndex"
         infinite
+        autoplay
         arrows
         thumbnails
         :fullscreen.sync="fullscreen"
