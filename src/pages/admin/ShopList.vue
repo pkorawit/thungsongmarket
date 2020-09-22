@@ -76,7 +76,7 @@
                   <div class="col text-right">
                     <q-btn
                       class="full-width"
-                      label="ข้อมูลร้าน"
+                      label="ข้อมูล"
                       color="primary"
                       @click="openPending(pendings.id)"
                     ></q-btn>
@@ -88,6 +88,15 @@
                       label="จัดการ"
                       color="primary"
                       @click="updateData(pendings.id, true)"
+                    ></q-btn>
+                  </div>
+
+                  <div class="col text-right">
+                    <q-btn
+                      class="full-width"
+                      label="ลบ"
+                      color="red"
+                      @click="deleteData(pendings.id)"
                     ></q-btn>
                   </div>
                 </div>
@@ -155,7 +164,7 @@
                   <div class="col text-right">
                     <q-btn
                       class="full-width"
-                      label="ข้อมูลร้าน"
+                      label="ข้อมูล"
                       color="primary"
                       @click="openPending(authorizeds.id)"
                     ></q-btn>
@@ -183,10 +192,12 @@
 import {
   getAuthorizedShop,
   getPendingShop,
-  setAuthorizeStatus
+  setAuthorizeStatus,
+  deleteShop
 } from "../../api/api";
 
 import moment from "moment";
+import { log } from "@chenfengyuan/vue-qrcode";
 
 export default {
   name: "ShopList",
@@ -195,7 +206,7 @@ export default {
       tab: "mails",
       pendingShops: [],
       authorizedShop: [],
-      details: false
+      details: false,
     };
   },
   async mounted() {
@@ -206,6 +217,18 @@ export default {
       moment.locale("th");
       return moment(ldate).format("LLLL");
     },
+    deleteData(id) {
+      this.$q
+        .dialog({
+          message: "ยืนยันการลบข้อมูลร้าน",
+          cancel: true,
+          persistent: true,
+        })
+        .onOk(async (data) => {
+          const responseStatus = await deleteShop(id);
+          this.getdata();
+        });
+    },
     updateData(id, status) {
       this.$q
         .dialog({
@@ -215,13 +238,13 @@ export default {
             model: "",
             items: [
               { label: "อนุมัติ", value: "comfirm", color: "secondary" },
-              { label: "รออนุมัติ", value: "unComfirm", color: "secondary" }
-            ]
+              { label: "รออนุมัติ", value: "unComfirm", color: "secondary" },
+            ],
           },
           cancel: true,
-          persistent: true
+          persistent: true,
         })
-        .onOk(async data => {
+        .onOk(async (data) => {
           if (data == "comfirm" && status == true) {
             const responseStatus = await setAuthorizeStatus(id, status);
             this.getdata();
@@ -249,10 +272,10 @@ export default {
     openPending(id) {
       this.$router.push({
         name: "shopinfoAdmin",
-        params: { id: id }
+        params: { id: id },
       });
-    }
-  }
+    },
+  },
 };
 </script>
 

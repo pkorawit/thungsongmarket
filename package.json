@@ -1,9 +1,9 @@
 {
-  "name": "wemarket",
+  "name": "lardchumtang",
   "version": "0.0.1",
-  "description": "Open marketplace during COVID-19 crisis",
+  "description": "Open marketplace for Lardchumtang Thungsong",
   "productName": "หลาดชุมทางทุ่งสง",
-  "cordovaId": "com.korawit.wemarket",
+  "cordovaId": "com.korawit.lardchumtang",
   "capacitorId": "",
   "author": "Korawit Prutsachainimmit <korawit.p@gmail.com>",
   "private": true,
@@ -20,11 +20,10 @@
     "leaflet": "^1.6.0",
     "moment": "^2.25.3",
     "quasar": "^1.0.0",
-    "vue": "^2.6.11",
     "vue2-leaflet": "^2.5.2"
   },
   "devDependencies": {
-    "@quasar/app": "^1.0.0"
+    "@quasar/app": "^1.4.1"
   },
   "engines": {
     "node": ">= 10.18.1",

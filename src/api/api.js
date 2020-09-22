@@ -101,6 +101,10 @@ export function updateShop(id, shop) {
   return axios.put(`${BASE_API_URL}/Shops/${id}`, shop);
 }
 
+export function deleteShop(id) {
+  return axios.delete(`${BASE_API_URL}/Shops/${id}`);
+}
+
 export function getUserById(id) {
   return axios.get(`${BASE_API_URL}/Shops/${id}`);
 }
